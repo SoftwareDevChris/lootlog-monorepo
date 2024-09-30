@@ -1,0 +1,39 @@
+@use "../abstracts/" as a;
+
+* {
+  color: a.$dark-100;
+  font-size: 1rem;
+  font-family: a.$font-lato;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: a.$dark-700;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+#app-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  min-height: calc(100svh - a.$header_height);
+
+  @media screen and (min-width: a.$bp-md) {
+    min-height: calc(100vh - a.$header_height);
+  }
+}

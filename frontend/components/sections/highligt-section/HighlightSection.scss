@@ -1,0 +1,191 @@
+@use "../../../styles/abstracts/" as *;
+
+.highlight-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 1rem;
+
+  width: 100%;
+
+  @media screen and (min-width: $bp-lg) {
+    grid-template-columns: calc(70% - (1rem / 2)) calc(30% - (1rem / 2));
+    grid-template-rows: 1fr;
+  }
+
+  .highlighted-article {
+    position: relative;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+
+    aspect-ratio: 16 / 9;
+
+    border-radius: 0.33rem;
+    overflow: hidden;
+
+    > img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+
+      .title-area {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 1rem;
+
+        > h2 {
+          font-size: 1.5rem;
+          font-weight: 700;
+
+          @media screen and (min-width: $bp-sm) {
+            font-size: 2rem;
+          }
+
+          @media screen and (min-width: $bp-md) {
+            font-size: 2.2rem;
+          }
+
+          @media screen and (min-width: $bp-lg) {
+            font-size: 2.2rem;
+          }
+        }
+      }
+    }
+  }
+
+  .highlighted-list {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr 1fr;
+
+    background-color: $dark-600;
+    border-radius: 0.33rem;
+    overflow: hidden;
+
+    @media screen and (min-width: $bp-lg) {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+    }
+
+    > .list-title-container {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0;
+
+      div {
+        height: 1px;
+        width: 100%;
+        background-color: $dark-500;
+        margin: 0 1rem;
+      }
+
+      > h2 {
+        font-size: 1.2rem;
+        margin: 0;
+        font-weight: 600;
+        text-align: center;
+        text-transform: uppercase;
+        text-wrap: nowrap;
+
+        @media screen and (min-width: $bp-md) {
+          font-size: 1.2rem;
+        }
+
+        @media screen and (min-width: $bp-lg) {
+          font-size: 1.4rem;
+        }
+      }
+    }
+
+    > .highlighted-list-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+
+      &:hover {
+        background-color: $dark-500;
+      }
+
+      &.with-border {
+        border-bottom: 1px solid $dark-500;
+      }
+
+      > .title-area {
+        width: calc(60% - (1rem / 2));
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        > h2 {
+          font-size: 1rem;
+          font-weight: 600;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+
+          @media screen and (min-width: $bp-sm) {
+            font-size: 1.1rem;
+          }
+
+          @media screen and (min-width: $bp-md) {
+            font-size: 1.5rem;
+          }
+
+          @media screen and (min-width: $bp-lg) {
+            font-size: 1rem;
+            line-clamp: 3;
+            -webkit-line-clamp: 3;
+          }
+        }
+
+        > p {
+          text-transform: capitalize;
+          font-size: 0.75rem;
+          color: $dark-300;
+
+          @media screen and (min-width: $bp-sm) {
+          }
+
+          @media screen and (min-width: $bp-lg) {
+            display: none;
+          }
+        }
+      }
+
+      > .image-area {
+        position: relative;
+        width: calc(40% - (1rem / 2));
+        aspect-ratio: 16 / 9;
+        border-radius: 0.33rem;
+        overflow: hidden;
+
+        @media screen and (min-width: $bp-lg) {
+          aspect-ratio: 3 / 2;
+        }
+
+        > img {
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+    }
+  }
+}

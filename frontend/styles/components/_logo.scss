@@ -1,0 +1,15 @@
+@use "../abstracts/" as a;
+
+h1.logo,
+h6.logo {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-family: a.$font-pressStart;
+
+  > span {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-family: a.$font-pressStart;
+    color: a.$orange-700;
+  }
+}

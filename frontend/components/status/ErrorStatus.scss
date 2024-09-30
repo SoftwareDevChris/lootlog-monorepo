@@ -1,0 +1,35 @@
+@import "/utils/variables";
+
+.error-status-container {
+  width: 100%;
+  background-color: transparent;
+
+  display: flex;
+  position: relative;
+  justify-content: center;
+  margin-top: 2rem;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+
+    background-color: $dark-200;
+    border-radius: 0.33rem;
+
+    > svg {
+      width: 30px;
+      height: 30px;
+      fill: $red-300;
+    }
+
+    // The text container
+    > div {
+      p,
+      span {
+        color: $dark-700;
+      }
+    }
+  }
+}

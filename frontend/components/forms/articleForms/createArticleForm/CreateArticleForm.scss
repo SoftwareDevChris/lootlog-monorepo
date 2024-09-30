@@ -1,0 +1,44 @@
+@use "../../../../styles/abstracts/" as *;
+
+.create-article-form {
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  .select-button {
+    min-width: 5rem;
+    max-width: 12rem;
+    outline: none;
+    background-color: $dark-600;
+    border: 1px solid $dark-600;
+    box-shadow: none;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      border: 1px solid $dark-400;
+    }
+
+    > span {
+      color: $dark-400;
+    }
+  }
+
+  select {
+    background-color: $dark-600;
+    border: 1px solid $dark-600;
+
+    > option {
+      background-color: $dark-600;
+      color: $dark-400;
+    }
+  }
+
+  .image-preview-container {
+    position: relative;
+    aspect-ratio: 16/9;
+    height: 10rem;
+  }
+}
