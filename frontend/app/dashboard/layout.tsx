@@ -17,9 +17,13 @@ const DashboardLayout = async ({ children }: Props) => {
   const response = await getCurrentUserFromServer();
   const userFromJson: TUser = await response?.json();
 
+  console.log("From layout:", userFromJson);
+
   if (!response) return <LoadingScreen />;
 
-  if (!response.ok) redirect("/login");
+  if (!response.ok) {
+    redirect("/login");
+  }
 
   if (response.ok) {
     return (

@@ -19,7 +19,7 @@ export class UsersController {
   @Get()
   @UseGuards(JwtAuthGuard)
   async getAllUsers(@CurrentUser() user: User) {
-    if (user.role === "ADMIN") {
+    if (user.isAdmin) {
       return this.usersService.getAllUsers();
     } else throw new ForbiddenException();
   }
@@ -27,7 +27,7 @@ export class UsersController {
   @Get("/find/:id")
   @UseGuards(JwtAuthGuard)
   async getUserById(@Param("id") userId: number, @CurrentUser() user: User) {
-    if (user.role === "ADMIN" || user.id === userId) {
+    if (user.isAdmin || user.id === userId) {
       const userFromDb = await this.usersService.findUserById(userId);
       const { password, refreshToken, ...rest } = userFromDb;
       return rest;

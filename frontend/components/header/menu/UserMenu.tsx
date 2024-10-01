@@ -7,6 +7,7 @@ import { getCookie } from "@/lib/auth/session";
 import { FaUserCircle } from "react-icons/fa";
 
 export const UserMenu = () => {
+  // Write logic for detecting the user with backend using cookies
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const router = useRouter();

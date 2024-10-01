@@ -14,11 +14,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors(corsOptions);
 
-  ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: `.env.${process.env.NODE_ENV}`,
-  });
-
   app.use(
     session({
       secret: process.env.JWT_ACCESS_TOKEN_SECRET,

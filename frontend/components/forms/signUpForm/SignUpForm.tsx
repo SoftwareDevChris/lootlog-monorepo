@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { useState } from "react";
 
+import { useUserStore } from "@/store/user-store";
 import { signUp } from "@/lib/auth/";
 import { TCreateUserForm } from "@/types/form.types";
 
@@ -13,8 +14,7 @@ import toast from "react-hot-toast";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { Label } from "@/components/ui/label/Label";
-import { FormSubmitButton } from "@/components/buttons/FormSubmitButton/SubmitFormButton";
-import { useUserStore } from "@/store/user-store";
+import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
 
 export const SignUpForm = () => {
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
@@ -127,7 +127,7 @@ export const SignUpForm = () => {
             )}
           </div>
 
-          <FormSubmitButton title="Create account" disabled={isSubmitting} />
+          <SubmitFormButton title="Create account" disabled={isSubmitting} />
         </form>
 
         <div className="link-container">

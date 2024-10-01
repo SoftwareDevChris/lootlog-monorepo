@@ -6,11 +6,11 @@ const protectedRoutes = "/dashboard";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  const sessionCookie = cookies().get("session")?.value;
+  const sessionCookie = cookies().get("session");
 
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
 
-  if (isProtectedRoute && !sessionCookie?.length) {
+  if (isProtectedRoute && !sessionCookie?.value) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

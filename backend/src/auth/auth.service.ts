@@ -34,6 +34,37 @@ export class AuthService {
     throw new UnauthorizedException("Wrong email or password");
   }
 
+  async createAccessToken(payload: Partial<User>) {
+    const accessToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+      expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_MS}ms`,
+    });
+
+    const accessTokenExpirationDate = createDateFromNow(
+      process.env.JWT_ACCESS_TOKEN_EXPIRATION_MS,
+    );
+
+    return {
+      accessToken: accessToken,
+      accessTokenExpiration: accessTokenExpirationDate,
+    };
+  }
+  async createRefreshToken(payload: Partial<User>) {
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+      expiresIn: `${process.env.JWT_REFRESH_TOKEN_EXPIRATION_MS}ms`,
+    });
+
+    const refreshTokenExpirationDate = createDateFromNow(
+      process.env.JWT_REFRESH_TOKEN_EXPIRATION_MS,
+    );
+
+    return {
+      refreshToken: refreshToken,
+      refreshTokenExpiration: refreshTokenExpirationDate,
+    };
+  }
+
   async verifyRefreshToken(token: string, userId: number) {
     const user = await this.usersService.findUserById(userId);
 
@@ -47,25 +78,16 @@ export class AuthService {
   }
 
   async login(user: User, res: Response) {
-    const payload = { email: user.email, firstName: user.firstName };
+    const payload = {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+    };
 
-    const accessToken = this.jwtService.sign(payload, {
-      secret: process.env.JWT_ACCESS_TOKEN_SECRET,
-      expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_MS}ms`,
-    });
-
-    const refreshToken = this.jwtService.sign(payload, {
-      secret: process.env.JWT_REFRESH_TOKEN_SECRET,
-      expiresIn: `${process.env.JWT_REFRESH_TOKEN_EXPIRATION_MS}ms`,
-    });
-
-    const accessTokenExpirationDate = createDateFromNow(
-      process.env.JWT_ACCESS_TOKEN_EXPIRATION_MS,
-    );
-
-    const refreshTokenExpirationDate = createDateFromNow(
-      process.env.JWT_REFRESH_TOKEN_EXPIRATION_MS,
-    );
+    const { accessToken, accessTokenExpiration } =
+      await this.createAccessToken(payload);
+    const { refreshToken, refreshTokenExpiration } =
+      await this.createRefreshToken(payload);
 
     await this.usersService.updateUser(user.id, {
       refreshToken: await hash(refreshToken),
@@ -75,14 +97,14 @@ export class AuthService {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      expires: accessTokenExpirationDate,
+      expires: accessTokenExpiration,
     });
 
     res.cookie("refresh", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      expires: refreshTokenExpirationDate,
+      expires: refreshTokenExpiration,
     });
 
     return res.status(HttpStatus.OK).json({ message: "OK" });
@@ -92,10 +114,47 @@ export class AuthService {
     const newUser = await this.usersService.createUser(user);
 
     if (newUser) {
-      return this.login(newUser, res);
+      const payload = {
+        id: newUser.id,
+        email: newUser.email,
+        firstName: newUser.firstName,
+      };
+
+      const { accessToken, accessTokenExpiration } =
+        await this.createAccessToken(payload);
+      const { refreshToken, refreshTokenExpiration } =
+        await this.createRefreshToken(payload);
+
+      const updatedResult = await this.usersService.updateUser(newUser.id, {
+        refreshToken: await hash(refreshToken),
+      });
+
+      if (updatedResult) {
+        res.cookie("session", accessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          expires: accessTokenExpiration,
+        });
+
+        res.cookie("refresh", refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          expires: refreshTokenExpiration,
+        });
+
+        return res.status(HttpStatus.CREATED).json({ message: "OK" });
+      }
+
+      throw new ForbiddenException(
+        "We encountered an error while creating your account. Please try again later.",
+      );
     }
 
-    throw new ForbiddenException("Failed to create user");
+    throw new ForbiddenException(
+      "Your account could not be created. Please try again later.",
+    );
   }
 
   async getUserDetails(userId: number) {

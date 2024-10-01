@@ -2,8 +2,6 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
 import { Article } from "./article.entity";
 
-export const userRoles = ["USER", "AUTHOR", "ADMIN"] as const;
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -21,8 +19,11 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: "USER" })
-  role: string;
+  @Column({ default: false })
+  isAuthor: boolean;
+
+  @Column({ default: false })
+  isAdmin: boolean;
 
   @Column({ default: false })
   isVerified: boolean;

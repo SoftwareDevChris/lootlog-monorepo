@@ -30,11 +30,20 @@ export class UsersService {
 
   async createUser(user: CreateUserDto) {
     if (user.password === user.repeatedPassword) {
-      const hashedPw = hash(user.password);
+      const hashedPw = await hash(user.password);
 
       if (hashedPw) {
-        const newUser = this.userRepo.create(user);
-        return await this.userRepo.save(newUser);
+        // Convert name and email to lowercase before adding user to database
+        const newUser: Partial<User> = {
+          firstName: user.firstName.toLowerCase(),
+          lastName: user.lastName.toLowerCase(),
+          email: user.email.toLowerCase(),
+          password: hashedPw,
+        };
+
+        // Save user to database
+        const createNewUser = this.userRepo.create(newUser);
+        return await this.userRepo.save(createNewUser);
       }
 
       throw new InternalServerErrorException();

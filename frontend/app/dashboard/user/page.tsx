@@ -5,12 +5,19 @@ import { getCurrentUserFromServer } from "@/lib/user/actions";
 import { DashboardField } from "@/components/dashboard/fields/DashboardField";
 import { DashboardFieldWithButton } from "@/components/dashboard/fields/DashboardFieldWithButton";
 import { SignOutButton } from "@/components/buttons/SignOutButton";
+import { TUser } from "@/types/user.types";
 
 export default async function AccountPage() {
   const response = await getCurrentUserFromServer();
-  const user = await response?.json();
+  const user: TUser = await response?.json();
 
   if (!response?.ok) throw new Error("No user found.");
+
+  function printRoleName() {
+    if (user.isAdmin) return "Admin";
+    else if (user.isAuthor) return "Author";
+    else return "User";
+  }
 
   return (
     <div className="account-page">
@@ -32,7 +39,7 @@ export default async function AccountPage() {
         <DashboardField
           label="Role"
           description="Your role on the website."
-          value={user?.role}
+          value={printRoleName()}
         />
         <DashboardFieldWithButton
           label="Sign out"

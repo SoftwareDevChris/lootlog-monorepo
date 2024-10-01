@@ -1,11 +1,4 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
-import toast from "react-hot-toast";
-
-import { Button } from "@/components/ui/button/Button";
-import { LoadingSpinner } from "@/components/ui/loading/spinner/LoadingSpinner";
 
 type Props = {
   label: string;

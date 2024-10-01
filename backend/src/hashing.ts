@@ -4,7 +4,8 @@ const saltRounds = 12;
 
 export async function hash(value: string) {
   const result = await bcrypt.hash(value, saltRounds);
-  return result;
+  if (result) return result;
+  else return null;
 }
 
 export async function compare(value: string, hashedValue: string) {

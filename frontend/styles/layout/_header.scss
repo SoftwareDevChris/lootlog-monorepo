@@ -64,7 +64,7 @@ header {
 
           max-height: 0;
           overflow: hidden;
-          transition: all 150ms ease-in;
+          transition: max-height 300ms linear;
 
           display: flex;
           flex-direction: column;
@@ -78,8 +78,7 @@ header {
           border-bottom-right-radius: 0.33rem;
 
           &.active {
-            max-height: 50rem;
-            padding: 1rem;
+            max-height: auto;
           }
 
           @media screen and (min-width: a.$bp-md) {
@@ -92,6 +91,14 @@ header {
 
             > a:hover {
               text-decoration: underline;
+            }
+
+            &:first-child {
+              margin-top: 1rem;
+            }
+
+            &:last-child {
+              margin-bottom: 1rem;
             }
 
             @media screen and (min-width: a.$bp-md) {

@@ -19,8 +19,8 @@ services:
       dockerfile: Dockerfile.dev
     stdin_open: true
     tty: true
-    environment:
-      - NODE_ENV=development
+    env_file:
+      - ./.env.dev
     ports:
       - 3456:3456
     volumes:
@@ -34,11 +34,8 @@ services:
       context: "../../frontend"
       dockerfile: Dockerfile.dev
     container_name: frontend
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - NODE_ENV=development
     env_file:
-      - ../../frontend/.env.local
+      - ./.env.dev
     stdin_open: true
     tty: true
     ports:

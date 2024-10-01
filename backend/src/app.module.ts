@@ -13,7 +13,7 @@ import { AuthModule } from "./auth/auth.module";
     PassportModule.register({ session: true }),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      // envFilePath: `${process.env.NODE_ENV === "production" ? ".env.prod" : ".env.dev"}`,
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],

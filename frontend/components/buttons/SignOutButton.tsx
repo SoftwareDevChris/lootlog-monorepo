@@ -13,8 +13,8 @@ export const SignOutButton = () => {
   const handleSignOut = async () => {
     setIsLoading(true);
     setIsLoggedIn(false);
-    await removeCookie("session");
-    await removeCookie("refresh");
+    removeCookie("session");
+    removeCookie("refresh");
     return;
   };
 
