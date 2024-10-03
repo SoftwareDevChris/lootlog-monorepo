@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { TUser } from "@/types/user.types";
-import { updateUser } from "@/lib/user";
+import { updateUserAsAdmin } from "@/lib/user";
 
 import { Label } from "../ui/label/Label";
 import { SubmitFormButton } from "../buttons/SubmitFormButton";
@@ -26,12 +26,13 @@ export const UpdateUserForm = ({ user }: Props) => {
       lastName: user.lastName,
       email: user.email,
       isVerified: user.isVerified,
-      role: user.role,
+      isAdmin: user.isAdmin,
+      isAuthor: user.isAuthor,
     },
   });
 
   const onSubmit: SubmitHandler<Partial<TUser>> = async (data) => {
-    const res = await updateUser(data);
+    const res = await updateUserAsAdmin(data);
 
     if (res?.ok) {
       setStatusMessage(["User updated successfully"]);
@@ -88,29 +89,60 @@ export const UpdateUserForm = ({ user }: Props) => {
         </div>
 
         <div className="input-group">
-          <Label htmlFor="role">Role</Label>
-          <Controller
-            name="role"
-            control={control}
-            render={({ field }) => <input {...field} type="text" required />}
-          />
-          {errors.role?.message && (
-            <p className="input-error">{errors.role.message}</p>
-          )}
-        </div>
-
-        <div className="input-group">
           <Label htmlFor="isVerified">Is verified</Label>
           <Controller
             name="isVerified"
             control={control}
             render={({ field }) => (
               // Checkbox
-              <input {...field} type="checkbox" checked={field.value} />
+              <input
+                {...field}
+                value={"verified"}
+                type="checkbox"
+                checked={field.value}
+              />
             )}
           />
           {errors.isVerified?.message && (
             <p className="input-error">{errors.isVerified.message}</p>
+          )}
+        </div>
+
+        <div className="input-group">
+          <Label htmlFor="isAuthor">Is author?</Label>
+          <Controller
+            name="isAuthor"
+            control={control}
+            render={({ field }) => (
+              <input
+                {...field}
+                value={"author"}
+                type="checkbox"
+                checked={field.value}
+              />
+            )}
+          />
+          {errors.isAuthor?.message && (
+            <p className="input-error">{errors.isAuthor.message}</p>
+          )}
+        </div>
+
+        <div className="input-group">
+          <Label htmlFor="isAdmin">Is admin?</Label>
+          <Controller
+            name="isAdmin"
+            control={control}
+            render={({ field }) => (
+              <input
+                {...field}
+                value={"admin"}
+                type="checkbox"
+                checked={field.value}
+              />
+            )}
+          />
+          {errors.isAdmin?.message && (
+            <p className="input-error">{errors.isAdmin.message}</p>
           )}
         </div>
 

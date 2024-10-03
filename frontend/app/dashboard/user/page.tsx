@@ -11,11 +11,9 @@ export default async function AccountPage() {
   const response = await getCurrentUserFromServer();
   const user: TUser = await response?.json();
 
-  if (!response?.ok) throw new Error("No user found.");
-
   function printRoleName() {
-    if (user.isAdmin) return "Admin";
-    else if (user.isAuthor) return "Author";
+    if (user?.isAdmin) return "Admin";
+    else if (user?.isAuthor) return "Author";
     else return "User";
   }
 
@@ -42,7 +40,7 @@ export default async function AccountPage() {
           value={printRoleName()}
         />
         <DashboardFieldWithButton
-          label="Sign out"
+          label="Logout"
           description="Sign out of your account."
           button={<SignOutButton />}
         />

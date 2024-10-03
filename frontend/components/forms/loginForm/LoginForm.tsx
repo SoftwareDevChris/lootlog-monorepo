@@ -14,11 +14,9 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { Label } from "@/components/ui/label/Label";
 import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
-import { useUserStore } from "@/store/user-store";
 
 export const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
-  const setIsLoggedIn = useUserStore().setIsLoggedIn;
 
   const router = useRouter();
 
@@ -38,9 +36,8 @@ export const LoginForm = () => {
     const signInResponse = await login(data);
 
     if (signInResponse.ok) {
-      setIsLoggedIn(true);
       toast.success("You are now logged in");
-      router.push("/dashboard/user");
+      window.location.href = "/";
       return;
     }
 

@@ -5,7 +5,6 @@ import Link from "next/link";
 
 import { useState } from "react";
 
-import { useUserStore } from "@/store/user-store";
 import { signUp } from "@/lib/auth/";
 import { TCreateUserForm } from "@/types/form.types";
 
@@ -18,8 +17,6 @@ import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
 
 export const SignUpForm = () => {
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
-
-  const setIsLoggedIn = useUserStore().setIsLoggedIn;
   const router = useRouter();
 
   const {
@@ -42,11 +39,10 @@ export const SignUpForm = () => {
     const signUpResponse = await signUp(data);
 
     if (signUpResponse.ok) {
-      setIsLoggedIn(true);
       toast.success("Your account has been created", {
         position: "bottom-right",
       });
-      router.push("/dashboard/user");
+      router.push("/");
     }
 
     const signUpError = await signUpResponse.json().then((err) => err.message);

@@ -1,21 +1,21 @@
 "use client";
 
+import { useState } from "react";
+
+import { removeCookie } from "@/lib/auth/session";
+
 import { Button } from "@/components/ui/button/Button";
 import { LoadingSpinner } from "@/components/ui/loading/spinner/LoadingSpinner";
-import { removeCookie } from "@/lib/auth/session";
-import { useUserStore } from "@/store/user-store";
-import { useState } from "react";
+import { logout } from "@/lib/auth";
 
 export const SignOutButton = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const setIsLoggedIn = useUserStore().setIsLoggedIn;
 
   const handleSignOut = async () => {
     setIsLoading(true);
-    setIsLoggedIn(false);
-    removeCookie("session");
-    removeCookie("refresh");
-    return;
+
+    const res = await logout();
+    if (res.ok) window.location.href = "/";
   };
 
   return (

@@ -10,6 +10,6 @@ export async function setCookie(name: string, value: any) {
   return cookies().set(name, value);
 }
 
-export const removeCookie = (name: string) => {
+export async function removeCookie(name: string) {
   return cookies().delete(name);
-};
+}

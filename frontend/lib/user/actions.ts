@@ -47,26 +47,3 @@ export const getAllUsers = async () => {
     return null;
   }
 };
-
-export const updateUser = async (user: Partial<TUser>) => {
-  const cookie = await getCookie("session");
-
-  if (!cookie?.value) return null;
-
-  try {
-    const res = await fetch(`${serverUrl}/api/users`, {
-      method: "POST",
-      credentials: "include",
-      body: JSON.stringify(user),
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `${cookie?.name}=${cookie?.value}`,
-      },
-    });
-
-    return res;
-  } catch (error) {
-    console.error("Error fetching user details:", error);
-    return null;
-  }
-};

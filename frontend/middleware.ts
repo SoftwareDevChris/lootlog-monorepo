@@ -1,18 +1,39 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-
-const protectedRoutes = "/dashboard";
+import { verifySessionToken } from "./lib/auth/actions";
 
 export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+  let res = NextResponse.next();
+  let redirect = NextResponse.redirect(new URL("/login", req.url));
 
-  const sessionCookie = cookies().get("session");
+  const sessionCookie = req.cookies.get("session")?.value;
 
-  const isProtectedRoute = pathname.startsWith(protectedRoutes);
+  res.headers.set(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
 
-  if (isProtectedRoute && !sessionCookie?.value) {
-    return NextResponse.redirect(new URL("/login", req.url));
+  console.log("Middleware just ran");
+  console.log("Middleware session cookie:", sessionCookie);
+
+  if (sessionCookie) {
+    try {
+      const isAuthenticated = await verifySessionToken(sessionCookie);
+      console.log("Token verified:", isAuthenticated);
+
+      if (isAuthenticated) {
+        return res;
+      } else {
+        return redirect;
+      }
+    } catch (err) {
+      console.error("Error verifying token:", err);
+      return redirect;
+    }
+  } else {
+    return redirect;
   }
-
-  return NextResponse.next();
 }
+
+export const config = {
+  matcher: ["/dashboard/:path*"],
+};

@@ -1,5 +1,17 @@
 import { TCreateUserForm, TLoginForm } from "@/types/form.types";
 
+export async function signUp(data: TCreateUserForm) {
+  const response = await fetch("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response;
+}
+
 export async function login(user: TLoginForm) {
   const response = await fetch(`/api/auth/login`, {
     method: "POST",
@@ -13,13 +25,13 @@ export async function login(user: TLoginForm) {
   return response;
 }
 
-export async function signUp(data: TCreateUserForm) {
-  const response = await fetch("/api/auth/signup", {
+export async function logout() {
+  const response = await fetch(`/api/auth/logout`, {
     method: "POST",
-    body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   return response;

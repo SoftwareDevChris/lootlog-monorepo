@@ -1,4 +1,3 @@
-import { getCurrentUserFromServer } from "@/lib/user";
 import "./DashboardNavigation.scss";
 
 // Components
@@ -16,12 +15,14 @@ import {
   FiUsers,
 } from "react-icons/fi";
 import { TUser } from "@/types/user.types";
+import { getCurrentUserFromServer } from "@/lib/user/actions";
 
-type Props = {
-  user: TUser;
-};
+export const DashboardNavigation = async () => {
+  const response = await getCurrentUserFromServer();
+  const user: TUser = await response?.json();
 
-export const DashboardNavigation = async ({ user }: Props) => {
+  if (!response) return null;
+
   return (
     <div className="sidebar">
       {/* Navigation */}
@@ -33,8 +34,8 @@ export const DashboardNavigation = async ({ user }: Props) => {
         />
 
         {/* Authors & Admins */}
-        {user?.role === "AUTHOR" ||
-          (user?.role === "ADMIN" && (
+        {user.isAdmin ||
+          (user.isAuthor && (
             <>
               <DashboardNavigationItem
                 title="New article"
@@ -62,7 +63,7 @@ export const DashboardNavigation = async ({ user }: Props) => {
         />
 
         {/* Admin */}
-        {user?.role === "ADMIN" && (
+        {user.isAdmin && (
           <>
             {/* Divider */}
             <div className="dashboard-nav-divider"></div>
