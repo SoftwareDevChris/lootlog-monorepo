@@ -2,6 +2,7 @@
 
 import { TUser } from "@/types/user.types";
 import { getCookie } from "../auth/session";
+import { revalidatePath } from "next/cache";
 
 const serverUrl = process.env.NEXT_PUBLIC_BACKEND_URL_SERVER;
 
@@ -18,7 +19,9 @@ export const getCurrentUserFromServer = async () => {
         "Content-Type": "application/json",
         Cookie: `${cookie?.name}=${cookie?.value}`,
       },
+      cache: "no-store",
     });
+    revalidatePath("/dashboard/user");
 
     return res;
   } catch (error) {

@@ -4,13 +4,15 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  Patch,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "src/entities/user.entity";
 import { Repository } from "typeorm";
-import { CreateUserDto } from "./dto/createUser.dto";
+
 import { hash } from "src/hashing";
+
+import { User } from "src/entities/user.entity";
+import { CreateUserDto } from "./dto/createUser.dto";
+import { UpdateUserDto } from "./dto/updateUser.dto";
 
 @Injectable()
 export class UsersService {
@@ -54,12 +56,13 @@ export class UsersService {
     });
   }
 
-  @Patch()
-  async updateUser(userId: number, updatedUser: Partial<User>) {
+  async updateUser(userId: number, newValues: Partial<UpdateUserDto>) {
     const userFromDb = await this.findUserById(userId);
 
     if (userFromDb) {
-      return await this.userRepo.update(userId, updatedUser);
+      const mergedUser = { ...userFromDb, ...newValues };
+      console.log("Updated user:", mergedUser);
+      return await this.userRepo.update(userFromDb.id, mergedUser);
     }
 
     throw new NotFoundException();

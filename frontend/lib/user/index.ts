@@ -20,18 +20,18 @@ export const adminGetUserById = async (userId: number) => {
 };
 
 export const updateUserAsAdmin = async (user: Partial<TUser>) => {
-  console.log("Updated user:", user);
-  return;
-
   const cookie = await getCookie("session");
 
   if (!cookie?.value) return null;
 
   try {
-    const res = await fetch(`/api/users`, {
-      method: "POST",
+    const res = await fetch(`/api/users/update/${user.id}`, {
+      method: "PATCH",
       credentials: "include",
       body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     return res;

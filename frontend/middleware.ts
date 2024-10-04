@@ -12,13 +12,9 @@ export async function middleware(req: NextRequest) {
     "no-store, no-cache, must-revalidate, proxy-revalidate"
   );
 
-  console.log("Middleware just ran");
-  console.log("Middleware session cookie:", sessionCookie);
-
   if (sessionCookie) {
     try {
       const isAuthenticated = await verifySessionToken(sessionCookie);
-      console.log("Token verified:", isAuthenticated);
 
       if (isAuthenticated) {
         return res;

@@ -31,6 +31,6 @@ export class User {
   @Column({ nullable: true })
   refreshToken?: string;
 
-  @OneToMany(() => Article, (article) => article.author)
+  @OneToMany(() => Article, (article) => article.author, { cascade: true })
   articles: Article[];
 }

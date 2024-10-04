@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   Get,
   Param,
+  Patch,
   Post,
   UseGuards,
 } from "@nestjs/common";
@@ -11,6 +12,7 @@ import { UsersService } from "./users.service";
 import { CurrentUser } from "src/auth/decorators/current-user.decorator";
 import { User } from "src/entities/user.entity";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { UpdateUserDto } from "./dto/updateUser.dto";
 
 @Controller("/api/users")
 export class UsersController {
@@ -42,10 +44,18 @@ export class UsersController {
     return rest;
   }
 
-  @Post("/update/:id")
+  @Patch("/update/:id")
+  @UseGuards(JwtAuthGuard)
   async updateUser(
-    @Param("id") userId: number,
+    @Param("id") userId: string,
     @CurrentUser() user: User,
-    @Body() updatedUser: Partial<User>,
-  ) {}
+    @Body() updatedUser: Partial<UpdateUserDto>,
+  ) {
+    if (user.isAdmin || user.id === parseInt(userId)) {
+      console.log("From body:", updatedUser);
+      return this.usersService.updateUser(parseInt(userId), updatedUser);
+    }
+
+    throw new ForbiddenException();
+  }
 }

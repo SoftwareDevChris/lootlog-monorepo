@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
+import toast from "react-hot-toast";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { TUser } from "@/types/user.types";
@@ -16,12 +18,15 @@ type Props = {
 export const UpdateUserForm = ({ user }: Props) => {
   const [statusMessage, setStatusMessage] = useState<string[]>([]);
 
+  const router = useRouter();
+
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, defaultValues },
   } = useForm<Partial<TUser>>({
     defaultValues: {
+      id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
@@ -34,8 +39,16 @@ export const UpdateUserForm = ({ user }: Props) => {
   const onSubmit: SubmitHandler<Partial<TUser>> = async (data) => {
     const res = await updateUserAsAdmin(data);
 
+    console.log("Client form:", data);
+    const status = await res?.json();
+
+    console.log("Update user response:", status);
+
     if (res?.ok) {
-      setStatusMessage(["User updated successfully"]);
+      toast.success("User updated successfully");
+      window.location.href = "/dashboard/admin/users";
+    } else {
+      res?.statusText && setStatusMessage([res?.statusText]);
     }
   };
 
@@ -47,7 +60,7 @@ export const UpdateUserForm = ({ user }: Props) => {
       <h1 style={{ marginBottom: "2rem" }}>Update user</h1>
       {statusMessage.length > 0 &&
         statusMessage.map((msg, index) => (
-          <p key={index} className="form-status-message">
+          <p key={index} className="form-error-message">
             {msg}
           </p>
         ))}
