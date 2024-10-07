@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 import toast from "react-hot-toast";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -18,12 +17,10 @@ type Props = {
 export const UpdateUserForm = ({ user }: Props) => {
   const [statusMessage, setStatusMessage] = useState<string[]>([]);
 
-  const router = useRouter();
-
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting, defaultValues },
+    formState: { errors, isSubmitting },
   } = useForm<Partial<TUser>>({
     defaultValues: {
       id: user.id,
@@ -122,7 +119,7 @@ export const UpdateUserForm = ({ user }: Props) => {
         </div>
 
         <div className="input-group">
-          <Label htmlFor="isAuthor">Is author?</Label>
+          <Label htmlFor="isAuthor">Is author</Label>
           <Controller
             name="isAuthor"
             control={control}
@@ -141,7 +138,7 @@ export const UpdateUserForm = ({ user }: Props) => {
         </div>
 
         <div className="input-group">
-          <Label htmlFor="isAdmin">Is admin?</Label>
+          <Label htmlFor="isAdmin">Is admin</Label>
           <Controller
             name="isAdmin"
             control={control}

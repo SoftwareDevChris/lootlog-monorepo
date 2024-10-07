@@ -18,7 +18,6 @@ export default async function UsersPage() {
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Email</th>
-            <th>Role</th>
             <th></th>
           </tr>
         </thead>
@@ -30,7 +29,6 @@ export default async function UsersPage() {
               <td>{user.firstName}</td>
               <td>{user.lastName}</td>
               <td>{user.email}</td>
-              <td>{user.role}</td>
               <td>
                 <Link href={`users/${user.id}`}>
                   <Button className="btn-basic">Edit</Button>
