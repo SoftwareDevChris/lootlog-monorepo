@@ -7,9 +7,12 @@ export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
-  @OneToMany(() => Article, (article) => article.category)
+  @OneToMany(() => Article, (article) => article.category, {
+    nullable: true,
+    orphanedRowAction: "nullify",
+  })
   articles: Article[];
 }

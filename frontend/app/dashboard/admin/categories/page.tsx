@@ -1,60 +1,59 @@
+import Link from "next/link";
+
 import "./CategoriesPage.scss";
 
+import { getCategories } from "@/lib/category/actions";
+
+import { Button } from "@/components/ui/button/Button";
+import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
+
 export default async function CategoriesPage() {
+  const categories = await getCategories();
+
+  console.log("All categories:", categories);
+
   return (
     <>
-      <div>List all article categories</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "2rem",
+        }}
+      >
+        <h1>Categories</h1>
+        <Link href={`categories/create`}>
+          <Button className="btn-primary">Create new category</Button>
+        </Link>
+      </div>
+      {categories && categories?.length > 0 && (
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {categories?.map((category) => (
+                <tr key={category.id}>
+                  <td>{category.id}</td>
+                  <td>{category.name}</td>
+                  <td>
+                    <Link href={`categories/${category.id}`}>
+                      <Button className="btn-basic">Edit</Button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
     </>
   );
-
-  // return (
-  //   <div className="admin-categories-page">
-  //     <div>
-  //       <h1>Categories</h1>
-  //       <Button className="button btn-primary">
-  //         <Link prefetch={false} href="categories/new-category">
-  //           Create category
-  //         </Link>
-  //       </Button>
-  //     </div>
-
-  //     <div>
-  //       {!categories.categories ||
-  //         (categories.categories.length < 1 && (
-  //           <p>{"No categories were found."}</p>
-  //         ))}
-
-  //       {categories.categories && categories.categories.length > 0 ? (
-  //         <table>
-  //           <thead>
-  //             <tr>
-  //               <th>Id</th>
-  //               <th>Name</th>
-  //               <th>Articles</th>
-  //               <th>Actions</th>
-  //             </tr>
-  //           </thead>
-
-  //           <tbody>
-  //             {categories.categories.map((category: any) => (
-  //               <tr key={category.id}>
-  //                 <td>{category.id.toString()}</td>
-  //                 <td>{category.name}</td>
-  //                 <td>{category.articles.length}</td>
-  //                 <td className="td-actions">
-  //                   <Button className="button btn-outlined">
-  //                     <span>Edit</span>
-  //                   </Button>
-  //                   <Button className="button btn-delete">
-  //                     <span>Delete</span>
-  //                   </Button>
-  //                 </td>
-  //               </tr>
-  //             ))}
-  //           </tbody>
-  //         </table>
-  //       ) : null}
-  //     </div>
-  //   </div>
-  // );
 }

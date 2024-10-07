@@ -1,5 +1,4 @@
 import { NestFactory } from "@nestjs/core";
-import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "./app.module";
 
 import * as session from "express-session";
@@ -7,7 +6,7 @@ import { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.int
 
 const corsOptions: CorsOptions = {
   origin: ["http://localhost:80", "http://frontend"],
-  credentials: true, // Allow cookies, JWTs, etc.
+  credentials: true,
 };
 
 async function bootstrap() {

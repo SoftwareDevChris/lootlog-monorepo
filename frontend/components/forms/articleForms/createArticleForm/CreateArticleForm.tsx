@@ -1,22 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { useFormState } from "react-dom";
-import { useRouter } from "next/navigation";
-
 import "./CreateArticleForm.scss";
 
-import { TCategory } from "@/types/types";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-// Lib
+import { TArticle, TCategory } from "@/types/article.types";
 import { resizeImage } from "@/lib/resize-image";
-import { TInitialNewsArticleState } from "@/lib/schemas";
 
-// Components
 import { Label } from "@/components/ui/label/Label";
-import { Input } from "@/components/ui/input/Input";
-import { Button } from "@/components/ui/button/Button";
-import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
 const DynamicArticleEditor = dynamic(
   () =>
@@ -26,91 +17,107 @@ const DynamicArticleEditor = dynamic(
   }
 );
 
-// Services
-import { createNewsArticle } from "@/lib/articleService";
-
-// Toast
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
-import { FormSubmitButton } from "@/components/buttons/FormSubmitButton/SubmitFormButton";
+import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "@/lib/category";
 
-type Props = {
-  category: TCategory;
-};
+export const CreateArticleForm = () => {
+  const { data } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => await getCategories(),
+  });
 
-export const CreateArticleForm: React.FC<Props> = ({ category }) => {
-  const router = useRouter();
+  // const handleFormSubmit = async (
+  //   state: TInitialNewsArticleState,
+  //   formData: FormData
+  // ) => {
+  //   const resizedImage = await resizeImage(formData.get("image") as File);
+  //   formData.set("image", resizedImage.image as File);
 
-  const handleSubmit = async (
-    state: TInitialNewsArticleState,
-    formData: FormData
-  ) => {
-    // Resize the image and put in back into the formData
-    const resizedImage = await resizeImage(formData.get("image") as File);
-    formData.set("image", resizedImage.image as File);
+  //   const withBind = createNewsArticle.bind(null, {
+  //     body: body,
+  //     categoryId: category.id,
+  //   });
 
-    const withBind = createNewsArticle.bind(null, {
-      body: body,
-      categoryId: category.id,
-    });
+  //   const res = await withBind(state, formData);
 
-    const res = await withBind(state, formData);
+  //   if (res.status === 201) {
+  //     toast.success("Article has been created", {
+  //       icon: "🎉",
+  //       duration: 4000,
+  //     });
+  //     router.push("/dashboard/author/my-articles");
+  //     return res;
+  //   } else return res;
+  // };
 
-    if (res.status === 201) {
-      toast.success("Article has been created", {
-        icon: "🎉",
-        duration: 4000,
-      });
-      router.push("/dashboard/author/my-articles");
-      return res;
-    } else return res;
-  };
-
-  const initialState: TInitialNewsArticleState = {
-    status: 0,
-    message: "",
-    errors: null,
-  };
-
-  const [body, setBody] = useState("");
-  const [state, action] = useFormState<TInitialNewsArticleState, FormData>(
+  const {
     handleSubmit,
-    initialState
-  );
+    register,
+    formState: { errors, isLoading },
+  } = useForm<Partial<TArticle>>();
+
+  const handleFormSubmit: SubmitHandler<Partial<TArticle>> = (data) => {};
 
   return (
     <div style={{ marginTop: "1rem" }}>
       <div className="form-wrapper">
-        <form action={action} className="create-article-form">
+        <form
+          onSubmit={handleSubmit(handleFormSubmit)}
+          className="create-article-form"
+        >
           {/* Title */}
           <div className="input-group">
             <Label htmlFor="title">Title</Label>
-            <Input required name="title" />
-            <p className="input-error">{state.errors?.title}</p>
+            <input required name="title" {...register} />
+            {errors.title?.message && (
+              <p className="input-error">{errors.title.message}</p>
+            )}
           </div>
 
           <div className="input-group">
             <Label htmlFor="subtitle">Subtitle</Label>
-            <Input required name="subtitle" />
-            <p className="input-error">{state.errors?.subtitle}</p>
+            <input required name="subtitle" {...register} />
+            {errors.subtitle?.message && (
+              <p className="input-error">{errors.subtitle.message}</p>
+            )}
           </div>
 
           {/* Image */}
           <div className="input-group">
             <Label>{"Select image (1300x732 or above)"}</Label>
-            <Input name="image" required type="file" accept="image/*" />
-            <p className="input-error">{state.errors?.image}</p>
+            <input
+              name="image"
+              required
+              type="file"
+              accept="image/*"
+              {...register}
+            />
+            {errors.image?.message && (
+              <p className="input-error">{errors.image.message}</p>
+            )}
           </div>
 
           {/* Content */}
           <div className="input-group">
             <Label>Article body</Label>
-            <DynamicArticleEditor onChange={(text) => setBody(text)} />
-            <p className="input-error">{state.errors?.body}</p>
+            <DynamicArticleEditor
+              {...register}
+              onChange={(text) =>
+                register("body", { onChange: () => text }).onChange
+              }
+            />
+            {errors.body?.message && (
+              <p className="input-error">{errors.body.message}</p>
+            )}
           </div>
 
+          <select></select>
+
           {/* Save */}
-          <FormSubmitButton title="Create article" />
+          <SubmitFormButton disabled title="Create article" />
         </form>
       </div>
     </div>

@@ -34,21 +34,22 @@ export const DashboardNavigation = async () => {
         />
 
         {/* Authors & Admins */}
-        {user.isAdmin ||
-          (user.isAuthor && (
-            <>
-              <DashboardNavigationItem
-                title="New article"
-                href="/author/new-article"
-                icon={<FiEdit />}
-              />
-              <DashboardNavigationItem
-                title="My articles"
-                href="/author/my-articles"
-                icon={<FiFolder />}
-              />
-            </>
-          ))}
+        {user.isAdmin
+          ? user.isAuthor && (
+              <>
+                <DashboardNavigationItem
+                  title="New article"
+                  href="/author/new-article"
+                  icon={<FiEdit />}
+                />
+                <DashboardNavigationItem
+                  title="My articles"
+                  href="/author/my-articles"
+                  icon={<FiFolder />}
+                />
+              </>
+            )
+          : null}
 
         <DashboardNavigationItem
           title="Likes"

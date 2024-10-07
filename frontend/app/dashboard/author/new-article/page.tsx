@@ -1,7 +1,10 @@
+import { CreateArticleForm } from "@/components/forms/articleForms/createArticleForm/CreateArticleForm";
+
 export default async function CreateArticlePage() {
   return (
     <>
-      <div>New article</div>
+      <h1>New article</h1>
+      <CreateArticleForm />
     </>
   );
 }
