@@ -20,13 +20,27 @@ export const UpdateUserForm = ({ user }: Props) => {
   const [statusMessage, setStatusMessage] = useState<string[]>([]);
   const modal = useModalStore();
 
+  const handleDeleteUser = async () => {
+    const res = await deleteUser(user.id);
+    const status = await res?.json();
+
+    if (res?.ok) {
+      toast.success("User deleted successfully");
+      window.location.href = "/dashboard/admin/users";
+      return;
+    } else {
+      status && setStatusMessage([status.message]);
+      return;
+    }
+  };
+
   const handleDisplayModal = () => {
     modal.show(
       "Delete user",
       `Are you sure you want to delete this user?`,
       "Cancel",
       "Delete",
-      async () => await deleteUser(user.id),
+      async () => await handleDeleteUser(),
       "delete"
     );
   };
@@ -34,7 +48,7 @@ export const UpdateUserForm = ({ user }: Props) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting, defaultValues },
+    formState: { errors, isSubmitting },
   } = useForm<TUser>({
     defaultValues: {
       id: user.id,
