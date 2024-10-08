@@ -31,7 +31,7 @@ export default async function UsersPage() {
               <td>{user.email}</td>
               <td>
                 <Link href={`users/${user.id}`}>
-                  <Button className="btn-basic">Edit</Button>
+                  <Button className="btn-basic">Administrate</Button>
                 </Link>
               </td>
             </tr>

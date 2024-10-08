@@ -1,6 +1,7 @@
 @use "../abstracts" as a;
 
 .button {
+  width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -85,5 +86,16 @@
     outline: none;
     background-color: a.$dark-500;
     border: 1px solid a.$dark-500;
+  }
+}
+
+.btn-cancel {
+  color: a.$dark-700;
+  background-color: transparent;
+  border: 1px solid a.$dark-400;
+
+  &:hover {
+    color: a.$dark-500;
+    border-color: a.$dark-300;
   }
 }

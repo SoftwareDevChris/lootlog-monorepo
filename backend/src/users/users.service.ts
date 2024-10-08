@@ -67,4 +67,13 @@ export class UsersService {
 
     throw new NotFoundException();
   }
+
+  async deleteUser(userId: number) {
+    const userFromDb = await this.findUserById(userId);
+    if (userFromDb) {
+      const removedUser = await this.userRepo.remove(userFromDb);
+      console.log("Removed user:", removedUser);
+      return removedUser;
+    } else throw new NotFoundException();
+  }
 }

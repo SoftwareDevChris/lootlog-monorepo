@@ -2,8 +2,14 @@
 
 import { Button } from "@/components/ui/button/Button";
 
-export const DeleteUserButton = () => {
-  const handleDeleteUser = () => {};
+type Props = {
+  onClick: () => void;
+};
 
-  return <Button className="btn-delete">Delete</Button>;
+export const DeleteButton = ({ onClick }: Props) => {
+  return (
+    <Button className="btn-delete" onClick={onClick}>
+      Delete
+    </Button>
+  );
 };

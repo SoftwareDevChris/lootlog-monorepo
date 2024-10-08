@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   ForbiddenException,
   Get,
   Param,
@@ -26,7 +27,15 @@ export class UsersController {
     } else throw new ForbiddenException();
   }
 
-  @Get("/find/:id")
+  @Get("/whoami")
+  @UseGuards(JwtAuthGuard)
+  async getCurrentUser(@CurrentUser() user: User) {
+    const userFromDb = await this.usersService.findUserById(user.id);
+    const { password, refreshToken, ...rest } = userFromDb;
+    return rest;
+  }
+
+  @Get("/:id")
   @UseGuards(JwtAuthGuard)
   async getUserById(@Param("id") userId: number, @CurrentUser() user: User) {
     if (user.isAdmin) {
@@ -36,15 +45,7 @@ export class UsersController {
     } else throw new ForbiddenException();
   }
 
-  @Get("/whoami")
-  @UseGuards(JwtAuthGuard)
-  async getCurrentUser(@CurrentUser() user: User) {
-    const userFromDb = await this.usersService.findUserById(user.id);
-    const { password, refreshToken, ...rest } = userFromDb;
-    return rest;
-  }
-
-  @Patch("/update/:id")
+  @Patch("/:id")
   @UseGuards(JwtAuthGuard)
   async updateUser(
     @Param("id") userId: string,
@@ -57,5 +58,13 @@ export class UsersController {
     }
 
     throw new ForbiddenException();
+  }
+
+  @Delete("/:id")
+  @UseGuards(JwtAuthGuard)
+  async deleteUser(@Param("id") userId: string, @CurrentUser() user: User) {
+    if (user.isAdmin || user.id === parseInt(userId)) {
+      return this.usersService.deleteUser(parseInt(userId));
+    }
   }
 }

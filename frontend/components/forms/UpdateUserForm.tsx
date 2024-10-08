@@ -5,10 +5,12 @@ import toast from "react-hot-toast";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { TUser } from "@/types/user.types";
-import { updateUserAsAdmin } from "@/lib/user";
+import { deleteUser, updateUser } from "@/lib/user";
 
 import { Label } from "../ui/label/Label";
 import { SubmitFormButton } from "../buttons/SubmitFormButton";
+import { DeleteButton } from "../buttons/DeleteButton";
+import { useModalStore } from "@/store/modal-store";
 
 type Props = {
   user: TUser;
@@ -16,12 +18,24 @@ type Props = {
 
 export const UpdateUserForm = ({ user }: Props) => {
   const [statusMessage, setStatusMessage] = useState<string[]>([]);
+  const modal = useModalStore();
+
+  const handleDisplayModal = () => {
+    modal.show(
+      "Delete user",
+      `Are you sure you want to delete this user?`,
+      "Cancel",
+      "Delete",
+      async () => await deleteUser(user.id),
+      "delete"
+    );
+  };
 
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<Partial<TUser>>({
+    formState: { errors, isSubmitting, defaultValues },
+  } = useForm<TUser>({
     defaultValues: {
       id: user.id,
       firstName: user.firstName,
@@ -34,19 +48,16 @@ export const UpdateUserForm = ({ user }: Props) => {
   });
 
   const onSubmit: SubmitHandler<Partial<TUser>> = async (data) => {
-    const res = await updateUserAsAdmin(data);
-
-    console.log("Client form:", data);
+    const res = await updateUser(data);
     const status = await res?.json();
-
-    console.log("Update user response:", status);
 
     if (res?.ok) {
       toast.success("User updated successfully");
       window.location.href = "/dashboard/admin/users";
-    } else {
-      res?.statusText && setStatusMessage([res?.statusText]);
+      return;
     }
+
+    status && setStatusMessage([status.message]);
   };
 
   return (
@@ -156,8 +167,11 @@ export const UpdateUserForm = ({ user }: Props) => {
           )}
         </div>
 
-        <SubmitFormButton title="Submit" disabled={isSubmitting} />
+        <SubmitFormButton title="Update" disabled={isSubmitting} />
       </form>
+      <div style={{ marginTop: "1rem" }}>
+        <DeleteButton onClick={handleDisplayModal} />
+      </div>
     </div>
   );
 };

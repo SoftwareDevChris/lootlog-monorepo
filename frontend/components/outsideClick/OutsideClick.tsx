@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import "./MyMenu.scss"; // Import your SCSS file
 
 type Props = {
   isOpen: boolean;
@@ -7,12 +6,15 @@ type Props = {
   children: React.ReactNode;
 };
 
-const MyMenu = ({ isOpen, onClose, children }: Props) => {
-  const menuRef = useRef<HTMLDivElement>(null);
+export const OutsideClickContainer = ({ isOpen, onClose, children }: Props) => {
+  const childRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      if (
+        childRef.current &&
+        !childRef.current.contains(event.target as Node)
+      ) {
         onClose(); // Call the onClose function when clicked outside
       }
     };
@@ -27,7 +29,5 @@ const MyMenu = ({ isOpen, onClose, children }: Props) => {
     };
   }, [isOpen, onClose]);
 
-  return <>{isOpen && <div ref={menuRef}>{children}</div>}</>;
+  if (isOpen) return <div ref={childRef}>{children}</div>;
 };
-
-export default MyMenu;
