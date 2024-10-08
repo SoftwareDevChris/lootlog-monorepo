@@ -1,9 +1,6 @@
 "use client";
-
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-
 import { useState } from "react";
+import Link from "next/link";
 
 import { signUp } from "@/lib/auth/";
 import { TCreateUserForm } from "@/types/form.types";
@@ -17,7 +14,6 @@ import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
 
 export const SignUpForm = () => {
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
-  const router = useRouter();
 
   const {
     control,
@@ -42,7 +38,7 @@ export const SignUpForm = () => {
       toast.success("Your account has been created", {
         position: "bottom-right",
       });
-      router.push("/");
+      window.location.href = "/";
     }
 
     const signUpError = await signUpResponse.json().then((err) => err.message);

@@ -1,8 +1,8 @@
 "use client";
+import { createPortal } from "react-dom";
 
 import { useModalStore } from "@/store/modal-store";
-import { useState } from "react";
-import { createPortal } from "react-dom";
+
 import { OutsideClickContainer } from "../outsideClick/OutsideClick";
 import { Button } from "../ui/button/Button";
 
