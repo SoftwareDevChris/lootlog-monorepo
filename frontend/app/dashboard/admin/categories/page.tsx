@@ -1,14 +1,20 @@
+"use client";
+
 import Link from "next/link";
 
 import "./CategoriesPage.scss";
 
-import { getCategories } from "@/lib/category/actions";
+import { getCategories } from "@/lib/category";
 
 import { Button } from "@/components/ui/button/Button";
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
+import { useQuery } from "@tanstack/react-query";
 
-export default async function CategoriesPage() {
-  const categories = await getCategories();
+export default function CategoriesPage() {
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => await getCategories(),
+  });
 
   console.log("All categories:", categories);
 
@@ -43,10 +49,12 @@ export default async function CategoriesPage() {
                 <tr key={category.id}>
                   <td>{category.id}</td>
                   <td>{category.name}</td>
-                  <td>
-                    <Link href={`categories/${category.id}`}>
-                      <Button className="btn-basic">Edit</Button>
-                    </Link>
+                  <td style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <div style={{ width: "fit-content" }}>
+                      <Link href={`categories/${category.id}`}>
+                        <Button className="btn-basic">Edit</Button>
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

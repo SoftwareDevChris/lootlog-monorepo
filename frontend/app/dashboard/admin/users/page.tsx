@@ -1,11 +1,16 @@
+"use client";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 
 import { getAllUsers } from "@/lib/user/actions";
 
 import { Button } from "@/components/ui/button/Button";
 
-export default async function UsersPage() {
-  const users = await getAllUsers();
+export default function UsersPage() {
+  const { data: users } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => await getAllUsers(),
+  });
 
   return (
     <>
@@ -31,7 +36,7 @@ export default async function UsersPage() {
               <td>{user.email}</td>
               <td>
                 <Link href={`users/${user.id}`}>
-                  <Button className="btn-basic">Administrate</Button>
+                  <Button className="btn-basic">Manage</Button>
                 </Link>
               </td>
             </tr>

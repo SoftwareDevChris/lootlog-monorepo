@@ -1,5 +1,5 @@
-import { CreateCategoryForm } from "@/components/forms/CreateCategoryForm";
+import { CategoryForm } from "@/components/forms/CategoryForm";
 
 export default function NewCategoryPage() {
-  return <CreateCategoryForm />;
+  return <CategoryForm />;
 }

@@ -11,6 +11,7 @@ import { Label } from "../ui/label/Label";
 import { SubmitFormButton } from "../buttons/SubmitFormButton";
 import { DeleteButton } from "../buttons/DeleteButton";
 import { useModalStore } from "@/store/modal-store";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   user: TUser;
@@ -18,14 +19,16 @@ type Props = {
 
 export const UpdateUserForm = ({ user }: Props) => {
   const [statusMessage, setStatusMessage] = useState<string[]>([]);
+
   const modal = useModalStore();
+  const queryClient = useQueryClient();
 
   const handleDeleteUser = async () => {
     const res = await deleteUser(user.id);
     const status = await res?.json();
 
     if (res?.ok) {
-      toast.success("User deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       window.location.href = "/dashboard/admin/users";
       return;
     } else {

@@ -5,35 +5,56 @@ import toast from "react-hot-toast";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { TCategory } from "@/types/article.types";
-import { createCategory } from "@/lib/category";
+import { createCategory, updateCategory } from "@/lib/category";
 
 import { Label } from "../ui/label/Label";
 import { SubmitFormButton } from "../buttons/SubmitFormButton";
+import { useQueryClient } from "@tanstack/react-query";
 
-export const CreateCategoryForm = () => {
+type Props = {
+  existingCategory?: TCategory;
+};
+
+export const CategoryForm = ({ existingCategory }: Props) => {
   const [statusMessage, setStatusMessage] = useState<string[]>([]);
+
+  const queryClient = useQueryClient();
 
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<Partial<TCategory>>({
+  } = useForm<TCategory>({
     defaultValues: {
-      name: "",
+      name: existingCategory?.name ?? "",
     },
   });
 
-  const onSubmit: SubmitHandler<Partial<TCategory>> = async (data) => {
-    const res = await createCategory(data);
-    const status = await res?.json();
-
+  const handleResponse = async (res: Response | null) => {
     if (res?.ok) {
-      toast.success("User updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
       window.location.href = "/dashboard/admin/categories";
+    } else {
+      const status = await res?.json();
+      setStatusMessage([status.message]);
+    }
+  };
+
+  const onSubmit: SubmitHandler<TCategory> = async (data) => {
+    if (existingCategory) {
+      const res = await updateCategory({
+        ...existingCategory,
+        name: data.name,
+      });
+
+      await handleResponse(res);
       return;
     }
-
-    setStatusMessage([status.message]);
+    if (!existingCategory) {
+      const res = await createCategory(data);
+      await handleResponse(res);
+      return;
+    }
   };
 
   return (
@@ -41,7 +62,9 @@ export const CreateCategoryForm = () => {
       className="form-wrapper"
       style={{ maxWidth: "30rem", margin: "0 auto" }}
     >
-      <h1 style={{ marginBottom: "2rem" }}>Create category</h1>
+      <h1 style={{ marginBottom: "2rem" }}>
+        {existingCategory?.id ? "Update category" : "New category"}
+      </h1>
       {statusMessage.length > 0 &&
         statusMessage.map((msg, index) => (
           <p key={index} className="form-error-message">

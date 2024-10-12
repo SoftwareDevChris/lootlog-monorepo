@@ -6,6 +6,7 @@ import {
   Post,
   Body,
   UnauthorizedException,
+  Patch,
 } from "@nestjs/common";
 import { CategoriesService } from "./categories.service";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
@@ -36,6 +37,21 @@ export class CategoriesController {
   ): Promise<Category> {
     if (user.isAdmin) {
       return this.categoriesService.create(body);
+    }
+
+    throw new UnauthorizedException();
+  }
+
+  @Patch("/:id")
+  @UseGuards(JwtAuthGuard)
+  async updateCategory(
+    @Param("id") id: string,
+    @CurrentUser() user: User,
+    @Body() updatedCategory: Partial<Category>,
+  ): Promise<Category> {
+    if (user.isAdmin) {
+      await this.categoriesService.update(parseInt(id), updatedCategory);
+      return this.categoriesService.getById(parseInt(id));
     }
 
     throw new UnauthorizedException();

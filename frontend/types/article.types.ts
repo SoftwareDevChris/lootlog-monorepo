@@ -13,7 +13,7 @@ export type TArticle = {
   categoryId: number;
   authorId: number;
 
-  image?: TImage | null;
+  image?: FileList | null;
   author?: TUser;
   category?: TCategory;
   youtubeVideoId?: string;

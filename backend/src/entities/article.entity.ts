@@ -28,10 +28,10 @@ export class Article {
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column()
+  @Column({ default: false })
   isPublic: boolean;
 
-  @Column()
+  @Column({ default: false })
   isFeatured: boolean;
 
   @OneToOne(() => ArticleImage, (image) => image.article)

@@ -14,7 +14,7 @@ import Link from "@tiptap/extension-link";
 import { ArticleEditorToolbar } from "./ArticleEditorToolbar";
 
 type Props = {
-  onChange: (content: string) => void;
+  onChange: (event: string) => void;
   articleBody?: string;
 };
 
@@ -22,6 +22,8 @@ export const ArticleEditor: React.FC<Props> = ({ onChange, articleBody }) => {
   // TipTap Editor
   const editor = useEditor({
     content: articleBody || "Write something awesome!",
+    // @ts-ignore
+    immediatelyRender: false,
     parseOptions: {
       preserveWhitespace: "full",
     },

@@ -24,6 +24,7 @@ export class CategoriesService {
   }
 
   async update(id: number, updatedCategory: Partial<Category>): Promise<void> {
+    updatedCategory.name = updatedCategory.name.toLowerCase();
     await this.categoryRepo.update(id, updatedCategory);
   }
 
