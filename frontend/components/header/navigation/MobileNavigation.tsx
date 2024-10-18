@@ -7,13 +7,17 @@ import { ROUTES } from "@/utils/routes";
 
 import { HiMenu } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
-import OutsideClickHandler from "react-outside-click-handler";
+
+import { OutsideClickContainer } from "@/components/outsideClick/OutsideClick";
 
 export const MobileNavigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <OutsideClickHandler onOutsideClick={() => setIsMenuOpen(false)}>
+    <OutsideClickContainer
+      onClose={() => setIsMenuOpen(false)}
+      isOpen={isMenuOpen}
+    >
       <div className="mobile-menu-wrapper">
         {isMenuOpen ? (
           <IoCloseOutline size={30} onClick={() => setIsMenuOpen(false)} />
@@ -31,6 +35,6 @@ export const MobileNavigation = () => {
           ))}
         </ul>
       </div>
-    </OutsideClickHandler>
+    </OutsideClickContainer>
   );
 };

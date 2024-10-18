@@ -1,10 +1,10 @@
-import { CreateArticleForm } from "@/components/forms/articleForms/createArticleForm/CreateArticleForm";
+import { ArticleForm } from "@/components/forms/ArticleForm";
 
 export default async function CreateArticlePage() {
   return (
     <>
-      <h1>New article</h1>
-      <CreateArticleForm />
+      <h1 style={{ marginBottom: "2rem" }}>New article</h1>
+      <ArticleForm />
     </>
   );
 }

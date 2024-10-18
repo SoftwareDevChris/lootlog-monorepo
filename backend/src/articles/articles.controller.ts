@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
 import { ArticlesService } from "./articles.service";
 import { Article } from "src/entities/article.entity";
@@ -13,6 +14,7 @@ import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { CurrentUser } from "src/auth/decorators/current-user.decorator";
 import { User } from "src/entities/user.entity";
 import { CreateArticleDto } from "./dto/CreateArticle.dto";
+import { FileInterceptor, NoFilesInterceptor } from "@nestjs/platform-express";
 
 @Controller("/api/articles")
 export class ArticlesController {
@@ -39,12 +41,12 @@ export class ArticlesController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createArticle(
-    @CurrentUser() user: User,
-    @Body() article: CreateArticleDto,
-  ) {
-    if (user.isAdmin || user.isAuthor)
-      return this.articlesService.createArticle(article);
+  async createArticle(@CurrentUser() user: User, @Body() article: any) {
+    if (user.isAdmin || user.isAuthor) {
+      console.log("Article body:", article);
+      return;
+      // return this.articlesService.createArticle(article);
+    }
 
     throw new ForbiddenException();
   }

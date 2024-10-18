@@ -1,5 +1,14 @@
 import { TUser } from "./user.types";
 
+export type TCreateArticle = {
+  title: string;
+  subtitle: string;
+  body: string;
+  categoryId: number;
+  image?: FileList | null;
+  youtubeVideoId?: string;
+};
+
 export type TArticle = {
   id: number;
   createdAt: Date;
@@ -13,7 +22,7 @@ export type TArticle = {
   categoryId: number;
   authorId: number;
 
-  image?: FileList | null;
+  image?: TImage | null;
   author?: TUser;
   category?: TCategory;
   youtubeVideoId?: string;
@@ -28,6 +37,7 @@ export type TCategory = {
 export type TImage = {
   id: number;
   name: string;
-  url: string;
+  type: string;
+  base64: string;
   articleId: number;
 };

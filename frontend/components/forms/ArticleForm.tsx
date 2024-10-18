@@ -1,30 +1,28 @@
 "use client";
 
-import "./CreateArticleForm.scss";
+import "./ArticleForm.scss";
 
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-import { TArticle, TCategory } from "@/types/article.types";
-import { resizeImage } from "@/lib/resize-image";
+import { TArticle, TCategory, TCreateArticle } from "@/types/article.types";
+import { resizeImage } from "@/lib/image";
 
 import { Label } from "@/components/ui/label/Label";
 
 const DynamicArticleEditor = dynamic(
-  () =>
-    import("../../../editor/ArticleEditor").then((mod) => mod.ArticleEditor),
+  () => import("../editor/ArticleEditor").then((mod) => mod.ArticleEditor),
   {
     ssr: false,
   }
 );
 
-import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/lib/category";
 import { createArticle } from "@/lib/article";
 
-export const CreateArticleForm = () => {
+export const ArticleForm = () => {
   const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => await getCategories(),
@@ -35,16 +33,18 @@ export const CreateArticleForm = () => {
     register,
     formState: { errors, isLoading },
     control,
-  } = useForm<Partial<TArticle>>({
+  } = useForm<TCreateArticle>({
     defaultValues: {
       title: "",
       subtitle: "",
       body: "",
       image: null,
+      categoryId: 0,
     },
   });
 
-  const handleFormSubmit: SubmitHandler<Partial<TArticle>> = async (data) => {
+  // Fix incorrect way of sending image
+  const handleFormSubmit: SubmitHandler<TCreateArticle> = async (data) => {
     const res = await createArticle(data);
     console.log(res);
   };
@@ -75,7 +75,7 @@ export const CreateArticleForm = () => {
 
           <div className="input-group">
             <Label htmlFor="category">Category</Label>
-            <select {...register("category")}>
+            <select {...register("categoryId")}>
               <option value="">Select category</option>
               {categories?.map((category) => (
                 <option key={category.id} value={category.id}>
