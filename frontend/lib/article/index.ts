@@ -28,8 +28,8 @@ const articleToFormData = async (data: TCreateArticle) => {
   formData.append("body", data.body);
   formData.append("categoryId", data.categoryId.toString());
 
-  if (data.youtubeVideoId) {
-    formData.append("youtubeVideoId", data.youtubeVideoId.toString());
+  if (data.YTVideoId) {
+    formData.append("YTVideoId", data.YTVideoId.toString());
   }
 
   if (data.image && data.image[0]) {
@@ -52,11 +52,10 @@ const articleToFormData = async (data: TCreateArticle) => {
 
 const articleToJson = async (data: TCreateArticle) => {
   let imageObject = {
-    base64: "",
     name: "",
-    size: "",
     type: "",
-    lastModified: "",
+    size: "",
+    base64: "",
   };
 
   if (data.image && data.image[0]) {
@@ -68,7 +67,6 @@ const articleToJson = async (data: TCreateArticle) => {
         name: data.image[0].name,
         size: data.image[0].size.toString(),
         type: data.image[0].type,
-        lastModified: data.image[0].lastModified.toString(),
       };
     }
   }
@@ -79,7 +77,7 @@ const articleToJson = async (data: TCreateArticle) => {
     body: data.body,
     categoryId: data.categoryId,
     image: imageObject,
-    youtubeVideoId: data.youtubeVideoId,
+    youtubeVideoId: data.YTVideoId,
   };
 
   return JSON.stringify(payload);

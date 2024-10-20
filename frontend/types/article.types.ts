@@ -6,7 +6,7 @@ export type TCreateArticle = {
   body: string;
   categoryId: number;
   image?: FileList | null;
-  youtubeVideoId?: string;
+  YTVideoId?: string;
 };
 
 export type TArticle = {
@@ -25,7 +25,7 @@ export type TArticle = {
   image?: TImage | null;
   author?: TUser;
   category?: TCategory;
-  youtubeVideoId?: string;
+  YTVideoId?: string;
 };
 
 export type TCategory = {

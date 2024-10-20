@@ -4,6 +4,7 @@ import { CategoriesController } from "./categories.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Category } from "src/entities/category.entity";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { ArticlesService } from "src/articles/articles.service";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Category])],

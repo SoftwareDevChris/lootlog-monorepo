@@ -12,7 +12,6 @@ export class Category {
 
   @OneToMany(() => Article, (article) => article.category, {
     nullable: true,
-    orphanedRowAction: "nullify",
   })
   articles: Article[];
 }

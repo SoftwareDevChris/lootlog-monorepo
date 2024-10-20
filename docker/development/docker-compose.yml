@@ -12,6 +12,19 @@ services:
     networks:
       - app-network
 
+  db:
+    image: postgres:17-alpine
+    container_name: db
+    restart: always
+    env_file:
+      - ./.env.dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    networks:
+      - app-network
+
   backend:
     container_name: backend
     build:
@@ -49,3 +62,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  postgres_db: {}

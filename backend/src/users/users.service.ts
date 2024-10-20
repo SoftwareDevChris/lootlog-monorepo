@@ -13,6 +13,7 @@ import { hash } from "src/hashing";
 import { User } from "src/entities/user.entity";
 import { CreateUserDto } from "./dto/createUser.dto";
 import { UpdateUserDto } from "./dto/updateUser.dto";
+import { ArticlesService } from "src/articles/articles.service";
 
 @Injectable()
 export class UsersService {

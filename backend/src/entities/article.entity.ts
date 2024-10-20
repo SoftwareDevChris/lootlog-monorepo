@@ -34,15 +34,21 @@ export class Article {
   @Column({ default: false })
   isFeatured: boolean;
 
-  @OneToOne(() => ArticleImage, (image) => image.article)
-  image: ArticleImage;
-
   @Column({ nullable: true })
-  YTVideoId: string;
+  YTVideoId?: string;
 
-  @ManyToOne(() => User, (user) => user.articles)
+  @OneToOne(() => ArticleImage, (image) => image.article, {
+    cascade: ["insert", "insert", "recover", "remove", "soft-remove"],
+  })
+  image?: ArticleImage;
+
+  @ManyToOne(() => User, (user) => user.articles, {
+    cascade: ["insert", "insert", "recover", "remove", "soft-remove"],
+  })
   author: User;
 
-  @ManyToOne(() => Category, (category) => category.articles)
+  @ManyToOne(() => Category, (category) => category.articles, {
+    cascade: ["insert", "insert", "recover", "remove", "soft-remove"],
+  })
   category: Category;
 }

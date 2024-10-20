@@ -10,10 +10,7 @@ const corsOptions: CorsOptions = {
 };
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    rawBody: true,
-    bodyParser: true,
-  });
+  const app = await NestFactory.create(AppModule, {});
   app.enableCors(corsOptions);
 
   app.use(
