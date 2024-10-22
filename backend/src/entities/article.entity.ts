@@ -5,6 +5,7 @@ import {
   ManyToOne,
   OneToOne,
   CreateDateColumn,
+  JoinColumn,
 } from "typeorm";
 
 import { Category } from "./category.entity";
@@ -40,6 +41,7 @@ export class Article {
   @OneToOne(() => ArticleImage, (image) => image.article, {
     cascade: ["insert", "insert", "recover", "remove", "soft-remove"],
   })
+  @JoinColumn()
   image?: ArticleImage;
 
   @ManyToOne(() => User, (user) => user.articles, {

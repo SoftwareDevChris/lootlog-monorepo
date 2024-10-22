@@ -9,6 +9,18 @@ export type TCreateArticle = {
   YTVideoId?: string;
 };
 
+export type TUpdateArticle = {
+  title: string;
+  subtitle: string;
+  body: string;
+  categoryId: number;
+  image?: TImage | null;
+  YTVideoId?: string;
+
+  isPublic: boolean;
+  isFeatured: boolean;
+};
+
 export type TArticle = {
   id: number;
   createdAt: Date;
@@ -38,6 +50,7 @@ export type TImage = {
   id: number;
   name: string;
   type: string;
-  base64: string;
-  articleId: number;
+  size: number;
+  url: string;
+  lastModified: string;
 };

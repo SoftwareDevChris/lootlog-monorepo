@@ -25,7 +25,7 @@ export class ArticlesService {
   }
 
   async getArticlesByAuthor(userId: number): Promise<Article[]> {
-    return await this.articleRepo.find({ where: { author: { id: userId } } });
+    return await this.usersService.getUserArticles(userId);
   }
 
   async getArticlesByCategory(categoryId: number): Promise<Article[]> {
@@ -35,7 +35,10 @@ export class ArticlesService {
   }
 
   async getArticleById(id: number): Promise<Article> {
-    return await this.articleRepo.findOne({ where: { id } });
+    return await this.articleRepo.findOne({
+      where: { id },
+      relations: ["category", "image"],
+    });
   }
 
   async createArticle(user: User, createArticleDto: CreateArticleDto) {

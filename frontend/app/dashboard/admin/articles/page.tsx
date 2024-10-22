@@ -7,13 +7,13 @@ import { Button } from "@/components/ui/button/Button";
 
 export default function ArticlesPage() {
   const { data: articles } = useQuery({
-    queryKey: ["articlese"],
+    queryKey: ["articles"],
     queryFn: async () => await getAllArticles(),
   });
 
   return (
     <>
-      <h1>All articles</h1>
+      <h1 style={{ marginBottom: "2rem" }}>All articles</h1>
       <table>
         <thead>
           <tr>

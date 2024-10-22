@@ -21,6 +21,7 @@ import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/lib/category";
 import { createArticle } from "@/lib/article";
+import Image from "next/image";
 
 export const ArticleForm = () => {
   const { data: categories } = useQuery({
@@ -46,6 +47,10 @@ export const ArticleForm = () => {
   // Fix incorrect way of sending image
   const handleFormSubmit: SubmitHandler<TCreateArticle> = async (data) => {
     const res = await createArticle(data);
+
+    if (res?.ok) {
+      window.location.href = "/dashboard/author/my-articles";
+    }
     console.log(res);
   };
 
@@ -85,7 +90,6 @@ export const ArticleForm = () => {
             </select>
           </div>
 
-          {/* Image */}
           <div className="input-group">
             <Label>{"Select image (1300x732 or above)"}</Label>
             <input
