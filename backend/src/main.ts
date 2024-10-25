@@ -3,6 +3,7 @@ import { AppModule } from "./app.module";
 
 import * as session from "express-session";
 import { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.interface";
+import { json } from "express";
 
 const corsOptions: CorsOptions = {
   origin: ["http://localhost:80", "http://frontend"],
@@ -11,7 +12,9 @@ const corsOptions: CorsOptions = {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {});
+
   app.enableCors(corsOptions);
+  app.use(json({ limit: "10mb" }));
 
   app.use(
     session({

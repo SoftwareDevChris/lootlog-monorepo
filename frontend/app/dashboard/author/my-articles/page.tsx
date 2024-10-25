@@ -1,26 +1,48 @@
-import "./MyArticlesPage.scss";
+"use client";
 
-export default async function MyArticlesPage() {
+import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+
+import { getArticlesByUser } from "@/lib/article";
+
+import { Button } from "@/components/ui/button/Button";
+
+export default function MyArticlesPage() {
+  const { data: articles } = useQuery({
+    queryKey: ["articles"],
+    queryFn: async () => await getArticlesByUser(),
+  });
+
   return (
     <>
-      <div>My articles</div>
+      <h1 style={{ marginBottom: "2rem" }}>My articles</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {articles?.map((article) => (
+            <tr key={article.id}>
+              <td>{article.id}</td>
+              <td>{article.title}</td>
+              <td style={{ textTransform: "capitalize" }}>
+                {article.category?.name}
+              </td>
+              <td>
+                <Link href={`edit-article/${article.id}`}>
+                  <Button className="btn-basic">Manage</Button>
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
-
-  // return (
-  //   <div className="my-articles-page">
-  //     <h1>My articles</h1>
-
-  //     <div>
-  //       {!userArticles.articles ||
-  //         (userArticles.articles.length < 1 && (
-  //           <p>{"You haven't written any articles yet."}</p>
-  //         ))}
-
-  //       {userArticles.articles && userArticles.articles.length > 0 ? (
-  //         <ArticleTable articles={userArticles.articles} />
-  //       ) : null}
-  //     </div>
-  //   </div>
-  // );
 }

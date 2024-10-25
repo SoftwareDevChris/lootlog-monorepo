@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   Get,
   Param,
+  Patch,
   Post,
   UseGuards,
   UseInterceptors,
@@ -33,9 +34,20 @@ export class ArticlesController {
     return this.articlesService.getArticlesByCategory(parseInt(id));
   }
 
-  @Get("/:id")
+  @Get("/:id(\\d+)")
   async getArticleById(@Param("id") id: string) {
     return this.articlesService.getArticleById(parseInt(id));
+  }
+
+  @Get("/user")
+  @UseGuards(JwtAuthGuard)
+  async getArticlesByUser(@CurrentUser() user: User) {
+    return this.articlesService.getArticlesByAuthor(user.id);
+  }
+
+  @Patch("/:id")
+  async updateArticleById(@Param("id") id: string, @Body() body: any) {
+    console.log("Article to update:", body);
   }
 
   @Post()

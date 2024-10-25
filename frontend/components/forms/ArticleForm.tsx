@@ -37,7 +37,6 @@ export const ArticleForm = () => {
   } = useForm<TCreateArticle>({
     defaultValues: {
       title: "",
-      subtitle: "",
       body: "",
       image: null,
       categoryId: 0,
@@ -71,16 +70,11 @@ export const ArticleForm = () => {
           </div>
 
           <div className="input-group">
-            <Label htmlFor="subtitle">Subtitle</Label>
-            <input required {...register("subtitle")} />
-            {errors.subtitle?.message && (
-              <p className="input-error">{errors.subtitle.message}</p>
-            )}
-          </div>
-
-          <div className="input-group">
             <Label htmlFor="category">Category</Label>
-            <select {...register("categoryId")}>
+            <select
+              {...register("categoryId")}
+              style={{ textTransform: "capitalize" }}
+            >
               <option value="">Select category</option>
               {categories?.map((category) => (
                 <option key={category.id} value={category.id}>

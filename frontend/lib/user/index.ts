@@ -19,6 +19,26 @@ export const getUserByIdAsAdmin = async (userId: number) => {
   }
 };
 
+export const getCurrentUser = async () => {
+  const cookie = await getCookie("session");
+
+  if (!cookie?.value) return null;
+
+  try {
+    const res = await fetch(`/api/users/whoami`, {
+      method: "GET",
+      credentials: "include",
+      cache: "no-store",
+    });
+
+    if (res.ok) return (await res.json()) as TUser;
+    else return null;
+  } catch (error) {
+    console.error("Error getting user details:", error);
+    throw new Error("No user details were found");
+  }
+};
+
 export const updateUser = async (user: Partial<TUser>) => {
   const cookie = await getCookie("session");
 

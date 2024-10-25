@@ -1,15 +1,17 @@
-import { redirect } from "next/navigation";
+"use client";
+import { useQuery } from "@tanstack/react-query";
 
-import { getCurrentUserFromServer } from "@/lib/user/actions";
+import { getCurrentUser } from "@/lib/user";
 
 import { DashboardField } from "@/components/dashboard/fields/DashboardField";
 import { DashboardFieldWithButton } from "@/components/dashboard/fields/DashboardFieldWithButton";
 import { SignOutButton } from "@/components/buttons/SignOutButton";
-import { TUser } from "@/types/user.types";
 
-export default async function AccountPage() {
-  const response = await getCurrentUserFromServer();
-  const user: TUser = await response?.json();
+export default function AccountPage() {
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: getCurrentUser,
+  });
 
   function printRoleName() {
     if (user?.isAdmin) return "Admin";
@@ -31,7 +33,7 @@ export default async function AccountPage() {
         <DashboardField
           label="Email"
           description="The email address associated with your account."
-          value={user?.email}
+          value={user?.email ?? ""}
         />
 
         <DashboardField

@@ -2,7 +2,6 @@ import { TUser } from "./user.types";
 
 export type TCreateArticle = {
   title: string;
-  subtitle: string;
   body: string;
   categoryId: number;
   image?: FileList | null;
@@ -11,7 +10,6 @@ export type TCreateArticle = {
 
 export type TUpdateArticle = {
   title: string;
-  subtitle: string;
   body: string;
   categoryId: number;
   image?: TImage | null;
@@ -25,7 +23,6 @@ export type TArticle = {
   id: number;
   createdAt: Date;
   title: string;
-  subtitle: string;
   body: string;
 
   isPublic: boolean;

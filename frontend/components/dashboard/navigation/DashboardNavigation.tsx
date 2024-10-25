@@ -1,4 +1,9 @@
+"use client";
+
 import "./DashboardNavigation.scss";
+
+import { useQuery } from "@tanstack/react-query";
+import { getCurrentUser } from "@/lib/user";
 
 // Components
 import { DashboardNavigationItem } from "./DashboardNavigationItem";
@@ -14,14 +19,12 @@ import {
   FiUser,
   FiUsers,
 } from "react-icons/fi";
-import { TUser } from "@/types/user.types";
-import { getCurrentUserFromServer } from "@/lib/user/actions";
 
-export const DashboardNavigation = async () => {
-  const response = await getCurrentUserFromServer();
-  const user: TUser = await response?.json();
-
-  if (!response) return null;
+export const DashboardNavigation = () => {
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: getCurrentUser,
+  });
 
   return (
     <div className="sidebar">
@@ -34,8 +37,8 @@ export const DashboardNavigation = async () => {
         />
 
         {/* Authors & Admins */}
-        {user.isAdmin
-          ? user.isAuthor && (
+        {user?.isAdmin
+          ? user?.isAuthor && (
               <>
                 <DashboardNavigationItem
                   title="New article"
@@ -64,7 +67,7 @@ export const DashboardNavigation = async () => {
         />
 
         {/* Admin */}
-        {user.isAdmin && (
+        {user?.isAdmin && (
           <>
             {/* Divider */}
             <div className="dashboard-nav-divider"></div>

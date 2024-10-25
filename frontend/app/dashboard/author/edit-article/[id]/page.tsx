@@ -1,7 +1,27 @@
-export default async function EditArticlePage() {
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+
+import { getArticleById } from "@/lib/article";
+import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
+import { UpdateArticleForm } from "@/components/forms/UpdateArticleForm";
+
+export default function EditArticlePage() {
+  const params: { id: string } = useParams();
+
+  const { data: article } = useQuery({
+    queryKey: ["article", params.id],
+    queryFn: async () => await getArticleById(params.id),
+  });
+
+  if (!article) return <LoadingScreen />;
+
   return (
     <>
-      <div>Edit my own article</div>
+      <h1 style={{ marginBottom: "2rem" }}>Edit Article</h1>
+
+      <UpdateArticleForm editArticle={article} />
     </>
   );
 }

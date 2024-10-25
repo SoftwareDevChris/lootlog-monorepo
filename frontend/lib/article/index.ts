@@ -25,6 +25,24 @@ export const getAllArticles = async () => {
   }
 };
 
+export const getArticlesByUser = async () => {
+  const cookie = await getCookie("session");
+  if (!cookie?.value) return null;
+
+  try {
+    const res = await fetch(`/api/articles/user`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (res.ok) return (await res.json()) as TArticle[];
+    else return null;
+  } catch (error) {
+    console.error("Error getting articles:", error);
+    return null;
+  }
+};
+
 export const getArticleById = async (articleId: string) => {
   const cookie = await getCookie("session");
   if (!cookie?.value) return null;
@@ -66,7 +84,6 @@ const createArticleToJson = async (data: TCreateArticle) => {
 
   const payload = {
     title: data.title,
-    subtitle: data.subtitle,
     body: data.body,
     categoryId: data.categoryId,
     image: imageObject,
@@ -142,21 +159,32 @@ export const updateArticle = async (
   const cookie = await getCookie("session");
   if (!cookie?.value) return null;
 
-  // try {
-  //   const article = await updateArticleToJson(data);
+  const article: TArticle = {
+    id: beforeEdit.id,
+    title: afterEdit.title,
+    body: afterEdit.body,
+    categoryId: afterEdit.categoryId,
+    image: afterEdit.image,
+    authorId: beforeEdit.authorId,
+    createdAt: beforeEdit.createdAt,
+    isPublic: afterEdit.isPublic,
+    isFeatured: afterEdit.isFeatured,
+    YTVideoId: afterEdit.YTVideoId,
+  };
 
-  //   const res = await fetch(`/api/articles`, {
-  //     method: "POST",
-  //     credentials: "include",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: article,
-  //   });
+  try {
+    const res = await fetch(`/api/articles/${beforeEdit.id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(article),
+    });
 
-  //   return res;
-  // } catch (err) {
-  //   console.error("Error creating article:", err);
-  //   return null;
-  // }
+    return res;
+  } catch (err) {
+    console.error("Error creating article:", err);
+    return null;
+  }
 };

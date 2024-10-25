@@ -32,6 +32,7 @@ export class UsersService {
       where: { id: userId },
       relations: ["articles"],
     });
+    console.log("Get user articles:", user.articles);
     return user.articles;
   }
 

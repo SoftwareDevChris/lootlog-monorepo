@@ -42,7 +42,6 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
   } = useForm<TUpdateArticle>({
     defaultValues: {
       title: editArticle?.title,
-      subtitle: editArticle?.subtitle,
       body: editArticle?.body,
       image: editArticle.image,
       categoryId: editArticle?.categoryId,
@@ -114,23 +113,21 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
           </div>
 
           <div className="input-group">
-            <Label htmlFor="subtitle">Subtitle</Label>
-            <input required {...register("subtitle")} />
-            {errors.subtitle?.message && (
-              <p className="input-error">{errors.subtitle.message}</p>
-            )}
-          </div>
-
-          <div className="input-group">
             <Label htmlFor="category">Category</Label>
-            <select {...register("categoryId")}>
-              <option value={watch().categoryId}>Select category</option>
+            <select
+              {...register("categoryId")}
+              style={{ textTransform: "capitalize" }}
+            >
+              <option value={watch().categoryId}>Select Category</option>
               {categories?.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
               ))}
             </select>
+            {errors.categoryId?.message && (
+              <p className="input-error">{errors.categoryId.message}</p>
+            )}
           </div>
 
           {/* Image preview */}

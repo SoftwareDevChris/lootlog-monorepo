@@ -25,7 +25,10 @@ export class ArticlesService {
   }
 
   async getArticlesByAuthor(userId: number): Promise<Article[]> {
-    return await this.usersService.getUserArticles(userId);
+    return await this.articleRepo.find({
+      where: { author: { id: userId } },
+      relations: ["category"],
+    });
   }
 
   async getArticlesByCategory(categoryId: number): Promise<Article[]> {
@@ -50,7 +53,6 @@ export class ArticlesService {
     try {
       const newArticle = new Article();
       newArticle.title = createArticleDto.title;
-      newArticle.subtitle = createArticleDto.subtitle;
       newArticle.body = createArticleDto.body;
       newArticle.category = category;
       newArticle.author = author;

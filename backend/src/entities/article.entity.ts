@@ -20,9 +20,6 @@ export class Article {
   @Column({ length: 100 })
   title: string;
 
-  @Column({ length: 200 })
-  subtitle: string;
-
   @Column()
   body: string;
 
