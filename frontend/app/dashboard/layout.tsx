@@ -1,4 +1,4 @@
-import "./DashboardLayout.scss";
+import "./DashboardLayout.css";
 
 import { DashboardNavigation } from "@/components/dashboard/navigation/DashboardNavigation";
 

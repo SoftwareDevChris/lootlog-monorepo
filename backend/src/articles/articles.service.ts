@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Article } from "src/entities/article.entity";
-import { Repository } from "typeorm";
+import { Repository, UpdateResult } from "typeorm";
 import { CreateArticleDto } from "./dto/CreateArticle.dto";
 import { ArticleImage } from "src/entities/articleImage.entity";
 import { storage } from "firebaseConfig";
@@ -10,6 +10,7 @@ import { User } from "src/entities/user.entity";
 import { CategoriesService } from "src/categories/categories.service";
 import { UsersService } from "src/users/users.service";
 import { ImagesService } from "src/images/images.service";
+import { UpdateArticleDto } from "./dto/UpdateArticle.dto";
 
 @Injectable()
 export class ArticlesService {
@@ -21,7 +22,7 @@ export class ArticlesService {
   ) {}
 
   async getAllArticles(): Promise<Article[]> {
-    return await this.articleRepo.find();
+    return await this.articleRepo.find({ relations: ["category"] });
   }
 
   async getArticlesByAuthor(userId: number): Promise<Article[]> {
@@ -40,7 +41,7 @@ export class ArticlesService {
   async getArticleById(id: number): Promise<Article> {
     return await this.articleRepo.findOne({
       where: { id },
-      relations: ["category", "image"],
+      relations: ["category", "image", "author"],
     });
   }
 
@@ -73,14 +74,40 @@ export class ArticlesService {
   }
 
   async updateArticle(
-    id: number,
-    updatedArticle: Partial<Article>,
-  ): Promise<void> {
-    const articleToUpdate = await this.articleRepo.findOne({ where: { id } });
+    userId: number,
+    updatedArticle: UpdateArticleDto,
+  ): Promise<Article> {
+    const category = await this.categoriesService.getById(
+      updatedArticle.categoryId,
+    );
 
-    if (articleToUpdate) {
-      await this.articleRepo.update(id, updatedArticle);
-    } else return null;
+    console.log("Category found:", category);
+
+    const author = await this.usersService.findUserById(userId);
+
+    const originalArticle = await this.articleRepo.findOne({
+      where: { id: updatedArticle.id },
+    });
+
+    if (category && author && originalArticle) {
+      const newArticle = new Article();
+      newArticle.id = originalArticle.id;
+      newArticle.title = updatedArticle.title || originalArticle.title;
+      newArticle.body = updatedArticle.body || originalArticle.body;
+      newArticle.category = category;
+      newArticle.author = author;
+      newArticle.image = updatedArticle.image;
+      newArticle.isPublic = updatedArticle.isPublic;
+      newArticle.isFeatured = updatedArticle.isFeatured;
+      newArticle.YTVideoId =
+        updatedArticle.YTVideoId || originalArticle.YTVideoId;
+      newArticle.createdAt = originalArticle.createdAt;
+
+      return this.articleRepo.save(newArticle);
+    } else {
+      console.error("Invalid category or author for article update");
+      throw new InternalServerErrorException();
+    }
   }
 
   async deleteArticle(id: number): Promise<void> {

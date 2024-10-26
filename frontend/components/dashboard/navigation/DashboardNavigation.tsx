@@ -1,6 +1,6 @@
 "use client";
 
-import "./DashboardNavigation.scss";
+import "./DashboardNavigation.css";
 
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentUser } from "@/lib/user";

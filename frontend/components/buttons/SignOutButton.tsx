@@ -1,12 +1,11 @@
 "use client";
+import "./buttons.css";
 
 import { useState } from "react";
 
-import { removeCookie } from "@/lib/auth/session";
-
-import { Button } from "@/components/ui/button/Button";
-import { LoadingSpinner } from "@/components/ui/loading/spinner/LoadingSpinner";
+import { LoadingSpinner } from "../ui/loading/spinner/LoadingSpinner";
 import { logout } from "@/lib/auth";
+import Button from "@mui/material/Button";
 
 export const SignOutButton = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,12 +19,13 @@ export const SignOutButton = () => {
 
   return (
     <Button
+      className="border-neutral-500 text-inherit hover:bg-neutral-500"
+      variant="outlined"
+      onClick={handleSignOut}
       disabled={isLoading}
       aria-disabled={isLoading}
-      onClick={handleSignOut}
-      className="btn-outlined"
     >
-      {isLoading ? <LoadingSpinner theme="orange" size="small" /> : "Sign out"}
+      {isLoading ? <LoadingSpinner size={24} /> : "Sign out"}
     </Button>
   );
 };

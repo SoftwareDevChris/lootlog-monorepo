@@ -1,9 +1,10 @@
-import { IsNumber, IsObject, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsObject, IsString } from "class-validator";
 import { Article } from "src/entities/article.entity";
 import { ArticleImage } from "src/entities/articleImage.entity";
+import { User } from "src/entities/user.entity";
 import { CreateArticleImageDto } from "src/images/dto/CreateArticleImage.dto";
 
-export class CreateArticleDto extends Article {
+export class UpdateArticleDto extends Article {
   @IsString({ message: "Invalid title" })
   title: string;
 
@@ -19,9 +20,15 @@ export class CreateArticleDto extends Article {
   @IsString({ message: "Invalid YouTube video ID" })
   YTVideoId?: string;
 
-  @IsNumber()
-  authorId: number;
+  @IsObject()
+  author: User;
 
   @IsNumber()
   categoryId: number;
+
+  @IsBoolean()
+  isPublic: boolean;
+
+  @IsBoolean()
+  isFeatured: boolean;
 }

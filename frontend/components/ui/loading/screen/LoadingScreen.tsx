@@ -1,12 +1,12 @@
-import "./LoadingScreen.scss";
+import "./LoadingScreen.css";
 
-import { LoadingSpinner } from "../spinner/LoadingSpinner";
+import { LoadingTripleSpinner } from "../spinner/LoadingTripleSpinner";
 
 export const LoadingScreen = () => {
   return (
-    <div className="loading-screen-wrapper">
-      <div className="loading-screen-spinner">
-        <LoadingSpinner theme="orange" />
+    <div className="loading-container">
+      <div>
+        <LoadingTripleSpinner />
       </div>
     </div>
   );

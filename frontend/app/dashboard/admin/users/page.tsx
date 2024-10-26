@@ -4,7 +4,18 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getAllUsers } from "@/lib/user/actions";
 
-import { Button } from "@/components/ui/button/Button";
+import {
+  Container,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 
 export default function UsersPage() {
   const { data: users } = useQuery({
@@ -13,36 +24,44 @@ export default function UsersPage() {
   });
 
   return (
-    <>
-      <h1>All users</h1>
+    <Container>
+      <Typography component="h1" className="mb-4 text-2xl font-bold">
+        All users
+      </Typography>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {users?.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>{user.email}</td>
-              <td>
-                <Link href={`users/${user.id}`}>
-                  <Button className="btn-basic">Manage</Button>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+      <TableContainer component={Paper}>
+        <Table className="border-2 border-neutral-700">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>First name</TableCell>
+              <TableCell>Last name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users &&
+              users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.id}</TableCell>
+                  <TableCell style={{ textTransform: "capitalize" }}>
+                    {user.firstName}
+                  </TableCell>
+                  <TableCell style={{ textTransform: "capitalize" }}>
+                    {user.lastName}
+                  </TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    <Link href={`users/${user.id}`}>
+                      <Button variant="outlined">Manage</Button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 }

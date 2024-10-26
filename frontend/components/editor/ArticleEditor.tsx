@@ -1,10 +1,10 @@
 "use client";
 import dynamic from "next/dynamic";
 
-import "./ArticleEditor.scss";
+import "./ArticleEditor.css";
 
 const EditorContent = dynamic(() =>
-  import("@tiptap/react").then((mod) => mod.EditorContent)
+  import("@tiptap/react").then((mod) => mod.EditorContent),
 );
 
 import { useEditor } from "@tiptap/react";

@@ -7,9 +7,15 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { TCategory } from "@/types/article.types";
 import { createCategory, updateCategory } from "@/lib/category";
 
-import { Label } from "../ui/label/Label";
 import { SubmitFormButton } from "../buttons/SubmitFormButton";
 import { useQueryClient } from "@tanstack/react-query";
+import {
+  Container,
+  FormGroup,
+  FormLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 type Props = {
   existingCategory?: TCategory;
@@ -58,13 +64,10 @@ export const CategoryForm = ({ existingCategory }: Props) => {
   };
 
   return (
-    <div
-      className="form-wrapper"
-      style={{ maxWidth: "30rem", margin: "0 auto" }}
-    >
-      <h1 style={{ marginBottom: "2rem" }}>
-        {existingCategory?.id ? "Update category" : "New category"}
-      </h1>
+    <Container>
+      <Typography component="h1" className="mb-4 text-2xl font-bold">
+        Update category
+      </Typography>
       {statusMessage.length > 0 &&
         statusMessage.map((msg, index) => (
           <p key={index} className="form-error-message">
@@ -72,20 +75,40 @@ export const CategoryForm = ({ existingCategory }: Props) => {
           </p>
         ))}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-group">
-          <Label htmlFor="name">Name</Label>
+        <FormGroup>
+          <FormLabel className="mb-1 text-sm">Category name</FormLabel>
           <Controller
             name="name"
             control={control}
-            render={({ field }) => <input {...field} type="text" required />}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                size="small"
+                slotProps={{ input: { className: "rounded-lg" } }}
+                error={errors.name && true}
+                helperText={errors.name?.message}
+                name="name"
+                placeholder="••••••"
+                type="text"
+                id="name"
+                autoComplete="category-name"
+                autoFocus
+                required
+                fullWidth
+                variant="outlined"
+                color={errors.name ? "error" : "primary"}
+              />
+            )}
           />
           {errors.name?.message && (
             <p className="input-error">{errors.name.message}</p>
           )}
-        </div>
+        </FormGroup>
 
-        <SubmitFormButton title="Submit" disabled={isSubmitting} />
+        <div className="mt-8">
+          <SubmitFormButton title="Submit" disabled={isSubmitting} />
+        </div>
       </form>
-    </div>
+    </Container>
   );
 };

@@ -11,6 +11,7 @@ export type TCreateArticle = {
 export type TUpdateArticle = {
   title: string;
   body: string;
+  category: TCategory;
   categoryId: number;
   image?: TImage | null;
   YTVideoId?: string;
@@ -28,8 +29,7 @@ export type TArticle = {
   isPublic: boolean;
   isFeatured: boolean;
 
-  categoryId: number;
-  authorId: number;
+  categoryId?: number;
 
   image?: TImage | null;
   author?: TUser;

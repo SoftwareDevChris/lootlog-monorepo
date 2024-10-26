@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { press_start, lato } from "./fonts";
-import "./layout.scss";
+import "./layout.css";
 
 import { Header } from "@/components/header/Header";
 import { Provider } from "./provider";

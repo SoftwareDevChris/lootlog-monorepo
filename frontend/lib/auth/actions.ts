@@ -1,5 +1,3 @@
-import { getCookie } from "./session";
-
 const serverUrl = process.env.NEXT_PUBLIC_BACKEND_URL_SERVER;
 export async function verifySessionToken(tokenValue: string) {
   if (!tokenValue) return null;

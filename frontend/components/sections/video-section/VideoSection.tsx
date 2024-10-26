@@ -5,7 +5,7 @@ import { TArticle } from "@/types/types";
 
 import parse from "html-react-parser";
 
-import { LoadingSpinner } from "@/components/ui/loading/spinner/LoadingSpinner";
+import { LoadingSpinner } from "@/components/ui/loading/spinner/LoadingTripleSpinner";
 import { SectionTitle } from "../SectionTitle";
 import Link from "next/link";
 

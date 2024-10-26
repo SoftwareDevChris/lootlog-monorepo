@@ -1,7 +1,5 @@
 "use client";
 import { useState } from "react";
-
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { login } from "@/lib/auth/";
@@ -12,17 +10,22 @@ import toast from "react-hot-toast";
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import { Label } from "@/components/ui/label/Label";
 import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export const LoginForm = () => {
-  const [errorMessage, setErrorMessage] = useState<string[]>([]);
-
-  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const {
     control,
     handleSubmit,
+    register,
     formState: { errors, isSubmitting },
   } = useForm<TLoginForm>({
     defaultValues: {
@@ -32,7 +35,7 @@ export const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<TLoginForm> = async (data) => {
-    setErrorMessage([]);
+    setErrorMessage("");
     const signInResponse = await login(data);
 
     if (signInResponse.ok) {
@@ -41,55 +44,108 @@ export const LoginForm = () => {
       return;
     }
 
-    const signInError = await signInResponse.json().then((err) => err.message);
-    setErrorMessage(signInError);
+    const jsonError = await signInResponse.json();
+    setErrorMessage(jsonError.message);
     return;
   };
 
   return (
-    <div className="login-page">
-      <div className="form-wrapper auth-form">
-        <div className="title-container">
-          <h2>Sign in</h2>
-        </div>
+    <>
+      <div className="bg-constellation flex h-full w-full flex-1 flex-col items-center justify-center bg-repeat p-4">
+        <div className="min-w-[25rem] rounded-md bg-neutral-900 p-8">
+          <h2 className="mb-8 text-3xl font-bold">Sign in</h2>
 
-        {errorMessage && <p className="form-error-message">{errorMessage}</p>}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="input-group">
-            <Label htmlFor="email">Email</Label>
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => <input {...field} required />}
-            />
-            {errors.email?.message && (
-              <p className="input-error">{errors.email.message}</p>
-            )}
+          {errorMessage && (
+            <p className="mb-4 text-center text-red-600">{errorMessage}</p>
+          )}
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex w-full flex-col gap-2"
+          >
+            <FormControl className="mb-2">
+              <FormLabel htmlFor="email" className="mb-1 text-sm">
+                Email
+              </FormLabel>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    size="small"
+                    slotProps={{ input: { className: "rounded-lg" } }}
+                    error={errors.email && true}
+                    helperText={errors.email?.message}
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="your@email.com"
+                    autoComplete="email"
+                    autoFocus
+                    required
+                    fullWidth
+                    variant="outlined"
+                    color={errors.email ? "error" : "primary"}
+                    sx={{ ariaLabel: "email", borderRadius: "1rem" }}
+                  />
+                )}
+              />
+            </FormControl>
+
+            <FormControl className="mb-2">
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <FormLabel htmlFor="password" className="mb-1 text-sm">
+                  Password
+                </FormLabel>
+                <Link href="/forgot-password">
+                  <Typography
+                    color="textSecondary"
+                    className="mb-2 text-xs hover:text-white"
+                  >
+                    Forgot your password?
+                  </Typography>
+                </Link>
+              </Box>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    size="small"
+                    slotProps={{ input: { className: "rounded-lg" } }}
+                    error={errors.password && true}
+                    helperText={errors.password?.message}
+                    name="password"
+                    placeholder="••••••"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    autoFocus
+                    required
+                    fullWidth
+                    variant="outlined"
+                    color={errors.password ? "error" : "primary"}
+                  />
+                )}
+              />
+            </FormControl>
+
+            <div className="mt-4">
+              <SubmitFormButton title="Login" disabled={isSubmitting} />
+            </div>
+          </form>
+
+          <div className="mt-8">
+            <Typography className="text-center text-sm">
+              {"Don't have an account yet?"}{" "}
+              <Link href="/sign-up" className="underline underline-offset-2">
+                Sign up
+              </Link>
+            </Typography>
           </div>
-
-          <div className="input-group">
-            <Label htmlFor="password">Password</Label>
-            <Controller
-              name="password"
-              control={control}
-              render={({ field }) => (
-                <input {...field} type="password" required />
-              )}
-            />
-            {errors.password?.message && (
-              <p className="input-error">{errors.password.message}</p>
-            )}
-          </div>
-
-          <SubmitFormButton title="Login" disabled={isSubmitting} />
-        </form>
-
-        <div className="link-container">
-          <p style={{ marginBottom: "1rem" }}>Forgot password?</p>
-          <p>Do you not have an account yet?</p>
-          <Link href="/sign-up">Sign up</Link>
         </div>
       </div>
-    </div>
+    </>
   );
 };

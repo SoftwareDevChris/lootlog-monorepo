@@ -2,9 +2,9 @@ import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import "./HighlightSection.scss";
+import "./HighlightSection.css";
 
-import { TArticle } from "@/types/types";
+import { TArticle } from "@/types/article.types";
 
 import { HighlightedListItem } from "./HighlightedListItem";
 

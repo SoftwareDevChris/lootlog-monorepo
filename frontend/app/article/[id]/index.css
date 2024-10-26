@@ -1,5 +1,3 @@
-@use "../abstracts/" as a;
-
 article.article-details {
   position: relative;
   max-width: 1300px;
@@ -10,7 +8,7 @@ article.article-details {
 
   margin: 0 auto;
 
-  @media screen and (min-width: a.$bp-md) {
+  @media screen and (min-width: 768px) {
     padding: 1rem;
   }
 
@@ -19,7 +17,7 @@ article.article-details {
     font-size: 2rem;
     font-weight: bold;
 
-    @media screen and (min-width: a.$bp-md) {
+    @media screen and (min-width: 768px) {
       font-size: 3rem;
     }
   }
@@ -31,16 +29,16 @@ article.article-details {
     gap: 0.25rem;
     padding: 0.25rem 0;
 
-    @media screen and (min-width: a.$bp-sm) {
+    @media screen and (min-width: 480px) {
       flex-direction: row;
       gap: 0;
     }
 
     > p {
-      color: a.$dark-100;
+      color: black;
 
       > span {
-        color: a.$dark-300;
+        color: black;
         font-weight: bold;
       }
     }

@@ -12,6 +12,7 @@ import { SubmitFormButton } from "../buttons/SubmitFormButton";
 import { DeleteButton } from "../buttons/DeleteButton";
 import { useModalStore } from "@/store/modal-store";
 import { useQueryClient } from "@tanstack/react-query";
+import { Switch, TextField } from "@mui/material";
 
 type Props = {
   user: TUser;
@@ -91,11 +92,18 @@ export const UpdateUserForm = ({ user }: Props) => {
         ))}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="input-group">
-          <Label htmlFor="firstName">Firstname</Label>
           <Controller
             name="firstName"
             control={control}
-            render={({ field }) => <input {...field} type="text" required />}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="text"
+                variant="outlined"
+                label="First name"
+                required
+              />
+            )}
           />
           {errors.firstName?.message && (
             <p className="input-error">{errors.firstName.message}</p>
@@ -103,11 +111,18 @@ export const UpdateUserForm = ({ user }: Props) => {
         </div>
 
         <div className="input-group">
-          <Label htmlFor="lastName">Lastname</Label>
           <Controller
             name="lastName"
             control={control}
-            render={({ field }) => <input {...field} type="text" required />}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="text"
+                variant="outlined"
+                label="Last name"
+                required
+              />
+            )}
           />
           {errors.lastName?.message && (
             <p className="input-error">{errors.lastName.message}</p>
@@ -115,11 +130,18 @@ export const UpdateUserForm = ({ user }: Props) => {
         </div>
 
         <div className="input-group">
-          <Label htmlFor="email">Email</Label>
           <Controller
             name="email"
             control={control}
-            render={({ field }) => <input {...field} type="text" required />}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="email"
+                variant="outlined"
+                label="First name"
+                required
+              />
+            )}
           />
           {errors.email?.message && (
             <p className="input-error">{errors.email.message}</p>
@@ -133,11 +155,9 @@ export const UpdateUserForm = ({ user }: Props) => {
             control={control}
             render={({ field }) => (
               // Checkbox
-              <input
-                {...field}
-                value={"verified"}
-                type="checkbox"
+              <Switch
                 checked={field.value}
+                onChange={(e) => field.onChange(e.target.checked)}
               />
             )}
           />
@@ -152,11 +172,9 @@ export const UpdateUserForm = ({ user }: Props) => {
             name="isAuthor"
             control={control}
             render={({ field }) => (
-              <input
-                {...field}
-                value={"author"}
-                type="checkbox"
+              <Switch
                 checked={field.value}
+                onChange={(e) => field.onChange(e.target.checked)}
               />
             )}
           />
@@ -171,11 +189,9 @@ export const UpdateUserForm = ({ user }: Props) => {
             name="isAdmin"
             control={control}
             render={({ field }) => (
-              <input
-                {...field}
-                value={"admin"}
-                type="checkbox"
+              <Switch
                 checked={field.value}
+                onChange={(e) => field.onChange(e.target.checked)}
               />
             )}
           />

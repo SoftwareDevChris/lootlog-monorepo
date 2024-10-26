@@ -1,38 +1,32 @@
+"use client";
+
 import { Suspense } from "react";
 import Image from "next/image";
 
+import { useQuery } from "@tanstack/react-query";
+
+import "./index.css";
+
 // Queries
-import { getArticleById } from "@/lib/articleService";
+import { getArticleById } from "@/lib/article";
 
 // HTML Parser
 import parse from "html-react-parser";
 
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
-export default async function ArticlePage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { status, message, article } = await getArticleById(
-    parseInt(params.id)
-  );
-
-  if (status !== 200 || !article) {
-    return (
-      <div className="mx-auto flex min-h-[500px] flex-col items-center justify-center text-neutral-100">
-        <h1>Error</h1>
-        <p>{message}</p>
-      </div>
-    );
-  }
+export default function ArticlePage({ params }: { params: { id: string } }) {
+  const { data: article } = useQuery({
+    queryKey: [`articles/${params.id}`],
+    queryFn: async () => await getArticleById(params.id),
+  });
 
   return (
     <Suspense fallback={<LoadingScreen />}>
       <main>
         <article className="article-details">
           {/* Title */}
-          <h1>{article!.title}</h1>
+          <h1>{article?.title}</h1>
 
           {/* Author */}
           <div className="article-info">
@@ -46,23 +40,21 @@ export default async function ArticlePage({
           </div>
 
           {/* Video */}
-          {article.youtubeVideoId && !article.image?.url && (
+          {article?.YTVideoId && !article?.image?.url && (
             <div className="media-container">
               <iframe
-                title={article.title}
-                src={
-                  `https://youtube.com/embed/${article.youtubeVideoId}` ?? ""
-                }
+                title={article?.title}
+                src={`https://youtube.com/embed/${article?.YTVideoId}`}
               />
             </div>
           )}
 
           {/* Image */}
-          {article.image?.url && !article.youtubeVideoId && (
+          {article?.image?.url && !article?.YTVideoId && (
             <div className="media-container">
               <Image
                 alt=""
-                src={article.image?.url ?? ""}
+                src={article?.image?.url ?? ""}
                 fill
                 sizes="1000px"
               />
@@ -70,7 +62,9 @@ export default async function ArticlePage({
           )}
 
           {/* Content */}
-          <div className="article-body-container">{parse(article!.body)}</div>
+          <div className="article-body-container">
+            {parse(article ? article.body : "")}
+          </div>
         </article>
       </main>
     </Suspense>

@@ -3,10 +3,10 @@
 header {
   position: static;
   top: 0;
-  height: a.$header_height;
+  height: var(--header_height);
   width: 100%;
 
-  border-bottom: 1px solid a.$orange-700;
+  border-bottom: 1px solid var(--orange-700);
 
   .header-content {
     position: relative;
@@ -30,7 +30,7 @@ header {
       justify-content: center;
       align-items: center;
 
-      @media screen and (min-width: a.$bp-md) {
+      @media screen and (min-width: var(--bp-md)) {
         grid-column: 1 / 2;
         justify-content: flex-start;
       }
@@ -41,14 +41,14 @@ header {
       grid-row: 1 / 2;
       width: 100%;
 
-      @media screen and (min-width: a.$bp-md) {
+      @media screen and (min-width: var(--bp-md)) {
         grid-column: 2 / 4;
       }
 
       .mobile-menu-wrapper {
         display: flex;
 
-        @media screen and (min-width: a.$bp-md) {
+        @media screen and (min-width: var(--bp-md)) {
           display: none;
         }
 
@@ -59,7 +59,7 @@ header {
         .mobile-nav-list {
           position: absolute;
           left: 0;
-          top: a.$header_height;
+          top: var(--header_height);
           width: 100%;
 
           max-height: 0;
@@ -73,7 +73,7 @@ header {
           gap: 1.5rem;
           z-index: 99;
 
-          background-color: a.$dark-600;
+          background-color: var(--dark-600);
           border-bottom-left-radius: 0.33rem;
           border-bottom-right-radius: 0.33rem;
 
@@ -81,7 +81,7 @@ header {
             max-height: auto;
           }
 
-          @media screen and (min-width: a.$bp-md) {
+          @media screen and (min-width: var(--bp-md)) {
             display: none;
           }
 
@@ -101,7 +101,7 @@ header {
               margin-bottom: 1rem;
             }
 
-            @media screen and (min-width: a.$bp-md) {
+            @media screen and (min-width: var(--bp-md)) {
               margin-bottom: 0;
             }
           }
@@ -113,7 +113,7 @@ header {
         justify-content: center;
         gap: 2rem;
 
-        @media screen and (min-width: a.$bp-md) {
+        @media screen and (min-width: var(--bp-md)) {
           display: flex;
         }
 
@@ -152,7 +152,7 @@ header {
         }
 
         > button {
-          color: a.$dark-100;
+          color: var(--dark-100);
           background-color: transparent;
           border: none;
           font-size: 1rem;

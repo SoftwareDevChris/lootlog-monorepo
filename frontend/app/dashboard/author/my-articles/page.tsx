@@ -5,44 +5,59 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getArticlesByUser } from "@/lib/article";
 
-import { Button } from "@/components/ui/button/Button";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  Typography,
+  Container,
+} from "@mui/material";
 
 export default function MyArticlesPage() {
   const { data: articles } = useQuery({
     queryKey: ["articles"],
-    queryFn: async () => await getArticlesByUser(),
+    queryFn: getArticlesByUser,
   });
 
   return (
-    <>
-      <h1 style={{ marginBottom: "2rem" }}>My articles</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Category</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {articles?.map((article) => (
-            <tr key={article.id}>
-              <td>{article.id}</td>
-              <td>{article.title}</td>
-              <td style={{ textTransform: "capitalize" }}>
-                {article.category?.name}
-              </td>
-              <td>
-                <Link href={`edit-article/${article.id}`}>
-                  <Button className="btn-basic">Manage</Button>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+    <Container>
+      <Typography component="h1" className="mb-4 text-2xl font-bold">
+        My articles
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table className="border-2 border-neutral-700">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Category</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {articles &&
+              articles.map((article) => (
+                <TableRow key={article.id}>
+                  <TableCell>{article.id}</TableCell>
+                  <TableCell>{article.title}</TableCell>
+                  <TableCell style={{ textTransform: "capitalize" }}>
+                    {article.category?.name}
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`my-articles/${article.id}`}>
+                      <Button variant="outlined">Manage</Button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 }

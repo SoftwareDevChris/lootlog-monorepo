@@ -15,6 +15,7 @@ import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { CurrentUser } from "src/auth/decorators/current-user.decorator";
 import { User } from "src/entities/user.entity";
 import { CreateArticleDto } from "./dto/CreateArticle.dto";
+import { UpdateArticleDto } from "./dto/UpdateArticle.dto";
 
 @Controller("/api/articles")
 export class ArticlesController {
@@ -46,8 +47,16 @@ export class ArticlesController {
   }
 
   @Patch("/:id")
-  async updateArticleById(@Param("id") id: string, @Body() body: any) {
-    console.log("Article to update:", body);
+  @UseGuards(JwtAuthGuard)
+  async updateArticleById(
+    @CurrentUser() user: User,
+    @Body() article: UpdateArticleDto,
+  ) {
+    if (article.author.id === user.id) {
+      return this.articlesService.updateArticle(user.id, article);
+    }
+
+    throw new ForbiddenException();
   }
 
   @Post()

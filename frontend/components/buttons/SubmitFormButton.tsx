@@ -1,5 +1,6 @@
+import "./buttons.css";
 import { Button } from "@/components/ui/button/Button";
-import { LoadingSpinner } from "@/components/ui/loading/spinner/LoadingSpinner";
+import { LoadingSpinner } from "../ui/loading/spinner/LoadingSpinner";
 
 type Props = {
   title: string;
@@ -14,7 +15,7 @@ export const SubmitFormButton = ({ title, disabled }: Props) => {
       disabled={disabled}
       aria-disabled={disabled}
     >
-      {disabled ? <LoadingSpinner theme="orange" size="small" /> : title}
+      {disabled ? <LoadingSpinner size={24} /> : title}
     </Button>
   );
 };

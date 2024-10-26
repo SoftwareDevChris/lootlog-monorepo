@@ -154,22 +154,23 @@ export const createArticle = async (data: TCreateArticle) => {
 
 export const updateArticle = async (
   beforeEdit: TArticle,
-  afterEdit: TUpdateArticle
+  afterEdit: TUpdateArticle,
 ) => {
   const cookie = await getCookie("session");
   if (!cookie?.value) return null;
 
+  // TODO: Implement change image
   const article: TArticle = {
     id: beforeEdit.id,
     title: afterEdit.title,
     body: afterEdit.body,
-    categoryId: afterEdit.categoryId,
     image: afterEdit.image,
-    authorId: beforeEdit.authorId,
+    author: beforeEdit.author,
     createdAt: beforeEdit.createdAt,
     isPublic: afterEdit.isPublic,
     isFeatured: afterEdit.isFeatured,
     YTVideoId: afterEdit.YTVideoId,
+    categoryId: afterEdit.categoryId,
   };
 
   try {

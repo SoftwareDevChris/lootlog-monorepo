@@ -8,7 +8,7 @@
 
   width: 100%;
 
-  @media screen and (min-width: $bp-lg) {
+  @media screen and (min-width: var(--bp-lg)) {
     grid-template-columns: calc(70% - (1rem / 2)) calc(30% - (1rem / 2));
     grid-template-rows: 1fr;
   }
@@ -50,15 +50,15 @@
           font-size: 1.5rem;
           font-weight: 700;
 
-          @media screen and (min-width: $bp-sm) {
+          @media screen and (min-width: var(--bp-sm)) {
             font-size: 2rem;
           }
 
-          @media screen and (min-width: $bp-md) {
+          @media screen and (min-width: var(--bp-md)) {
             font-size: 2.2rem;
           }
 
-          @media screen and (min-width: $bp-lg) {
+          @media screen and (min-width: var(-var(--bp-lg))) {
             font-size: 2.2rem;
           }
         }
@@ -75,11 +75,11 @@
     grid-template-columns: 1fr;
     grid-template-rows: 0.5fr 1fr 1fr 1fr;
 
-    background-color: $dark-600;
+    background-color: var(--dark-600);
     border-radius: 0.33rem;
     overflow: hidden;
 
-    @media screen and (min-width: $bp-lg) {
+    @media screen and (min-width: var(--bp-lg)) {
       grid-column: 2 / 3;
       grid-row: 1 / 2;
     }
@@ -92,7 +92,7 @@
       div {
         height: 1px;
         width: 100%;
-        background-color: $dark-500;
+        background-color: var(--dark-500);
         margin: 0 1rem;
       }
 
@@ -104,11 +104,11 @@
         text-transform: uppercase;
         text-wrap: nowrap;
 
-        @media screen and (min-width: $bp-md) {
+        @media screen and (min-width: var(--bp-md)) {
           font-size: 1.2rem;
         }
 
-        @media screen and (min-width: $bp-lg) {
+        @media screen and (min-width: var(--bp-lg)) {
           font-size: 1.4rem;
         }
       }
@@ -120,11 +120,11 @@
       padding: 1rem;
 
       &:hover {
-        background-color: $dark-500;
+        background-color: var(--dark-500);
       }
 
       &.with-border {
-        border-bottom: 1px solid $dark-500;
+        border-bottom: 1px solid var(--dark-500);
       }
 
       > .title-area {
@@ -141,15 +141,15 @@
           display: -webkit-box;
           -webkit-box-orient: vertical;
 
-          @media screen and (min-width: $bp-sm) {
+          @media screen and (min-width: var(--bp-sm)) {
             font-size: 1.1rem;
           }
 
-          @media screen and (min-width: $bp-md) {
+          @media screen and (min-width: var(--bp-md)) {
             font-size: 1.5rem;
           }
 
-          @media screen and (min-width: $bp-lg) {
+          @media screen and (min-width: var(--bp-lg)) {
             font-size: 1rem;
             line-clamp: 3;
             -webkit-line-clamp: 3;
@@ -161,10 +161,10 @@
           font-size: 0.75rem;
           color: $dark-300;
 
-          @media screen and (min-width: $bp-sm) {
+          @media screen and (min-width: var(--bp-sm)) {
           }
 
-          @media screen and (min-width: $bp-lg) {
+          @media screen and (min-width: var(--bp-lg)) {
             display: none;
           }
         }
@@ -177,7 +177,7 @@
         border-radius: 0.33rem;
         overflow: hidden;
 
-        @media screen and (min-width: $bp-lg) {
+        @media screen and (min-width: var(--bp-lg)) {
           aspect-ratio: 3 / 2;
         }
 

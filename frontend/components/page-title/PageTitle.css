@@ -1,9 +1,7 @@
-@use "../../styles/abstracts/" as *;
-
 .page-title-container {
   padding: 0.5rem 0;
 
-  @media screen and (min-width: $bp-md) {
+  @media screen and (min-width: var(--bp-md)) {
     padding: 1rem 0;
   }
 
@@ -18,7 +16,7 @@
 
     .title-underline {
       height: 3px;
-      background-color: $orange-700;
+      background-color: var(--orange-700);
     }
   }
   > p {
@@ -28,6 +26,6 @@
 
 .page-title-divider {
   height: 3px;
-  background-color: $dark-500;
+  background-color: var(--dark-500);
   margin: 1rem 0;
 }

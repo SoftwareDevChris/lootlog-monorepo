@@ -1,7 +1,7 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
-import "./ArticleEditor.scss";
+import "./ArticleEditor.css";
 
 import { Toggle } from "@radix-ui/react-toggle";
 import { type Editor } from "@tiptap/react";

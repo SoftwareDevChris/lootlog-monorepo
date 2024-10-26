@@ -2,32 +2,34 @@
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
-import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
-
 import { getAllArticles } from "@/lib/article";
-import { Button } from "@/components/ui/button/Button";
-import { useEffect, useState } from "react";
+
 import {
   Paper,
+  Button,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Container,
+  Typography,
 } from "@mui/material";
 
 export default function AdminArticlesPage() {
   const { data: articles } = useQuery({
     queryKey: ["articles"],
-    queryFn: async () => await getAllArticles(),
+    queryFn: getAllArticles,
   });
 
   return (
-    <>
-      <h1 style={{ marginBottom: "2rem" }}>All articles</h1>
+    <Container>
+      <Typography component="h1" className="mb-4 text-2xl font-bold">
+        My articles
+      </Typography>
       <TableContainer component={Paper}>
-        <Table>
+        <Table className="border-2 border-neutral-700">
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
@@ -42,10 +44,12 @@ export default function AdminArticlesPage() {
                 <TableRow key={article.id}>
                   <TableCell>{article.id}</TableCell>
                   <TableCell>{article.title}</TableCell>
-                  <TableCell>{article.category?.name}</TableCell>
+                  <TableCell style={{ textTransform: "capitalize" }}>
+                    {article.category?.name}
+                  </TableCell>
                   <TableCell>
                     <Link href={`articles/${article.id}`}>
-                      <Button className="btn-basic">Manage</Button>
+                      <Button variant="outlined">Manage</Button>
                     </Link>
                   </TableCell>
                 </TableRow>
@@ -53,34 +57,6 @@ export default function AdminArticlesPage() {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Container>
   );
-}
-
-{
-  /* <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>CategoryId</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {articles?.map((article) => (
-            <tr key={article.id}>
-              <td>{article.id}</td>
-              <td>{article.title}</td>
-              <td>{article.categoryId}</td>
-              <td>
-                <Link href={`articles/${article.id}`}>
-                  <Button className="btn-basic">Manage</Button>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */
 }

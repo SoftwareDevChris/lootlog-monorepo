@@ -13,7 +13,7 @@ export default function EditArticlePage() {
 
   const { data: article } = useQuery({
     queryKey: ["article", params.id],
-    queryFn: async () => await getArticleById(params.id),
+    queryFn: () => getArticleById(params.id),
   });
 
   if (!article) return <LoadingScreen />;

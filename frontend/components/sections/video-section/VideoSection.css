@@ -1,12 +1,10 @@
-@use "../../../styles/abstracts/" as *;
-
 .video-section {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto;
   gap: 1rem;
 
-  @media screen and (min-width: $bp-md) {
+  @media screen and (min-width: var(--bp-md)) {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -16,11 +14,11 @@
     height: 100%;
     padding: 1rem;
 
-    background-color: $dark-600;
+    background-color: var(--dark-600);
     border-radius: 0.33rem;
     overflow: hidden;
 
-    @media screen and (min-width: $bp-md) {
+    @media screen and (min-width: var(--bp-md)) {
       grid-column: 2 / 3;
       grid-row: 1 / 2;
       aspect-ratio: 16 / 9;
@@ -36,13 +34,13 @@
       height: 4rem;
       background: linear-gradient(
         to top,
-        $dark-600 1rem,
-        $dark-600 0%,
-        $dark-600 5%,
+        var(--dark-600) 1rem,
+        var(--dark-600) 0%,
+        var(--dark-600) 5%,
         transparent 100%
       );
 
-      @media screen and (min-width: $bp-md) {
+      @media screen and (min-width: var(--bp-md)) {
         display: block;
       }
     }
@@ -66,7 +64,7 @@
       display: none;
       margin-top: 1rem;
 
-      @media screen and (min-width: $bp-md) {
+      @media screen and (min-width: var(--bp-md)) {
         display: block;
       }
     }
@@ -78,7 +76,7 @@
     border-radius: 0.33rem;
     overflow: hidden;
 
-    @media screen and (min-width: $bp-md) {
+    @media screen and (min-width: var(--bp-md)) {
       grid-column: 1 / 2;
       grid-row: 1 / 2;
     }
