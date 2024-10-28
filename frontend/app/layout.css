@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "../components/header/header.css";
+@import "../components/editor/ArticleEditor.css";
+@import "../app/article/[id]/article.css";
+
 :root {
   --orange-900: #b36b00;
   --orange-800: #d97d00;
@@ -104,5 +108,17 @@ h6.logo {
     text-transform: uppercase;
     font-family: var(--pressStart);
     color: var(--orange-700);
+  }
+}
+
+#editor {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1.5rem;
+    font-weight: 600;
   }
 }

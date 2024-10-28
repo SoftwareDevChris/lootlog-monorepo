@@ -12,7 +12,7 @@ import { SubmitFormButton } from "../buttons/SubmitFormButton";
 import { DeleteButton } from "../buttons/DeleteButton";
 import { useModalStore } from "@/store/modal-store";
 import { useQueryClient } from "@tanstack/react-query";
-import { Switch, TextField } from "@mui/material";
+import { FormControl, FormLabel, Switch, TextField } from "@mui/material";
 
 type Props = {
   user: TUser;
@@ -45,7 +45,7 @@ export const UpdateUserForm = ({ user }: Props) => {
       "Cancel",
       "Delete",
       async () => await handleDeleteUser(),
-      "delete"
+      "delete",
     );
   };
 
@@ -90,8 +90,8 @@ export const UpdateUserForm = ({ user }: Props) => {
             {msg}
           </p>
         ))}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="input-group">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <FormControl fullWidth>
           <Controller
             name="firstName"
             control={control}
@@ -108,9 +108,9 @@ export const UpdateUserForm = ({ user }: Props) => {
           {errors.firstName?.message && (
             <p className="input-error">{errors.firstName.message}</p>
           )}
-        </div>
+        </FormControl>
 
-        <div className="input-group">
+        <FormControl fullWidth>
           <Controller
             name="lastName"
             control={control}
@@ -127,9 +127,9 @@ export const UpdateUserForm = ({ user }: Props) => {
           {errors.lastName?.message && (
             <p className="input-error">{errors.lastName.message}</p>
           )}
-        </div>
+        </FormControl>
 
-        <div className="input-group">
+        <FormControl fullWidth>
           <Controller
             name="email"
             control={control}
@@ -138,7 +138,7 @@ export const UpdateUserForm = ({ user }: Props) => {
                 {...field}
                 type="email"
                 variant="outlined"
-                label="First name"
+                label="Email"
                 required
               />
             )}
@@ -146,58 +146,66 @@ export const UpdateUserForm = ({ user }: Props) => {
           {errors.email?.message && (
             <p className="input-error">{errors.email.message}</p>
           )}
-        </div>
+        </FormControl>
 
-        <div className="input-group">
-          <Label htmlFor="isVerified">Is verified</Label>
-          <Controller
-            name="isVerified"
-            control={control}
-            render={({ field }) => (
-              // Checkbox
-              <Switch
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
+        <div className="flex flex-col gap-4 md:flex-row md:justify-evenly">
+          <FormControl className="w-full rounded-lg bg-neutral-700 p-4">
+            <div className="flex flex-col items-center justify-center p-4">
+              <FormLabel htmlFor="isVerified">Is verified</FormLabel>
+              <Controller
+                name="isVerified"
+                control={control}
+                render={({ field }) => (
+                  // Checkbox
+                  <Switch
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                )}
               />
-            )}
-          />
-          {errors.isVerified?.message && (
-            <p className="input-error">{errors.isVerified.message}</p>
-          )}
-        </div>
+              {errors.isVerified?.message && (
+                <p className="input-error">{errors.isVerified.message}</p>
+              )}
+            </div>
+          </FormControl>
 
-        <div className="input-group">
-          <Label htmlFor="isAuthor">Is author</Label>
-          <Controller
-            name="isAuthor"
-            control={control}
-            render={({ field }) => (
-              <Switch
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
+          <FormControl className="w-full rounded-lg bg-neutral-700 p-4">
+            <div className="flex flex-col items-center justify-center p-4">
+              <FormLabel htmlFor="isAuthor">Is author</FormLabel>
+              <Controller
+                name="isAuthor"
+                control={control}
+                render={({ field }) => (
+                  <Switch
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                )}
               />
-            )}
-          />
-          {errors.isAuthor?.message && (
-            <p className="input-error">{errors.isAuthor.message}</p>
-          )}
-        </div>
+              {errors.isAuthor?.message && (
+                <p className="input-error">{errors.isAuthor.message}</p>
+              )}
+            </div>
+          </FormControl>
 
-        <div className="input-group">
-          <Label htmlFor="isAdmin">Is admin</Label>
-          <Controller
-            name="isAdmin"
-            control={control}
-            render={({ field }) => (
-              <Switch
-                checked={field.value}
-                onChange={(e) => field.onChange(e.target.checked)}
+          <FormControl className="w-full rounded-lg bg-neutral-700">
+            <div className="flex flex-col items-center justify-center p-4">
+              <FormLabel htmlFor="isAdmin">Is admin</FormLabel>
+              <Controller
+                name="isAdmin"
+                control={control}
+                render={({ field }) => (
+                  <Switch
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                )}
               />
-            )}
-          />
-          {errors.isAdmin?.message && (
-            <p className="input-error">{errors.isAdmin.message}</p>
-          )}
+              {errors.isAdmin?.message && (
+                <p className="input-error">{errors.isAdmin.message}</p>
+              )}
+            </div>
+          </FormControl>
         </div>
 
         <SubmitFormButton title="Update" disabled={isSubmitting} />

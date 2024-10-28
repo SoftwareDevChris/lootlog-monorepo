@@ -1,11 +1,8 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Article } from "src/entities/article.entity";
-import { Repository, UpdateResult } from "typeorm";
+import { Repository } from "typeorm";
 import { CreateArticleDto } from "./dto/CreateArticle.dto";
-import { ArticleImage } from "src/entities/articleImage.entity";
-import { storage } from "firebaseConfig";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { User } from "src/entities/user.entity";
 import { CategoriesService } from "src/categories/categories.service";
 import { UsersService } from "src/users/users.service";
@@ -23,6 +20,48 @@ export class ArticlesService {
 
   async getAllArticles(): Promise<Article[]> {
     return await this.articleRepo.find({ relations: ["category"] });
+  }
+
+  async getFrontpageFeaturedArticle(): Promise<Article> {
+    return await this.articleRepo.findOne({
+      where: { isPublic: true, isFeatured: true },
+      relations: ["image"],
+      order: { createdAt: "DESC" },
+    });
+  }
+
+  async getFrontpageNewsArticles(): Promise<Article[]> {
+    return await this.articleRepo.find({
+      where: { isPublic: true, isFeatured: false },
+      take: 10,
+      relations: ["image"],
+      order: { createdAt: "DESC" },
+    });
+  }
+
+  async getFrontpageReviewArticles(): Promise<Article[]> {
+    return await this.articleRepo.find({
+      where: {
+        isPublic: true,
+        isFeatured: false,
+        category: { name: "review" },
+      },
+      take: 10,
+      relations: ["image"],
+      order: { createdAt: "DESC" },
+    });
+  }
+
+  async getFrontpageArticles() {
+    const featuredArticle = await this.getFrontpageFeaturedArticle();
+    const otherNewsArticles = await this.getFrontpageNewsArticles();
+    const reviewArticles = await this.getFrontpageReviewArticles();
+
+    return {
+      featured: featuredArticle,
+      news: otherNewsArticles,
+      reviews: reviewArticles,
+    };
   }
 
   async getArticlesByAuthor(userId: number): Promise<Article[]> {

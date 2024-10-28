@@ -45,7 +45,7 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
     control,
   } = useForm<TUpdateArticle>({
     defaultValues: {
@@ -220,7 +220,7 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
 
         {/* Save */}
         <div style={{ width: "fit-content" }}>
-          <SubmitFormButton disabled={isLoading} title="Update article" />
+          <SubmitFormButton disabled={isSubmitting} title="Update article" />
         </div>
       </form>
     </Container>

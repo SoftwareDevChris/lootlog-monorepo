@@ -1,16 +1,18 @@
 import { FourSectionItem } from "./FourSectionItem";
 
-import "./FourSection.scss";
+import "./FourSection.css";
 
-import { TArticle } from "@/types/types";
+import { TArticle } from "@/types/article.types";
 
 type Props = {
   articles: TArticle[];
 };
 
-export const FourSection: React.FC<Props> = ({ articles }) => {
+export const FourSection = ({ articles }: Props) => {
+  console.log("FourSection", articles);
+
   return (
-    <div className="articles-four-section">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {articles.map((article) => (
         <FourSectionItem key={article.id} article={article} />
       ))}

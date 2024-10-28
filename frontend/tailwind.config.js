@@ -6,6 +6,9 @@ module.exports = {
       backgroundImage: {
         constellation: "url('../public/endless-constellation.svg')",
       },
+      screens: {
+        lg2: "1200px",
+      },
     },
   },
   plugins: [],

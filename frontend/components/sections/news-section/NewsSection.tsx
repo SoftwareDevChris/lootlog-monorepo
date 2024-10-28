@@ -1,21 +1,32 @@
-import { TArticle } from "@/types/types";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { getFrontpageArticles } from "@/lib/article";
 
 import { FourSection } from "../four-section/FourSection";
 import { HighlightSection } from "../highligt-section/HighlightSection";
+import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
-type Props = {
-  articles: TArticle[] | null;
-};
+export const NewsSection = () => {
+  const { data: articles, isLoading } = useQuery({
+    queryKey: ["frontpageArticles"],
+    queryFn: getFrontpageArticles,
+  });
 
-export const NewsSection = async ({ articles }: Props) => {
-  // const newsArticles = await getArticlesByCategory("news article", 8);
+  console.log("Other news articles:", articles);
 
-  if (!articles) return null;
+  if (!articles || isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>
-      <HighlightSection articles={articles.slice(0, 4)} />
-      <FourSection articles={articles.slice(4, 8)} />
+      <HighlightSection
+        featuredArticle={articles.featured}
+        otherThreeArticles={articles.news.slice(0, 3)}
+      />
+      <FourSection articles={articles.news.slice(3, 7)} />
     </>
   );
 };

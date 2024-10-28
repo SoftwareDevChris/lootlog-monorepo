@@ -1,12 +1,9 @@
-@use "../../styles/abstracts/" as *;
-
 .section-title-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 0.5rem;
 
-  // Text container
   > div {
     h3 {
       margin: 0;
@@ -15,11 +12,10 @@
       text-transform: capitalize;
     }
 
-    // Underline
     > div {
       height: 3px;
       width: 100%;
-      background-color: $orange-700;
+      background-color: var(--orange-700);
     }
 
     > a {

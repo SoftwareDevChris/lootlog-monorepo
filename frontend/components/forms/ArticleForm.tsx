@@ -38,7 +38,7 @@ export const ArticleForm = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
     control,
   } = useForm<TCreateArticle>({
     defaultValues: {
@@ -51,13 +51,14 @@ export const ArticleForm = () => {
 
   // Fix incorrect way of sending image
   const handleFormSubmit: SubmitHandler<TCreateArticle> = async (data) => {
-    console.log(data);
-    // const res = await createArticle(data);
+    const res = await createArticle(data);
 
-    // if (res?.ok) {
-    //   window.location.href = "/dashboard/author/my-articles";
-    // }
-    // console.log(res);
+    if (res?.ok) {
+      window.location.href = "/dashboard/author/my-articles";
+      return;
+    }
+
+    console.log(res);
   };
 
   return (
@@ -169,7 +170,7 @@ export const ArticleForm = () => {
 
         {/* Save */}
         <div style={{ width: "fit-content" }}>
-          <SubmitFormButton disabled={isLoading} title="Create article" />
+          <SubmitFormButton disabled={isSubmitting} title="Create article" />
         </div>
       </form>
     </Container>

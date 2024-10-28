@@ -1,8 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
 
-import "./ArticleEditor.css";
-
 const EditorContent = dynamic(() =>
   import("@tiptap/react").then((mod) => mod.EditorContent),
 );

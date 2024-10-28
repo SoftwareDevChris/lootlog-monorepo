@@ -23,6 +23,10 @@
           background-color: var(--dark-400);
         }
 
+        &.btn-toggle-active {
+          background-color: #0078d4;
+        }
+
         svg {
           stroke: var(--dark-100);
         }

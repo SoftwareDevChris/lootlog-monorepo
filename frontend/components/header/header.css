@@ -1,5 +1,3 @@
-@use "../abstracts/" as a;
-
 header {
   position: static;
   top: 0;

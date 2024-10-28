@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import "./SectionTitle.scss";
+import "./SectionTitle.css";
 
 export const SectionTitle: React.FC<{
   title: string;
@@ -13,7 +13,11 @@ export const SectionTitle: React.FC<{
         <div />
       </div>
       {route && (
-        <Link prefetch={false} href={route}>
+        <Link
+          prefetch={false}
+          href={route}
+          className="underline-offset-2 hover:underline"
+        >
           See all
         </Link>
       )}

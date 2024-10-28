@@ -30,20 +30,23 @@ export class ArticlesController {
     else throw new ForbiddenException();
   }
 
-  @Get("/category/:id")
-  async getArticlesByCategory(@Param("id") id: string) {
-    return this.articlesService.getArticlesByCategory(parseInt(id));
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  async createArticle(
+    @CurrentUser() user: User,
+    @Body() article: CreateArticleDto,
+  ) {
+    if (user.isAdmin || user.isAuthor) {
+      console.log("Article body:", article);
+      return await this.articlesService.createArticle(user, article);
+    }
+
+    throw new ForbiddenException();
   }
 
   @Get("/:id(\\d+)")
   async getArticleById(@Param("id") id: string) {
     return this.articlesService.getArticleById(parseInt(id));
-  }
-
-  @Get("/user")
-  @UseGuards(JwtAuthGuard)
-  async getArticlesByUser(@CurrentUser() user: User) {
-    return this.articlesService.getArticlesByAuthor(user.id);
   }
 
   @Patch("/:id")
@@ -59,17 +62,19 @@ export class ArticlesController {
     throw new ForbiddenException();
   }
 
-  @Post()
-  @UseGuards(JwtAuthGuard)
-  async createArticle(
-    @CurrentUser() user: User,
-    @Body() article: CreateArticleDto,
-  ) {
-    if (user.isAdmin || user.isAuthor) {
-      console.log("Article body:", article);
-      return await this.articlesService.createArticle(user, article);
-    }
+  @Get("/frontpage")
+  async getFrontpageArticles() {
+    return this.articlesService.getFrontpageArticles();
+  }
 
-    throw new ForbiddenException();
+  @Get("/category/:id")
+  async getArticlesByCategory(@Param("id") id: string) {
+    return this.articlesService.getArticlesByCategory(parseInt(id));
+  }
+
+  @Get("/user")
+  @UseGuards(JwtAuthGuard)
+  async getArticlesByUser(@CurrentUser() user: User) {
+    return this.articlesService.getArticlesByAuthor(user.id);
   }
 }

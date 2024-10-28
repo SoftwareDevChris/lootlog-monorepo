@@ -1,55 +1,55 @@
-import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import "./HighlightSection.css";
 
 import { TArticle } from "@/types/article.types";
 
 import { HighlightedListItem } from "./HighlightedListItem";
 
 type Props = {
-  articles: TArticle[];
+  featuredArticle: TArticle;
+  otherThreeArticles: TArticle[];
 };
 
-export const HighlightSection: FC<Props> = ({ articles }) => {
-  const listArticles = articles.slice(1, 4);
-
+export const HighlightSection = ({
+  featuredArticle,
+  otherThreeArticles,
+}: Props) => {
   return (
-    <div className="highlight-section">
+    <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-10 lg:grid-rows-1">
       <Link
         prefetch={false}
-        href={`/article/${articles[0].id}`}
-        className="highlighted-article"
+        href={`/article/${featuredArticle.id}`}
+        className="relative col-span-1 aspect-video rounded-md bg-none shadow-md lg:col-span-7"
       >
         <Image
           fill
           priority={true}
           loading="eager"
           fetchPriority="high"
-          src={articles[0].image?.url ?? "/public/images/placeholder.webp"}
-          alt={articles[0].title}
+          className="rounded-md object-cover object-center"
+          src={featuredArticle.image?.url ?? "/public/images/placeholder.webp"}
+          alt={featuredArticle.title}
         />
 
-        <div className="image-overlay">
-          <div className="title-area">
-            <h2>{articles[0].title}</h2>
+        <div className="absolute inset-0 h-full w-full rounded-md bg-gradient-to-t from-neutral-950/85 to-transparent">
+          <div className="absolute bottom-0 left-0 w-full rounded-md p-4">
+            <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">
+              {featuredArticle.title}
+            </h2>
           </div>
         </div>
       </Link>
 
-      <div className="highlighted-list">
-        <div className="list-title-container">
-          <div></div>
-          <h2>Latest news</h2>
-          <div></div>
+      <div className="col-span-1 grid w-full grid-cols-1 grid-rows-7 overflow-hidden rounded-md bg-neutral-800 shadow-md lg:col-span-3">
+        <div className="row-span-1 flex max-h-[100px] items-center">
+          <div className="ml-4 mr-4 h-[1px] w-full bg-neutral-600"></div>
+          <h2 className="text-nowrap text-center text-xl font-semibold uppercase lg:text-2xl">
+            Latest news
+          </h2>
+          <div className="ml-4 mr-4 h-[1px] w-full bg-neutral-600"></div>
         </div>
-        {listArticles.map((article, i) => (
-          <HighlightedListItem
-            key={article.id}
-            article={article}
-            withBorder={i + 1 === listArticles.length ? false : true}
-          />
+        {otherThreeArticles.map((article, i) => (
+          <HighlightedListItem key={article.id} article={article} />
         ))}
       </div>
     </div>

@@ -1,26 +1,24 @@
-@use "../../../styles/abstracts/" as *;
-
 .articles-four-section {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto;
   gap: 1rem;
 
-  @media screen and (min-width: $bp-sm) {
+  @media screen and (min-width: var(--bp-sm)) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media screen and (min-width: $bp-lg) {
+  @media screen and (min-width: var(--bp-lg)) {
     grid-template-columns: repeat(4, 1fr);
   }
 
   > article {
-    background-color: $dark-600;
+    background-color: var(--dark-600);
     border-radius: 0.33rem;
     overflow: hidden;
 
     &:hover {
-      background-color: $dark-500;
+      background-color: var(--dark-500);
     }
 
     .image-area {
@@ -36,9 +34,9 @@
 
     .text-area {
       padding: 1rem;
-      border-top: 1px solid $orange-700;
+      border-top: 1px solid var(--orange-700);
 
-      @media screen and (min-width: $bp-lg) {
+      @media screen and (min-width: var(--bp-lg)) {
         > p {
           font-size: 1rem;
           font-weight: 600;
@@ -53,7 +51,7 @@
 
       > span {
         text-transform: capitalize;
-        color: $dark-300;
+        color: var(--dark-300);
         font-size: 0.75rem;
       }
     }

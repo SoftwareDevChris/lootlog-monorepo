@@ -1,8 +1,6 @@
 "use client";
 import { useCallback } from "react";
 
-import "./ArticleEditor.css";
-
 import { Toggle } from "@radix-ui/react-toggle";
 import { type Editor } from "@tiptap/react";
 import {
@@ -146,14 +144,6 @@ export const ArticleEditorToolbar: React.FC<Props> = ({ editor }) => {
           <Unlink size={iconSize} />
         </Toggle>
       </div>
-      {/* New Line */}
-      {/* <Toggle
-        className={editor.isActive("newline") ? "btn-toggle-active" : ""}
-        pressed={editor.isActive("newline")}
-        onPressedChange={() => editor.chain().focus().setHardBreak().run()}
-      >
-        <WrapText size={iconSize} />
-      </Toggle> */}
 
       {/* ----- */}
       {/* Lists */}

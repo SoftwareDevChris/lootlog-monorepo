@@ -25,6 +25,23 @@ export const getAllArticles = async () => {
   }
 };
 
+export const getFrontpageArticles = async () => {
+  try {
+    const res = await fetch(`/api/articles/frontpage`, {
+      method: "GET",
+    });
+    if (res.ok)
+      return (await res.json()) as {
+        featured: TArticle;
+        news: TArticle[];
+        reviews: TArticle[];
+      };
+  } catch (err) {
+    console.log("Error getting other frontpage articles:", err);
+    throw new Error("Failed to fetch frontpage articles");
+  }
+};
+
 export const getArticlesByUser = async () => {
   const cookie = await getCookie("session");
   if (!cookie?.value) return null;

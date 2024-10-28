@@ -1,21 +1,23 @@
-import { TArticle } from "@/types/types";
+"use client";
 
-import { FourSection } from "../four-section/FourSection";
+import { useQuery } from "@tanstack/react-query";
+
 import { SectionTitle } from "../SectionTitle";
+import { FourSection } from "../four-section/FourSection";
+import { getFrontpageArticles } from "@/lib/article";
 
-type Props = {
-  articles: TArticle[] | null;
-};
-
-export const ReviewSection = async ({ articles }: Props) => {
-  // const articles = await getArticlesByCategory("review", 4);
+export const ReviewSection = () => {
+  const { data: articles, isLoading } = useQuery({
+    queryKey: ["frontpageArticles"],
+    queryFn: getFrontpageArticles,
+  });
 
   if (!articles) return null;
 
   return (
     <>
       <SectionTitle title="Reviews" route="/reviews" />
-      <FourSection articles={articles} />
+      <FourSection articles={articles.reviews} />
     </>
   );
 };

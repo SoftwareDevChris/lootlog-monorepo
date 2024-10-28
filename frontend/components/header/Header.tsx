@@ -1,5 +1,3 @@
-import "./header.css";
-
 import { UserMenu } from "./menu/UserMenu";
 import { Navigation } from "./Navigation";
 import { Logo } from "../logo/Logo";

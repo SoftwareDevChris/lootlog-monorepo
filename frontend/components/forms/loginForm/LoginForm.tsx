@@ -51,7 +51,7 @@ export const LoginForm = () => {
 
   return (
     <>
-      <div className="bg-constellation flex h-full w-full flex-1 flex-col items-center justify-center bg-repeat p-4">
+      <div className="flex h-full w-full flex-1 flex-col items-center justify-center bg-constellation bg-repeat p-4">
         <div className="min-w-[25rem] rounded-md bg-neutral-900 p-8">
           <h2 className="mb-8 text-3xl font-bold">Sign in</h2>
 
@@ -60,9 +60,9 @@ export const LoginForm = () => {
           )}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex w-full flex-col gap-2"
+            className="flex w-full flex-col gap-4"
           >
-            <FormControl className="mb-2">
+            <FormControl>
               <FormLabel htmlFor="email" className="mb-1 text-sm">
                 Email
               </FormLabel>
@@ -92,15 +92,22 @@ export const LoginForm = () => {
               />
             </FormControl>
 
-            <FormControl className="mb-2">
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <FormControl>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
                 <FormLabel htmlFor="password" className="mb-1 text-sm">
                   Password
                 </FormLabel>
                 <Link href="/forgot-password">
                   <Typography
                     color="textSecondary"
-                    className="mb-2 text-xs hover:text-white"
+                    fontSize={14}
+                    className="text-xs hover:text-white"
                   >
                     Forgot your password?
                   </Typography>
