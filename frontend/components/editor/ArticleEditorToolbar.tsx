@@ -14,6 +14,7 @@ import {
   Heading3,
   Link,
   Unlink,
+  CornerDownLeft,
 } from "lucide-react";
 
 type Props = {
@@ -142,6 +143,15 @@ export const ArticleEditorToolbar: React.FC<Props> = ({ editor }) => {
           disabled={!editor.isActive("link")}
         >
           <Unlink size={iconSize} />
+        </Toggle>
+
+        <Toggle
+          onClick={() => editor.chain().focus().setHardBreak().run()}
+          className={
+            editor.isActive("hardBreak") ? "btn-toggle-active" : "btn-toggle"
+          }
+        >
+          <CornerDownLeft size={iconSize} />
         </Toggle>
       </div>
 
