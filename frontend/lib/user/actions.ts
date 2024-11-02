@@ -8,7 +8,6 @@ const serverUrl = process.env.NEXT_PUBLIC_BACKEND_URL_SERVER;
 
 export const getCurrentUserFromServer = async () => {
   const cookie = await getCookie("session");
-
   if (!cookie?.value) return null;
 
   try {
@@ -32,7 +31,6 @@ export const getCurrentUserFromServer = async () => {
 
 export const getAllUsers = async () => {
   const cookie = await getCookie("session");
-
   if (!cookie?.value) throw new Error("No session was found");
 
   try {

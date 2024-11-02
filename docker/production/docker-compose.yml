@@ -1,37 +1,37 @@
 services:
   nginx:
     image: nginx:alpine
-    container_name: nginx-dev
+    container_name: nginx-prod
     volumes:
       - ../../nginx/nginx.dev.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
-    depends_on:
-      - frontend
-      - backend
     networks:
       - app-network
 
   db:
     image: postgres:17-alpine
-    container_name: db-dev
+    container_name: db-prod
     restart: always
     env_file:
-      - ./.env.dev
+      - ./.env.prod
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_db:/var/lib/postgresql/data
     networks:
       - app-network
 
   backend:
-    container_name: backend-dev
+    container_name: backend-prod
     build:
       context: "../../backend"
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     stdin_open: true
     tty: true
+    restart: always
     env_file:
-      - ./.env.dev
+      - ./.env.prod
     ports:
       - 3456:3456
     volumes:
@@ -43,10 +43,11 @@ services:
   frontend:
     build:
       context: "../../frontend"
-      dockerfile: Dockerfile.dev
-    container_name: frontend-dev
+      dockerfile: Dockerfile.prod
+    container_name: frontend-prod
+    restart: always
     env_file:
-      - ./.env.dev
+      - ./.env.prod
     stdin_open: true
     tty: true
     ports:

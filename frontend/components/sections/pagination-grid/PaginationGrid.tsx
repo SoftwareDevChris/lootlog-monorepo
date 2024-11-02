@@ -1,5 +1,5 @@
 // Components
-import { TArticle } from "@/types/types";
+import { TArticle } from "@/types/article.types";
 
 import "./PaginationGrid.scss";
 

@@ -17,11 +17,15 @@ import {
   Typography,
 } from "@mui/material";
 
+import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
+
 export default function UsersPage() {
   const { data: users } = useQuery({
     queryKey: ["users"],
     queryFn: async () => await getAllUsers(),
   });
+
+  if (!users) return <LoadingScreen />;
 
   return (
     <Container>
@@ -43,17 +47,17 @@ export default function UsersPage() {
           <TableBody>
             {users &&
               users.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user.id}</TableCell>
+                <TableRow key={user?.id}>
+                  <TableCell>{user?.id}</TableCell>
                   <TableCell style={{ textTransform: "capitalize" }}>
-                    {user.firstName}
+                    {user?.firstName}
                   </TableCell>
                   <TableCell style={{ textTransform: "capitalize" }}>
-                    {user.lastName}
+                    {user?.lastName}
                   </TableCell>
-                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user?.email}</TableCell>
                   <TableCell>
-                    <Link href={`users/${user.id}`}>
+                    <Link href={`users/${user?.id}`}>
                       <Button variant="outlined">Manage</Button>
                     </Link>
                   </TableCell>

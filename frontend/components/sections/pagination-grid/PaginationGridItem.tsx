@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { TArticle } from "@/types/types";
+import { TArticle } from "@/types/article.types";
 import { convertDate } from "@/lib/date-converter";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 export const PaginationGridItem: React.FC<Props> = ({ article }) => {
   const articleDate = convertDate(article.createdAt);
 
-  const isVideo = article.youtubeVideoId ? true : false;
+  const isVideo = article.YTVideoId ? true : false;
 
   return (
     <article className={`pagination-grid-item`}>
@@ -33,14 +33,13 @@ export const PaginationGridItem: React.FC<Props> = ({ article }) => {
           <div className="video-area">
             <iframe
               title={article.title}
-              src={`https://youtube.com/embed/${article.youtubeVideoId}` ?? ""}
+              src={`https://youtube.com/embed/${article.YTVideoId}`}
             />
           </div>
         )}
 
         <div className="text-area">
           <h3>{article.title}</h3>
-          {isVideo && <p className="video-subtitle">{article.subtitle}</p>}
         </div>
       </Link>
     </article>

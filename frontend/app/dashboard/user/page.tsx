@@ -5,12 +5,15 @@ import { getCurrentUser } from "@/lib/user";
 
 import { SignOutButton } from "@/components/buttons/SignOutButton";
 import { Box, Container, Typography } from "@mui/material";
+import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
 export default function AccountPage() {
   const { data: user } = useQuery({
     queryKey: ["user"],
     queryFn: getCurrentUser,
   });
+
+  if (!user) return <LoadingScreen />;
 
   function printRoleName() {
     if (user?.isAdmin) return "Admin";

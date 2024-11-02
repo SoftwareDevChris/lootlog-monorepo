@@ -1,11 +1,6 @@
 import { TUser } from "@/types/user.types";
-import { getCookie } from "../auth/session";
 
 export const getUserByIdAsAdmin = async (userId: number) => {
-  const cookie = await getCookie("session");
-
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/users/${userId}`, {
       method: "GET",
@@ -20,10 +15,6 @@ export const getUserByIdAsAdmin = async (userId: number) => {
 };
 
 export const getCurrentUser = async () => {
-  const cookie = await getCookie("session");
-
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/users/whoami`, {
       method: "GET",
@@ -40,10 +31,6 @@ export const getCurrentUser = async () => {
 };
 
 export const updateUser = async (user: Partial<TUser>) => {
-  const cookie = await getCookie("session");
-
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/users/${user.id}`, {
       method: "PATCH",
@@ -62,10 +49,6 @@ export const updateUser = async (user: Partial<TUser>) => {
 };
 
 export const deleteUser = async (userId: number) => {
-  const cookie = await getCookie("session");
-
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/users/${userId}`, {
       method: "DELETE",

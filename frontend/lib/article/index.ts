@@ -4,13 +4,9 @@ import {
   TUpdateArticle,
   TImage,
 } from "@/types/article.types";
-import { getCookie } from "../auth/session";
 import { resizeImageToBase64 } from "../image";
 
 export const getAllArticles = async () => {
-  const cookie = await getCookie("session");
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/articles`, {
       method: "GET",
@@ -43,9 +39,6 @@ export const getFrontpageArticles = async () => {
 };
 
 export const getArticlesByUser = async () => {
-  const cookie = await getCookie("session");
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/articles/user`, {
       method: "GET",
@@ -61,9 +54,6 @@ export const getArticlesByUser = async () => {
 };
 
 export const getArticleById = async (articleId: string) => {
-  const cookie = await getCookie("session");
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/articles/${articleId}`, {
       method: "GET",
@@ -111,9 +101,6 @@ const createArticleToJson = async (data: TCreateArticle) => {
 };
 
 export const createArticle = async (data: TCreateArticle) => {
-  const cookie = await getCookie("session");
-  if (!cookie?.value) return null;
-
   try {
     const article = await createArticleToJson(data);
 
@@ -173,9 +160,6 @@ export const updateArticle = async (
   beforeEdit: TArticle,
   afterEdit: TUpdateArticle,
 ) => {
-  const cookie = await getCookie("session");
-  if (!cookie?.value) return null;
-
   // TODO: Implement change image
   const article: TArticle = {
     id: beforeEdit.id,

@@ -12,12 +12,12 @@ export const ReviewSection = () => {
     queryFn: getFrontpageArticles,
   });
 
-  if (!articles) return null;
+  if (!articles?.reviews) return null;
 
   return (
     <>
       <SectionTitle title="Reviews" route="/reviews" />
-      <FourSection articles={articles.reviews} />
+      <FourSection articles={articles?.reviews} />
     </>
   );
 };

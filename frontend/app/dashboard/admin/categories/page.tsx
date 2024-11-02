@@ -17,12 +17,15 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
 export default function CategoriesPage() {
   const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
   });
+
+  if (!categories) return <LoadingScreen />;
 
   return (
     <Container>
@@ -49,13 +52,13 @@ export default function CategoriesPage() {
             <TableBody>
               {categories &&
                 categories.map((category) => (
-                  <TableRow key={category.id}>
-                    <TableCell>{category.id}</TableCell>
+                  <TableRow key={category?.id}>
+                    <TableCell>{category?.id}</TableCell>
                     <TableCell style={{ textTransform: "capitalize" }}>
-                      {category.name}
+                      {category?.name}
                     </TableCell>
                     <TableCell>
-                      <Link href={`categories/${category.id}`}>
+                      <Link href={`categories/${category?.id}`}>
                         <Button variant="outlined">Manage</Button>
                       </Link>
                     </TableCell>

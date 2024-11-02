@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 
 import "./VideoSection.scss";
-import { TArticle } from "@/types/types";
+import { TArticle } from "@/types/article.types";
 
 import parse from "html-react-parser";
 
-import { LoadingSpinner } from "@/components/ui/loading/spinner/LoadingTripleSpinner";
+import { LoadingSpinner } from "@/components/ui/loading/spinner/LoadingSpinner";
 import { SectionTitle } from "../SectionTitle";
 import Link from "next/link";
 
@@ -19,7 +19,7 @@ export const VideoSection = async ({ articles }: Props) => {
   if (!articles) return null;
 
   return (
-    <Suspense fallback={<LoadingSpinner theme="orange" />}>
+    <Suspense fallback={<LoadingSpinner />}>
       <SectionTitle title="Videos" route="/videos" />
       <div className="video-section">
         <div className="text-area">
@@ -27,15 +27,12 @@ export const VideoSection = async ({ articles }: Props) => {
           <Link prefetch={false} href={`article/${articles![0].id}`}>
             <h3 className="title">{articles![0].title}</h3>
           </Link>
-          <p className="subtitle">{articles![0].subtitle}</p>
           <div className="body">{parse(articles![0].body)}</div>
         </div>
         <div className="video-area">
           <iframe
             title={articles![0].title}
-            src={
-              `https://youtube.com/embed/${articles![0].youtubeVideoId}` ?? ""
-            }
+            src={`https://youtube.com/embed/${articles![0].YTVideoId}`}
           />
         </div>
       </div>

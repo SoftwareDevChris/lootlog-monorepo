@@ -1,5 +1,4 @@
 import { TCategory } from "@/types/article.types";
-import { getCookie } from "../auth/session";
 
 export async function getCategories() {
   try {
@@ -17,9 +16,6 @@ export async function getCategories() {
 }
 
 export async function getCategoryById(id: number) {
-  const cookie = await getCookie("session");
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/categories/${id}`, {
       method: "GET",
@@ -36,10 +32,6 @@ export async function getCategoryById(id: number) {
 }
 
 export async function createCategory(body: Partial<TCategory>) {
-  const cookie = await getCookie("session");
-
-  if (!cookie?.value) return null;
-
   try {
     const res = await fetch(`/api/categories`, {
       method: "POST",
@@ -58,9 +50,6 @@ export async function createCategory(body: Partial<TCategory>) {
 }
 
 export async function updateCategory(body: TCategory) {
-  const cookie = await getCookie("session");
-  if (!cookie?.value || !body.id) return null;
-
   try {
     const res = await fetch(`/api/categories/${body.id}`, {
       method: "PATCH",

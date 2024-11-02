@@ -14,10 +14,8 @@ export const NewsSection = () => {
     queryFn: getFrontpageArticles,
   });
 
-  console.log("Other news articles:", articles);
-
-  if (!articles || isLoading) {
-    return <LoadingScreen />;
+  if (!articles?.featured || !articles?.news) {
+    return null;
   }
 
   return (

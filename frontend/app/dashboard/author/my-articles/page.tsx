@@ -18,11 +18,15 @@ import {
   Container,
 } from "@mui/material";
 
+import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
+
 export default function MyArticlesPage() {
   const { data: articles } = useQuery({
     queryKey: ["articles"],
     queryFn: getArticlesByUser,
   });
+
+  if (!articles) return <LoadingScreen />;
 
   return (
     <Container>
@@ -42,14 +46,14 @@ export default function MyArticlesPage() {
           <TableBody>
             {articles &&
               articles.map((article) => (
-                <TableRow key={article.id}>
-                  <TableCell>{article.id}</TableCell>
-                  <TableCell>{article.title}</TableCell>
+                <TableRow key={article?.id}>
+                  <TableCell>{article?.id}</TableCell>
+                  <TableCell>{article?.title}</TableCell>
                   <TableCell style={{ textTransform: "capitalize" }}>
-                    {article.category?.name}
+                    {article?.category?.name}
                   </TableCell>
                   <TableCell>
-                    <Link href={`my-articles/${article.id}`}>
+                    <Link href={`my-articles/${article?.id}`}>
                       <Button variant="outlined">Manage</Button>
                     </Link>
                   </TableCell>

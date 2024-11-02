@@ -1,4 +1,4 @@
-import { TArticle } from "@/types/types";
+import { TArticle } from "@/types/article.types";
 
 import { FourSection } from "../four-section/FourSection";
 import { SectionTitle } from "../SectionTitle";
