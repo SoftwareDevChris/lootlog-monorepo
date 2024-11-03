@@ -1,15 +1,4 @@
 services:
-  nginx:
-    image: nginx:alpine
-    container_name: nginx-prod
-    volumes:
-      - ../../nginx/nginx.prod.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - app-network
-
   db:
     image: postgres:17-alpine
     container_name: db-prod
