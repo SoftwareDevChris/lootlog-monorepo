@@ -21,8 +21,6 @@ services:
       - ./.env.prod
     ports:
       - "3456:3456"
-    environment:
-      FRONTEND_URL: http://frontend:3000 # Frontend URL for CORS
     networks:
       - app-network
 
@@ -37,8 +35,6 @@ services:
       - "3000:3000" # Expose frontend on port 3000
     depends_on:
       - backend
-    environment:
-      NEXT_PUBLIC_API_URL: http://backend:3456/api # Point to the backend
     networks:
       - app-network
 
