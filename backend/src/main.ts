@@ -9,6 +9,8 @@ const session = require("cookie-session");
 const corsOptions: CorsOptions = {
   origin: [process.env.FRONTEND_IPV4_URL, process.env.FRONTEND_IPV6_URL],
   credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
 };
 
 async function bootstrap() {
