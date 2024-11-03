@@ -14,7 +14,7 @@ export const HighlightedListItem = ({ article }: Props) => {
       className={`row-span-2 flex gap-4 border-b border-neutral-600 p-4 last:border-0 hover:bg-neutral-700`}
     >
       <div className="flex w-[60%] flex-col justify-center">
-        <h2 className="lg2:line-clamp-3 line-clamp-3 overflow-hidden text-ellipsis font-semibold md:text-2xl lg:line-clamp-2 lg:text-base">
+        <h2 className="line-clamp-3 overflow-hidden text-ellipsis font-semibold md:text-2xl lg:line-clamp-2 lg:text-base lg2:line-clamp-3">
           {article.title}
         </h2>
         <p className="text-sm capitalize text-neutral-300 lg:hidden">
@@ -24,6 +24,7 @@ export const HighlightedListItem = ({ article }: Props) => {
       <div className="relative aspect-video w-[40%] overflow-hidden rounded-sm">
         <Image
           fill
+          sizes="370px"
           loading="lazy"
           className="object-cover object-center"
           src={article.image?.url ?? "/public/images/placeholder.webp"}

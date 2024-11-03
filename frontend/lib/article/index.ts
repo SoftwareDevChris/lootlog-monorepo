@@ -6,9 +6,11 @@ import {
 } from "@/types/article.types";
 import { resizeImageToBase64 } from "../image";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export const getAllArticles = async () => {
   try {
-    const res = await fetch(`/api/articles`, {
+    const res = await fetch(`${apiUrl}/articles`, {
       method: "GET",
       credentials: "include",
     });
@@ -23,7 +25,7 @@ export const getAllArticles = async () => {
 
 export const getFrontpageArticles = async () => {
   try {
-    const res = await fetch(`/api/articles/frontpage`, {
+    const res = await fetch(`${apiUrl}/articles/frontpage`, {
       method: "GET",
     });
     if (res.ok)
@@ -40,7 +42,7 @@ export const getFrontpageArticles = async () => {
 
 export const getArticlesByUser = async () => {
   try {
-    const res = await fetch(`/api/articles/user`, {
+    const res = await fetch(`${apiUrl}/articles/user`, {
       method: "GET",
       credentials: "include",
     });
@@ -55,7 +57,7 @@ export const getArticlesByUser = async () => {
 
 export const getArticleById = async (articleId: string) => {
   try {
-    const res = await fetch(`/api/articles/${articleId}`, {
+    const res = await fetch(`${apiUrl}/articles/${articleId}`, {
       method: "GET",
       credentials: "include",
     });
@@ -104,7 +106,7 @@ export const createArticle = async (data: TCreateArticle) => {
   try {
     const article = await createArticleToJson(data);
 
-    const res = await fetch(`/api/articles`, {
+    const res = await fetch(`${apiUrl}/articles`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -175,7 +177,7 @@ export const updateArticle = async (
   };
 
   try {
-    const res = await fetch(`/api/articles/${beforeEdit.id}`, {
+    const res = await fetch(`${apiUrl}/articles/${beforeEdit.id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {

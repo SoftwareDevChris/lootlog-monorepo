@@ -23,6 +23,7 @@ export const HighlightSection = ({
       >
         <Image
           fill
+          sizes="1200px"
           priority={true}
           loading="eager"
           fetchPriority="high"

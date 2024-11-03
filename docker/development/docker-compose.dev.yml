@@ -1,17 +1,4 @@
 services:
-  nginx:
-    image: nginx:alpine
-    container_name: nginx-dev
-    volumes:
-      - ../../nginx/nginx.dev.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-    depends_on:
-      - frontend
-      - backend
-    networks:
-      - app-network
-
   db:
     image: postgres:17-alpine
     container_name: db-dev
@@ -39,6 +26,8 @@ services:
       - /app/backend/node_modules
     networks:
       - app-network
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -56,6 +45,8 @@ services:
       - /app/frontend/node_modules
     networks:
       - app-network
+    depends_on:
+      - backend
 
 networks:
   app-network:

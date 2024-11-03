@@ -1,7 +1,9 @@
 import { TCreateUserForm, TLoginForm } from "@/types/form.types";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function signUp(data: TCreateUserForm) {
-  const response = await fetch("/api/auth/signup", {
+  const response = await fetch(`${apiUrl}/auth/signup`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -13,7 +15,7 @@ export async function signUp(data: TCreateUserForm) {
 }
 
 export async function login(user: TLoginForm) {
-  const response = await fetch(`/api/auth/login`, {
+  const response = await fetch(`${apiUrl}/auth/login`, {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
@@ -26,7 +28,7 @@ export async function login(user: TLoginForm) {
 }
 
 export async function logout() {
-  const response = await fetch(`/api/auth/logout`, {
+  const response = await fetch(`${apiUrl}/auth/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -38,7 +40,7 @@ export async function logout() {
 }
 
 export async function refreshToken() {
-  const response = await fetch(`/api/auth/refresh`, {
+  const response = await fetch(`${apiUrl}/auth/refresh`, {
     method: "GET",
     credentials: "include",
   });

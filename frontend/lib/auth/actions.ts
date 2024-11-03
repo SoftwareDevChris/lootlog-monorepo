@@ -1,9 +1,10 @@
-const serverUrl = process.env.NEXT_PUBLIC_BACKEND_URL_SERVER;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function verifySessionToken(tokenValue: string) {
   if (!tokenValue) return null;
 
   try {
-    const res = await fetch(`${serverUrl}/api/auth/verify`, {
+    const res = await fetch(`${apiUrl}/auth/verify`, {
       method: "GET",
       credentials: "include",
       headers: {

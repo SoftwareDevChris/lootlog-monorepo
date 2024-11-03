@@ -4,14 +4,14 @@ import { TUser } from "@/types/user.types";
 import { getCookie } from "../auth/session";
 import { revalidatePath } from "next/cache";
 
-const serverUrl = process.env.NEXT_PUBLIC_BACKEND_URL_SERVER;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const getCurrentUserFromServer = async () => {
   const cookie = await getCookie("session");
   if (!cookie?.value) return null;
 
   try {
-    const res = await fetch(`${serverUrl}/api/users/whoami`, {
+    const res = await fetch(`${apiUrl}/users/whoami`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -34,7 +34,7 @@ export const getAllUsers = async () => {
   if (!cookie?.value) throw new Error("No session was found");
 
   try {
-    const res = await fetch(`${serverUrl}/api/users`, {
+    const res = await fetch(`${apiUrl}/users`, {
       method: "GET",
       credentials: "include",
       headers: {

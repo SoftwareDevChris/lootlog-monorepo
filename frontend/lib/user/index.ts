@@ -1,8 +1,10 @@
 import { TUser } from "@/types/user.types";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export const getUserByIdAsAdmin = async (userId: number) => {
   try {
-    const res = await fetch(`/api/users/${userId}`, {
+    const res = await fetch(`${apiUrl}/users/${userId}`, {
       method: "GET",
       credentials: "include",
     });
@@ -16,7 +18,7 @@ export const getUserByIdAsAdmin = async (userId: number) => {
 
 export const getCurrentUser = async () => {
   try {
-    const res = await fetch(`/api/users/whoami`, {
+    const res = await fetch(`${apiUrl}/users/whoami`, {
       method: "GET",
       credentials: "include",
       cache: "no-store",
@@ -32,7 +34,7 @@ export const getCurrentUser = async () => {
 
 export const updateUser = async (user: Partial<TUser>) => {
   try {
-    const res = await fetch(`/api/users/${user.id}`, {
+    const res = await fetch(`${apiUrl}/users/${user.id}`, {
       method: "PATCH",
       credentials: "include",
       body: JSON.stringify(user),
@@ -50,7 +52,7 @@ export const updateUser = async (user: Partial<TUser>) => {
 
 export const deleteUser = async (userId: number) => {
   try {
-    const res = await fetch(`/api/users/${userId}`, {
+    const res = await fetch(`${apiUrl}/users/${userId}`, {
       method: "DELETE",
       credentials: "include",
     });

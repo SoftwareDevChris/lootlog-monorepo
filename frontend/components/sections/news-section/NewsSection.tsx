@@ -14,6 +14,8 @@ export const NewsSection = () => {
     queryFn: getFrontpageArticles,
   });
 
+  console.log(articles);
+
   if (!articles?.featured || !articles?.news) {
     return null;
   }

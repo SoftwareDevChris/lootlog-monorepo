@@ -24,8 +24,8 @@ import { ImagesModule } from "./images/images.module";
           password: process.env.POSTGRES_PASSWORD,
           database: process.env.POSTGRES_DB_NAME,
           entities: [__dirname + "/**/*.entity{.ts,.js}"],
-          synchronize: true,
-          logging: true,
+          synchronize: process.env.NODE_ENV === "development",
+          logging: process.env.NODE_ENV === "development",
         };
       },
     }),

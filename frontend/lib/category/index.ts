@@ -1,8 +1,10 @@
 import { TCategory } from "@/types/article.types";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export async function getCategories() {
   try {
-    const res = await fetch(`/api/categories`, {
+    const res = await fetch(`${apiUrl}/categories`, {
       method: "GET",
       credentials: "include",
     });
@@ -17,7 +19,7 @@ export async function getCategories() {
 
 export async function getCategoryById(id: number) {
   try {
-    const res = await fetch(`/api/categories/${id}`, {
+    const res = await fetch(`${apiUrl}/categories/${id}`, {
       method: "GET",
       credentials: "include",
     });
@@ -33,7 +35,7 @@ export async function getCategoryById(id: number) {
 
 export async function createCategory(body: Partial<TCategory>) {
   try {
-    const res = await fetch(`/api/categories`, {
+    const res = await fetch(`${apiUrl}/categories`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -51,7 +53,7 @@ export async function createCategory(body: Partial<TCategory>) {
 
 export async function updateCategory(body: TCategory) {
   try {
-    const res = await fetch(`/api/categories/${body.id}`, {
+    const res = await fetch(`${apiUrl}/categories/${body.id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {

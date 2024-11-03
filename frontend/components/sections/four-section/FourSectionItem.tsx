@@ -14,7 +14,8 @@ export const FourSectionItem: React.FC<Props> = ({ article }) => {
       <Link prefetch={false} href={`/article/${article.id}`}>
         <div className="relative aspect-video">
           <Image
-            fill={true}
+            fill
+            sizes="600px"
             className="object-cover object-center"
             loading="lazy"
             src={article.image?.url ?? "/public/images/placeholder.webp"}

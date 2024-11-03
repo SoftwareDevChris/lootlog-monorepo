@@ -7,7 +7,7 @@ import { json } from "express";
 const session = require("cookie-session");
 
 const corsOptions: CorsOptions = {
-  origin: ["http://localhost:80", "http://frontend"],
+  origin: ["http://localhost:3000", "http://frontend"],
   credentials: true,
 };
 

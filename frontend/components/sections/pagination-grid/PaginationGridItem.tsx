@@ -21,7 +21,7 @@ export const PaginationGridItem: React.FC<Props> = ({ article }) => {
               alt={article.title}
               src={article.image?.url ?? "/images/placeholder.jpg"}
               fill
-              sizes="1000px"
+              sizes="600px"
             />
             <div className="date-overlay">
               <span>{articleDate}</span>
