@@ -1,4 +1,6 @@
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+"use server";
+
+const apiUrl = process.env.NEXT_PUBLIC_SERVER_API_URL;
 
 export async function verifySessionToken(tokenValue: string) {
   if (!tokenValue) return null;

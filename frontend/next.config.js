@@ -35,7 +35,6 @@
 // PROD:
 module.exports = {
   output: "standalone",
-  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -51,15 +50,5 @@ module.exports = {
         hostname: "via.placeholder.com",
       },
     ],
-  },
-  webpack: {
-    module: {
-      rules: [
-        {
-          test: /\.css$/,
-          use: ["style-loader", "css-loader", "postcss-loader"],
-        },
-      ],
-    },
   },
 };

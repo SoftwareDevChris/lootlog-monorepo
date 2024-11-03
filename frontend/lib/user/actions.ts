@@ -4,7 +4,7 @@ import { TUser } from "@/types/user.types";
 import { getCookie } from "../auth/session";
 import { revalidatePath } from "next/cache";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.NEXT_PUBLIC_SERVER_API_URL;
 
 export const getCurrentUserFromServer = async () => {
   const cookie = await getCookie("session");

@@ -30,7 +30,7 @@ services:
     image: frontend-prod:latest
     restart: always
     env_file:
-      - ./.env.prod
+      - "../../frontend/.env.local"
     stdin_open: true
     tty: true
     ports:
