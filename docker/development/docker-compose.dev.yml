@@ -35,7 +35,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: frontend-dev
     env_file:
-      - ./.env.dev
+      - "../../frontend/.env.local"
     stdin_open: true
     tty: true
     ports:
