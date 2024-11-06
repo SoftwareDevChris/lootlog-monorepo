@@ -11,9 +11,10 @@ services:
       - app-network
 
   backend:
-    build:
-      context: "../../backend"
-      dockerfile: Dockerfile.prod
+    # build:
+    #   context: "../../backend"
+    #   dockerfile: Dockerfile.prod
+    image: backend-prod:latest
     container_name: backend-prod
     env_file:
       - ./.env.prod
@@ -23,9 +24,10 @@ services:
       - app-network
 
   frontend:
-    build:
-      context: "../../frontend"
-      dockerfile: Dockerfile.prod
+    # build:
+    #   context: "../../frontend"
+    #   dockerfile: Dockerfile.prod
+    image: frontend-prod:latest
     container_name: frontend-prod
     env_file:
       - ../../frontend/.env.local
