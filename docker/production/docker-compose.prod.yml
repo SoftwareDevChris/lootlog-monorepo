@@ -16,10 +16,10 @@ services:
     #   dockerfile: Dockerfile.prod
     image: backend-prod:latest
     container_name: backend-prod
+    ports:
+      - 127.0.0.1:3456:3456
     env_file:
       - ./.env.prod
-    ports:
-      - "3456:3456"
     networks:
       - app-network
 
