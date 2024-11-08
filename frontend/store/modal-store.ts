@@ -17,7 +17,7 @@ interface ModalState {
     cancelText: string,
     confirmText: string,
     confirmAction: () => void,
-    confirmButtonType: (typeof buttonTypes)[number]
+    confirmButtonType: (typeof buttonTypes)[number],
   ) => void;
   dismiss: () => void;
 }
@@ -36,7 +36,7 @@ export const useModalStore = create<ModalState>((set) => ({
     cancelText: string,
     confirmText: string,
     confirmAction: () => void,
-    confirmButtonType: (typeof buttonTypes)[number]
+    confirmButtonType: (typeof buttonTypes)[number],
   ) =>
     set((state) => ({
       ...state,
@@ -45,8 +45,8 @@ export const useModalStore = create<ModalState>((set) => ({
       cancelText,
       confirmText,
       confirmAction,
-      isVisible: true,
       confirmButtonType,
+      isVisible: true,
     })),
   dismiss: () => set((state) => ({ ...state, isVisible: false })),
 }));

@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
+  Delete,
   ForbiddenException,
   Get,
   Param,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
@@ -16,6 +18,7 @@ import { CurrentUser } from "src/auth/decorators/current-user.decorator";
 import { User } from "src/entities/user.entity";
 import { CreateArticleDto } from "./dto/CreateArticle.dto";
 import { UpdateArticleDto } from "./dto/UpdateArticle.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller("/api/articles")
 export class ArticlesController {
@@ -32,12 +35,19 @@ export class ArticlesController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor("image"))
   async createArticle(
     @CurrentUser() user: User,
-    @Body() article: CreateArticleDto,
+    @UploadedFile() image: Express.MulterFile,
+    @Body() body: CreateArticleDto,
   ) {
+    console.log("User:", user);
+    console.log("Image:", image);
+    console.log("Body:", body);
+
     if (user.isAdmin || user.isAuthor) {
-      console.log("Article body:", article);
+      const article = { ...body, imageAsFile: image };
+
       return await this.articlesService.createArticle(user, article);
     }
 
@@ -76,5 +86,17 @@ export class ArticlesController {
   @UseGuards(JwtAuthGuard)
   async getArticlesByUser(@CurrentUser() user: User) {
     return this.articlesService.getArticlesByAuthor(user.id);
+  }
+
+  @Delete("/:id")
+  @UseGuards(JwtAuthGuard)
+  async deleteArticle(@Param("id") id: string, @CurrentUser() user: User) {
+    const article = await this.articlesService.getArticleById(parseInt(id));
+
+    if (user.isAdmin || user.id === article.author.id) {
+      return this.articlesService.deleteArticle(article);
+    }
+
+    throw new ForbiddenException();
   }
 }

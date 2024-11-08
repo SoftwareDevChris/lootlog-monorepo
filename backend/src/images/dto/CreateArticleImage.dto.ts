@@ -2,13 +2,21 @@ import { IsNotEmpty, IsNumber, IsObject, IsString } from "class-validator";
 import { ArticleImage } from "src/entities/articleImage.entity";
 
 export class CreateArticleImageDto extends ArticleImage {
-  @IsString({ message: "Name must be a string" })
-  @IsNotEmpty({ message: "Name must not be empty" })
-  name: string;
+  @IsString({ message: "Fieldname must be a string" })
+  @IsNotEmpty({ message: "Fieldname must not be empty" })
+  fieldname: string;
 
-  @IsString({ message: "Image type must be a string" })
-  @IsNotEmpty({ message: "Image type must not be empty" })
-  type: string;
+  @IsString({ message: "Originalname type must be a string" })
+  @IsNotEmpty({ message: "Originalname must not be empty" })
+  originalname: string;
+
+  @IsString({ message: "Encoding must be a string" })
+  @IsNotEmpty({ message: "Encoding must not be empty" })
+  encoding: string;
+
+  @IsString({ message: "Mimetype must be a string" })
+  @IsNotEmpty({ message: "Mimetype must not be empty" })
+  mimetype: string;
 
   @IsNumber()
   @IsNotEmpty({ message: "Image size must not be empty" })
@@ -16,9 +24,5 @@ export class CreateArticleImageDto extends ArticleImage {
 
   @IsString({ message: "Base64 must be a string" })
   @IsNotEmpty({ message: "Base64 must not be empty" })
-  base64: string;
-
-  @IsString({ message: "Last modified must be a string" })
-  @IsNotEmpty({ message: "Last modified must not be empty" })
-  lastModified: string;
+  buffer: Buffer;
 }

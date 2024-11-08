@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
-import { storage } from "firebaseConfig";
+import { firebaseAdmin } from "firebase";
 import { ArticleImage } from "src/entities/articleImage.entity";
 import { Repository } from "typeorm";
 import { CreateArticleImageDto } from "./dto/CreateArticleImage.dto";
@@ -21,32 +20,52 @@ export class ImagesService {
     return await this.articleImageRepo.findOne({ where: { id } });
   }
 
-  async uploadImageToFirebase(image: CreateArticleImageDto): Promise<string> {
+  async uploadImageToFirebase(
+    image: Express.MulterFile,
+  ): Promise<{ url: string; name: string }> {
     try {
-      const storageRef = ref(storage, `images/${image.name}`);
-
-      await uploadString(storageRef, image.base64, "data_url");
-
-      const downloadUrl = await getDownloadURL(
-        ref(storage, `images/${image.name}`),
+      const sanitizedFilename = image.originalname.replace(
+        /[^a-zA-Z0-9.\-_]/g,
+        "",
       );
+      const uniqueFilename = `${sanitizedFilename}-${Date.now()}`;
+      const bucket = firebaseAdmin.storage().bucket();
 
-      return downloadUrl;
+      const imageFile = bucket.file(`images/${uniqueFilename}`);
+      await imageFile.save(image.buffer, {
+        metadata: {
+          contentType: image.mimetype,
+        },
+        public: true,
+      });
+
+      const publicUrl = `https://storage.googleapis.com/${bucket.name}/images/${uniqueFilename}`;
+      return {
+        url: publicUrl,
+        name: uniqueFilename,
+      };
     } catch (err) {
-      console.error("Error uploading image:", err);
-      throw new Error("Error uploading image");
+      console.error("Error uploading image to Firebase:", err);
+      throw err;
     }
   }
 
-  async createImage(image: CreateArticleImageDto): Promise<ArticleImage> {
+  async deleteImage(imageName: string) {
+    const bucket = firebaseAdmin.storage().bucket();
+    const file = bucket.file(`images/${imageName}`);
+
+    return await file.delete();
+  }
+
+  async createImage(image: Express.MulterFile): Promise<ArticleImage> {
     try {
-      const downloadUrl = await this.uploadImageToFirebase(image);
+      const firebaseImage = await this.uploadImageToFirebase(image);
 
       const imageObject: Partial<ArticleImage> = {
-        name: image.name,
+        name: firebaseImage.name,
         size: image.size,
-        type: image.type,
-        url: downloadUrl,
+        type: image.mimetype,
+        url: firebaseImage.url,
       };
 
       const createdImage = this.articleImageRepo.create(imageObject);

@@ -1,13 +1,19 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import {
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Article } from "src/entities/article.entity";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { CreateArticleDto } from "./dto/CreateArticle.dto";
 import { User } from "src/entities/user.entity";
 import { CategoriesService } from "src/categories/categories.service";
 import { UsersService } from "src/users/users.service";
 import { ImagesService } from "src/images/images.service";
 import { UpdateArticleDto } from "./dto/UpdateArticle.dto";
+import { CreateArticleImageDto } from "src/images/dto/CreateArticleImage.dto";
+import { firebaseAdmin } from "firebase";
 
 @Injectable()
 export class ArticlesService {
@@ -97,9 +103,9 @@ export class ArticlesService {
       newArticle.category = category;
       newArticle.author = author;
 
-      if (createArticleDto.image) {
+      if (createArticleDto.imageAsFile) {
         const articleImage = await this.imagesService.createImage(
-          createArticleDto.image,
+          createArticleDto.imageAsFile,
         );
         newArticle.image = articleImage;
       }
@@ -149,7 +155,15 @@ export class ArticlesService {
     }
   }
 
-  async deleteArticle(id: number): Promise<void> {
-    await this.articleRepo.delete(id);
+  async deleteArticle(article: Article) {
+    try {
+      if (article.image)
+        await this.imagesService.deleteImage(article.image.name);
+
+      return await this.articleRepo.delete(article.id);
+    } catch (err) {
+      console.error("Error deleting article:", err);
+      throw new InternalServerErrorException();
+    }
   }
 }

@@ -7,11 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 import { getCategories } from "@/lib/category";
-import { updateArticle } from "@/lib/article";
+import { deleteArticle, updateArticle } from "@/lib/article";
 
 import { TArticle, TUpdateArticle } from "@/types/article.types";
 
-import { SubmitFormButton } from "@/components/buttons/SubmitFormButton";
 import {
   FormControl,
   FormControlLabel,
@@ -23,7 +22,9 @@ import {
   Container,
   FormLabel,
   Typography,
+  Button,
 } from "@mui/material";
+import { useModalStore } from "@/store/modal-store";
 
 const DynamicArticleEditor = dynamic(
   () => import("../editor/ArticleEditor").then((mod) => mod.ArticleEditor),
@@ -59,6 +60,22 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
       categoryId: editArticle.category?.id,
     },
   });
+
+  const modal = useModalStore();
+
+  const handleDelete = () => {
+    modal.show(
+      "Delete article",
+      `Are you sure you want to delete this article?`,
+      "Cancel",
+      "Delete",
+      async () => {
+        const res = await deleteArticle(editArticle.id);
+        if (res?.ok) window.location.href = "/dashboard/author/my-articles";
+      },
+      "delete",
+    );
+  };
 
   const handleFormSubmit: SubmitHandler<TUpdateArticle> = async (data) => {
     const res = await updateArticle(editArticle, data);
@@ -181,7 +198,6 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
           )}
         </FormControl>
 
-        {/* Image preview */}
         {editArticle?.image && (
           <FormControl>
             <FormLabel htmlFor="image" className="mb-1 text-sm">
@@ -199,7 +215,6 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
           </FormControl>
         )}
 
-        {/* Content */}
         <div className="input-group">
           <Controller
             name="body"
@@ -218,11 +233,26 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
           )}
         </div>
 
-        {/* Save */}
-        <div style={{ width: "fit-content" }}>
-          <SubmitFormButton disabled={isSubmitting} title="Update article" />
+        <div className="flex w-full flex-col items-center justify-end gap-2 sm:flex-row">
+          <Button
+            variant="contained"
+            color="warning"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            Update article
+          </Button>
         </div>
       </form>
+
+      <Button
+        variant="contained"
+        color="error"
+        type="button"
+        onClick={handleDelete}
+      >
+        Delete
+      </Button>
     </Container>
   );
 };

@@ -4,7 +4,7 @@ import {
   TUpdateArticle,
   TImage,
 } from "@/types/article.types";
-import { resizeImageToBase64 } from "../image";
+import { convertCanvasToBlob, resizeImage } from "../image";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -70,49 +70,40 @@ export const getArticleById = async (articleId: string) => {
   }
 };
 
-const createArticleToJson = async (data: TCreateArticle) => {
-  let imageObject = {
-    name: "",
-    type: "",
-    size: "",
-    base64: "",
-  };
+const newArticleToFormData = async (data: TCreateArticle) => {
+  const formData = new FormData();
 
   if (data.image && data.image[0]) {
-    const imageAsBase64 = await resizeImageToBase64(data.image[0]);
+    const imageFile = data.image[0];
+    const canvas = await resizeImage(data.image[0]);
 
-    if (imageAsBase64) {
-      imageObject = {
-        base64: imageAsBase64,
-        name: data.image[0].name,
-        size: data.image[0].size.toString(),
-        type: data.image[0].type,
-      };
+    if (canvas) {
+      const blob = await convertCanvasToBlob(
+        canvas,
+        imageFile.type,
+        imageFile.name,
+      );
+      if (blob) formData.append("image", blob);
     }
   }
 
-  const payload = {
-    title: data.title,
-    body: data.body,
-    categoryId: data.categoryId,
-    image: imageObject,
-    youtubeVideoId: data.YTVideoId,
-  };
+  if (data.YTVideoId) formData.append("YTVideoId", data.YTVideoId);
 
-  return JSON.stringify(payload);
+  formData.append("title", data.title);
+  formData.append("body", data.body);
+  formData.append("categoryId", data.categoryId.toString());
+
+  return formData;
 };
 
 export const createArticle = async (data: TCreateArticle) => {
   try {
-    const article = await createArticleToJson(data);
+    const formData = await newArticleToFormData(data);
 
     const res = await fetch(`${apiUrl}/articles`, {
       method: "POST",
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: article,
+      body: formData,
     });
 
     return res;
@@ -189,6 +180,20 @@ export const updateArticle = async (
     return res;
   } catch (err) {
     console.error("Error creating article:", err);
+    return null;
+  }
+};
+
+export const deleteArticle = async (articleId: number) => {
+  try {
+    const res = await fetch(`${apiUrl}/articles/${articleId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    return res;
+  } catch (err) {
+    console.error("Error deleting article:", err);
     return null;
   }
 };

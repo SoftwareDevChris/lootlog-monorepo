@@ -49,7 +49,6 @@ export const ArticleForm = () => {
     },
   });
 
-  // Fix incorrect way of sending image
   const handleFormSubmit: SubmitHandler<TCreateArticle> = async (data) => {
     const res = await createArticle(data);
 

@@ -14,7 +14,7 @@ export class CreateArticleDto extends Article {
   categoryId: number;
 
   @IsObject({ message: "Image must be an object" })
-  image?: CreateArticleImageDto;
+  imageAsFile?: Express.MulterFile;
 
   @IsString({ message: "Invalid article body" })
   body: string;

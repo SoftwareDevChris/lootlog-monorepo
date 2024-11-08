@@ -48,8 +48,9 @@
 //   });
 // }
 
+// Function to resize an image and return the result as a canvas
 export async function resizeImage(
-  image: File
+  image: File,
 ): Promise<HTMLCanvasElement | null> {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -64,6 +65,7 @@ export async function resizeImage(
           let width = img.width;
           let height = img.height;
 
+          // Calculate the resized dimensions
           if (width > height) {
             if (width > MAX_WIDTH) {
               height *= MAX_WIDTH / width;
@@ -76,9 +78,9 @@ export async function resizeImage(
             }
           }
 
+          // Set the canvas to the new dimensions and draw the image on it
           canvas.width = width;
           canvas.height = height;
-
           ctx.drawImage(img, 0, 0, width, height);
 
           resolve(canvas);
@@ -92,22 +94,23 @@ export async function resizeImage(
   });
 }
 
-export function canvasToBase64(
+// Function to convert a canvas to a Blob
+export async function convertCanvasToBlob(
   canvas: HTMLCanvasElement,
-  imageType: string
-): string {
-  return canvas.toDataURL(imageType);
-}
-
-export async function resizeImageToBase64(image: File): Promise<string | null> {
-  if (!image) return null;
-
-  const resizedCanvas = await resizeImage(image);
-
-  if (resizedCanvas) {
-    const base64String = canvasToBase64(resizedCanvas, image.type);
-    return base64String;
-  }
-
-  return null;
+  imageType: string = "image/png",
+  imageName: string = "resized-image",
+): Promise<File | null> {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      if (blob) {
+        const resizedImage = new File([blob], imageName, {
+          type: imageType,
+          lastModified: Date.now(),
+        });
+        resolve(resizedImage);
+      } else {
+        resolve(null);
+      }
+    }, imageType);
+  });
 }

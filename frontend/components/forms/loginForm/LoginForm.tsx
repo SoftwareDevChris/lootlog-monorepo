@@ -40,7 +40,7 @@ export const LoginForm = () => {
 
     if (signInResponse.ok) {
       toast.success("You are now logged in");
-      window.location.href = "/";
+      window.location.href = "/dashboard/user";
       return;
     }
 
