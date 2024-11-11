@@ -71,11 +71,6 @@ export class ArticlesController {
     throw new ForbiddenException();
   }
 
-  @Get("/frontpage")
-  async getFrontpageArticles() {
-    return this.articlesService.getFrontpageArticles();
-  }
-
   @Get("/category/:id")
   async getArticlesByCategory(@Param("id") id: string) {
     return this.articlesService.getArticlesByCategory(parseInt(id));
@@ -97,5 +92,25 @@ export class ArticlesController {
     }
 
     throw new ForbiddenException();
+  }
+
+  @Get("/frontpage/featured")
+  async getFrontpageArticles() {
+    return this.articlesService.getFrontpageFeaturedArticle();
+  }
+
+  @Get("/frontpage/news")
+  async getFrontpageNewsArticles() {
+    return this.articlesService.getFrontpageNewsArticles();
+  }
+
+  @Get("/frontpage/review")
+  async getFrontpageReviewArticles() {
+    return this.articlesService.getFrontpageReviewArticles();
+  }
+
+  @Get("/frontpage/video")
+  async getFrontpageVideoArticles() {
+    return this.articlesService.getFrontpageVideoArticle();
   }
 }

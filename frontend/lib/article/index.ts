@@ -40,6 +40,54 @@ export const getFrontpageArticles = async () => {
   }
 };
 
+export const getFrontpageFeaturedArticle = async () => {
+  try {
+    const res = await fetch(`${apiUrl}/articles/frontpage/featured`, {
+      method: "GET",
+    });
+    if (res.ok) return (await res.json()) as TArticle;
+  } catch (err) {
+    console.log("Error getting frontpage featured article:", err);
+    throw new Error("Failed to fetch frontpage featured article");
+  }
+};
+
+export const getFrontpageNewsArticles = async () => {
+  try {
+    const res = await fetch(`${apiUrl}/articles/frontpage/news`, {
+      method: "GET",
+    });
+    if (res.ok) return (await res.json()) as TArticle[];
+  } catch (err) {
+    console.log("Error getting frontpage news articles:", err);
+    throw new Error("Failed to fetch frontpage news articles");
+  }
+};
+
+export const getFrontpageReviewArticles = async () => {
+  try {
+    const res = await fetch(`${apiUrl}/articles/frontpage/review`, {
+      method: "GET",
+    });
+    if (res.ok) return (await res.json()) as TArticle[];
+  } catch (err) {
+    console.log("Error getting frontpage review articles:", err);
+    throw new Error("Failed to fetch frontpage review articles");
+  }
+};
+
+export const getFrontpageVideoArticle = async () => {
+  try {
+    const res = await fetch(`${apiUrl}/articles/frontpage/video`, {
+      method: "GET",
+    });
+    if (res.ok) return (await res.json()) as TArticle;
+  } catch (err) {
+    console.log("Error getting frontpage video articles:", err);
+    throw new Error("Failed to fetch frontpage video articles");
+  }
+};
+
 export const getArticlesByUser = async () => {
   try {
     const res = await fetch(`${apiUrl}/articles/user`, {

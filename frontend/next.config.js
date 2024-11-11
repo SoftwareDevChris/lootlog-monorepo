@@ -19,6 +19,10 @@ const nextDevConfig = {
         protocol: "https",
         hostname: "via.placeholder.com",
       },
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+      },
     ],
   },
   webpack: (config) => {

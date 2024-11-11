@@ -220,6 +220,26 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
           </FormControl>
         )}
 
+        <FormControl fullWidth>
+          <FormLabel htmlFor="video" className="mb-1 text-sm">
+            Youtube video ID
+          </FormLabel>
+          <TextField
+            {...register("YTVideoId")}
+            size="small"
+            slotProps={{ input: { className: "rounded-lg" } }}
+            error={errors.title && true}
+            helperText={errors.title?.message}
+            name="YTVideoId"
+            type="text"
+            id="YTVideoId"
+            autoFocus
+            fullWidth
+            variant="outlined"
+            color={errors.YTVideoId ? "error" : "primary"}
+          />
+        </FormControl>
+
         <div className="input-group">
           <Controller
             name="body"

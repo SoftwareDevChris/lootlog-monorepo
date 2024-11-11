@@ -35,9 +35,20 @@ export class ArticlesService {
 
   async getFrontpageNewsArticles(): Promise<Article[]> {
     return await this.articleRepo.find({
-      where: { isPublic: true, isFeatured: false },
-      take: 10,
+      where: { isPublic: true, isFeatured: false, category: { name: "news" } },
+      take: 7,
       relations: ["image"],
+      order: { createdAt: "DESC" },
+    });
+  }
+
+  async getFrontpageVideoArticle(): Promise<Article> {
+    return await this.articleRepo.findOne({
+      where: {
+        isPublic: true,
+        isFeatured: false,
+        category: { name: "video" },
+      },
       order: { createdAt: "DESC" },
     });
   }
@@ -49,22 +60,10 @@ export class ArticlesService {
         isFeatured: false,
         category: { name: "review" },
       },
-      take: 10,
+      take: 4,
       relations: ["image"],
       order: { createdAt: "DESC" },
     });
-  }
-
-  async getFrontpageArticles() {
-    const featuredArticle = await this.getFrontpageFeaturedArticle();
-    const otherNewsArticles = await this.getFrontpageNewsArticles();
-    const reviewArticles = await this.getFrontpageReviewArticles();
-
-    return {
-      featured: featuredArticle,
-      news: otherNewsArticles,
-      reviews: reviewArticles,
-    };
   }
 
   async getArticlesByAuthor(userId: number): Promise<Article[]> {
@@ -97,6 +96,8 @@ export class ArticlesService {
       const newArticle = new Article();
       newArticle.title = createArticleDto.title;
       newArticle.body = createArticleDto.body;
+      newArticle.YTVideoId = createArticleDto.YTVideoId;
+
       newArticle.category = category;
       newArticle.author = author;
 

@@ -45,6 +45,7 @@ export const ArticleForm = () => {
       title: "",
       body: "",
       image: null,
+      YTVideoId: "",
       categoryId: 0,
     },
   });
@@ -98,7 +99,7 @@ export const ArticleForm = () => {
         </FormControl>
 
         <FormControl fullWidth>
-          <FormLabel htmlFor="title" className="mb-1 text-sm">
+          <FormLabel htmlFor="category" className="mb-1 text-sm">
             Category
           </FormLabel>
           <Controller
@@ -133,7 +134,7 @@ export const ArticleForm = () => {
         </FormControl>
 
         <FormControl fullWidth>
-          <FormLabel htmlFor="title" className="mb-1 text-sm">
+          <FormLabel htmlFor="image" className="mb-1 text-sm">
             Image
           </FormLabel>
           <TextField
@@ -149,6 +150,26 @@ export const ArticleForm = () => {
             fullWidth
             variant="outlined"
             color={errors.image ? "error" : "primary"}
+          />
+        </FormControl>
+
+        <FormControl fullWidth>
+          <FormLabel htmlFor="video" className="mb-1 text-sm">
+            Youtube video ID
+          </FormLabel>
+          <TextField
+            {...register("YTVideoId")}
+            size="small"
+            slotProps={{ input: { className: "rounded-lg" } }}
+            error={errors.title && true}
+            helperText={errors.title?.message}
+            name="YTVideoId"
+            type="text"
+            id="YTVideoId"
+            autoFocus
+            fullWidth
+            variant="outlined"
+            color={errors.YTVideoId ? "error" : "primary"}
           />
         </FormControl>
 
