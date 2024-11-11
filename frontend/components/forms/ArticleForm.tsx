@@ -62,7 +62,12 @@ export const ArticleForm = () => {
 
   return (
     <Container>
-      <Typography component="h1" className="mb-4 text-2xl font-bold">
+      <Typography
+        component="h1"
+        fontSize="1.5rem"
+        fontWeight={700}
+        marginBottom="1rem"
+      >
         New article
       </Typography>
       <form
@@ -141,7 +146,6 @@ export const ArticleForm = () => {
             type="file"
             id="image"
             autoFocus
-            required
             fullWidth
             variant="outlined"
             color={errors.image ? "error" : "primary"}

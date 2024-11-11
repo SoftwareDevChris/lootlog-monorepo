@@ -3,7 +3,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { firebaseAdmin } from "firebase";
 import { ArticleImage } from "src/entities/articleImage.entity";
 import { Repository } from "typeorm";
-import { CreateArticleImageDto } from "./dto/CreateArticleImage.dto";
 
 @Injectable()
 export class ImagesService {

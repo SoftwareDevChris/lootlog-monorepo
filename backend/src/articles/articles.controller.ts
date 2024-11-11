@@ -12,7 +12,6 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { ArticlesService } from "./articles.service";
-import { Article } from "src/entities/article.entity";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { CurrentUser } from "src/auth/decorators/current-user.decorator";
 import { User } from "src/entities/user.entity";

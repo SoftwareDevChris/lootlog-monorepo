@@ -91,7 +91,12 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
 
   return (
     <Container>
-      <Typography component="h1" className="mb-4 text-2xl font-bold">
+      <Typography
+        component="h1"
+        fontSize="1.5rem"
+        fontWeight={700}
+        marginBottom="1rem"
+      >
         Edit article
       </Typography>
       <form
@@ -233,26 +238,28 @@ export const UpdateArticleForm = ({ editArticle }: Props) => {
           )}
         </div>
 
-        <div className="flex w-full flex-col items-center justify-end gap-2 sm:flex-row">
-          <Button
-            variant="contained"
-            color="warning"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            Update article
-          </Button>
-        </div>
+        <Button
+          variant="contained"
+          color="warning"
+          type="submit"
+          disabled={isSubmitting}
+          className="self-end"
+        >
+          Update article
+        </Button>
       </form>
 
-      <Button
-        variant="contained"
-        color="error"
-        type="button"
-        onClick={handleDelete}
-      >
-        Delete
-      </Button>
+      <div className="mt-4 flex w-full items-center justify-end">
+        <Button
+          variant="contained"
+          color="error"
+          type="button"
+          onClick={handleDelete}
+          className="self-center justify-self-center"
+        >
+          Delete
+        </Button>
+      </div>
     </Container>
   );
 };

@@ -1,19 +1,16 @@
-import {
-  HttpStatus,
-  Injectable,
-  InternalServerErrorException,
-} from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Article } from "src/entities/article.entity";
-import { DeleteResult, Repository } from "typeorm";
+import { Repository } from "typeorm";
+
 import { CreateArticleDto } from "./dto/CreateArticle.dto";
+import { UpdateArticleDto } from "./dto/UpdateArticle.dto";
+
+import { Article } from "src/entities/article.entity";
 import { User } from "src/entities/user.entity";
+
 import { CategoriesService } from "src/categories/categories.service";
 import { UsersService } from "src/users/users.service";
 import { ImagesService } from "src/images/images.service";
-import { UpdateArticleDto } from "./dto/UpdateArticle.dto";
-import { CreateArticleImageDto } from "src/images/dto/CreateArticleImage.dto";
-import { firebaseAdmin } from "firebase";
 
 @Injectable()
 export class ArticlesService {
