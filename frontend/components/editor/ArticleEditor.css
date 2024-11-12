@@ -3,6 +3,11 @@
   border-radius: var(--radius-md);
   overflow: hidden;
 
+  ul {
+    list-style-type: decimal;
+    padding-left: 1rem;
+  }
+
   .editor-toolbar {
     display: flex;
     width: 100%;

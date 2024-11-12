@@ -113,4 +113,9 @@ export class ArticlesController {
   async getFrontpageVideoArticles() {
     return this.articlesService.getFrontpageVideoArticle();
   }
+
+  @Get("/frontpage/tech")
+  async getFrontpageTechArticles() {
+    return this.articlesService.getFrontpageTechArticles();
+  }
 }

@@ -28,8 +28,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 export const ArticleForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
@@ -38,7 +41,7 @@ export const ArticleForm = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     control,
   } = useForm<TCreateArticle>({
     defaultValues: {
@@ -51,6 +54,7 @@ export const ArticleForm = () => {
   });
 
   const handleFormSubmit: SubmitHandler<TCreateArticle> = async (data) => {
+    setIsLoading(true);
     const res = await createArticle(data);
 
     if (res?.ok) {
@@ -59,6 +63,7 @@ export const ArticleForm = () => {
     }
 
     console.log(res);
+    setIsLoading(false);
   };
 
   return (
@@ -194,7 +199,7 @@ export const ArticleForm = () => {
 
         {/* Save */}
         <div style={{ width: "fit-content" }}>
-          <SubmitFormButton disabled={isSubmitting} title="Create article" />
+          <SubmitFormButton disabled={isLoading} title="Create article" />
         </div>
       </form>
     </Container>

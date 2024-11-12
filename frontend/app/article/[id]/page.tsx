@@ -13,7 +13,7 @@ export default function ArticlePage() {
   const params: { id: string } = useParams();
 
   const { data: article } = useQuery({
-    queryKey: [`article/${params.id}`],
+    queryKey: ["article", `${params.id}`],
     queryFn: async () => await getArticleById(params.id),
   });
 
@@ -22,7 +22,7 @@ export default function ArticlePage() {
   const createdAt = new Date(article.createdAt).toUTCString();
 
   return (
-    <main>
+    <main className="mx-auto flex max-w-[1200px] flex-col gap-4 p-4">
       <article className="relative mx-auto flex max-w-[1000px] flex-1 flex-col p-4 lg:p-0">
         {/* Title */}
         <h1 className="my-4 text-4xl font-black">{article?.title}</h1>
@@ -39,7 +39,7 @@ export default function ArticlePage() {
         </div>
 
         {/* Video */}
-        {article?.YTVideoId && !article?.image?.url && (
+        {article.YTVideoId && (
           <div className="relative mx-auto aspect-video w-full">
             <iframe
               title={article?.title}
@@ -50,7 +50,7 @@ export default function ArticlePage() {
         )}
 
         {/* Image */}
-        {article?.image?.url && !article?.YTVideoId && (
+        {article?.image?.url && (
           <div className="relative mx-auto aspect-video w-full">
             <Image
               alt=""

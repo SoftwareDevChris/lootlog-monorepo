@@ -53,7 +53,8 @@ export class ImagesService {
     const bucket = firebaseAdmin.storage().bucket();
     const file = bucket.file(`images/${imageName}`);
 
-    return await file.delete();
+    await file.delete();
+    return;
   }
 
   async createImage(image: Express.MulterFile): Promise<ArticleImage> {

@@ -66,6 +66,19 @@ export class ArticlesService {
     });
   }
 
+  async getFrontpageTechArticles(): Promise<Article[]> {
+    return await this.articleRepo.find({
+      where: {
+        isPublic: true,
+        isFeatured: false,
+        category: { name: "tech" },
+      },
+      take: 4,
+      relations: ["image"],
+      order: { createdAt: "DESC" },
+    });
+  }
+
   async getArticlesByAuthor(userId: number): Promise<Article[]> {
     return await this.articleRepo.find({
       where: { author: { id: userId } },

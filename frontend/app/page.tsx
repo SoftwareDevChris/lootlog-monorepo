@@ -1,5 +1,6 @@
 import { NewsSection } from "@/components/sections/news-section/NewsSection";
 import { ReviewSection } from "@/components/sections/review-section/ReviewSection";
+import { TechSection } from "@/components/sections/tech-section/TechSection";
 import { VideoSection } from "@/components/sections/video-section/VideoSection";
 
 export default async function Home() {
@@ -8,6 +9,7 @@ export default async function Home() {
       <NewsSection />
       <ReviewSection />
       <VideoSection />
+      <TechSection />
     </main>
   );
 }

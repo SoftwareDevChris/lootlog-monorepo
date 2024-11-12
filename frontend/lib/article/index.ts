@@ -88,6 +88,18 @@ export const getFrontpageVideoArticle = async () => {
   }
 };
 
+export const getFrontpageTechArticles = async () => {
+  try {
+    const res = await fetch(`${apiUrl}/articles/frontpage/tech`, {
+      method: "GET",
+    });
+    if (res.ok) return (await res.json()) as TArticle[];
+  } catch (err) {
+    console.log("Error getting frontpage review articles:", err);
+    throw new Error("Failed to fetch frontpage review articles");
+  }
+};
+
 export const getArticlesByUser = async () => {
   try {
     const res = await fetch(`${apiUrl}/articles/user`, {
