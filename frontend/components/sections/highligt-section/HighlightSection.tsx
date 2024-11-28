@@ -22,7 +22,7 @@ export const HighlightSection = ({
       >
         <Image
           fill
-          sizes="1200px"
+          sizes="100vw, (min-width: 1200px) 1200px 800px"
           priority={true}
           loading="eager"
           fetchPriority="high"
@@ -33,7 +33,7 @@ export const HighlightSection = ({
 
         <div className="absolute inset-0 h-full w-full rounded-md bg-gradient-to-t from-neutral-950/85 to-transparent">
           <div className="absolute bottom-0 left-0 w-full rounded-md p-4">
-            <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">
+            <h2 className="text-lg font-black sm:text-3xl md:text-4xl">
               {featuredArticle.title}
             </h2>
           </div>
