@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "../components/header/header.css";
 @import "../components/editor/ArticleEditor.css";
 @import "../app/article/[id]/article.css";
 @import "../components/sections/video-section/VideoSection.css";

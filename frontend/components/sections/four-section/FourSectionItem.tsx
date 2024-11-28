@@ -11,7 +11,7 @@ type Props = {
 export const FourSectionItem: React.FC<Props> = ({ article }) => {
   return (
     <article className="overflow-hidden rounded-lg bg-neutral-800 shadow-md hover:bg-neutral-500">
-      <Link prefetch={false} href={`/article/${article.id}`}>
+      <Link href={`/article/${article.id}`}>
         <div className="relative aspect-video">
           {article.YTVideoId && (
             <iframe

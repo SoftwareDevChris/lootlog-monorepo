@@ -17,7 +17,6 @@ export const HighlightSection = ({
   return (
     <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-10 lg:grid-rows-1">
       <Link
-        prefetch={false}
         href={`/article/${featuredArticle.id}`}
         className="relative col-span-1 aspect-video rounded-md bg-none shadow-md lg:col-span-7"
       >

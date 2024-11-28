@@ -22,7 +22,7 @@ export const ROUTES: TRoute[] = [
     path: "/reviews",
   },
   {
-    name: "Guides",
-    path: "/guides",
+    name: "Tech",
+    path: "/tech",
   },
 ];

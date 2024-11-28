@@ -14,7 +14,7 @@ export const PaginationGridItem: React.FC<Props> = ({ article }) => {
 
   return (
     <article className={`pagination-grid-item`}>
-      <Link prefetch={false} href={`/article/${article.id}`}>
+      <Link href={`/article/${article.id}`}>
         {!isVideo && (
           <div className="image-area">
             <Image

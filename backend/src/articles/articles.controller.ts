@@ -40,10 +40,6 @@ export class ArticlesController {
     @UploadedFile() image: Express.MulterFile,
     @Body() body: CreateArticleDto,
   ) {
-    console.log("User:", user);
-    console.log("Image:", image);
-    console.log("Body:", body);
-
     if (user.isAdmin || user.isAuthor) {
       const article = { ...body, imageAsFile: image };
 

@@ -22,9 +22,7 @@ export const Footer: React.FC = () => {
           <ul>
             {ROUTES.map((route) => (
               <li key={route.name}>
-                <Link prefetch={false} href={route.path}>
-                  {route.name}
-                </Link>
+                <Link href={route.path}>{route.name}</Link>
               </li>
             ))}
           </ul>
@@ -34,13 +32,13 @@ export const Footer: React.FC = () => {
         <div className="socials-container">
           <h6 className="text-lg uppercase">Social Media</h6>
           <div className="icon-container">
-            <Link prefetch={false} href="">
+            <Link href="">
               <FaFacebook size={20} />
             </Link>
-            <Link prefetch={false} href="">
+            <Link href="">
               <FaYoutube size={20} />
             </Link>
-            <Link prefetch={false} href="">
+            <Link href="">
               <FaTwitter size={20} />
             </Link>
           </div>

@@ -9,7 +9,6 @@ type Props = {
 export const HighlightedListItem = ({ article }: Props) => {
   return (
     <Link
-      prefetch={false}
       href={`/article/${article.id}`}
       className={`row-span-2 flex gap-4 border-b border-neutral-600 p-4 last:border-0 hover:bg-neutral-700`}
     >

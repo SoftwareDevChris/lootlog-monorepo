@@ -71,7 +71,6 @@ export class UsersService {
 
     if (userFromDb) {
       const mergedUser = { ...userFromDb, ...newValues };
-      console.log("Updated user:", mergedUser);
       return await this.userRepo.update(userFromDb.id, mergedUser);
     }
 

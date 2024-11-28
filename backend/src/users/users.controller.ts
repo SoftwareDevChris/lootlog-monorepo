@@ -53,7 +53,6 @@ export class UsersController {
     @Body() updatedUser: Partial<UpdateUserDto>,
   ) {
     if (user.isAdmin || user.id === parseInt(userId)) {
-      console.log("From body:", updatedUser);
       return this.usersService.updateUser(parseInt(userId), updatedUser);
     }
 
