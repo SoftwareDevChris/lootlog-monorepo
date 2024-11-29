@@ -1,19 +1,20 @@
 import Link from "next/link";
 
-import "./SectionTitle.css";
-
 export const SectionTitle: React.FC<{
   title: string;
   route?: string;
 }> = ({ title, route }) => {
   return (
-    <div className="section-title-wrapper">
+    <div className="mt-2 flex items-center justify-between">
       <div>
-        <h3>{title}</h3>
-        <div />
+        <h3 className="m-0 text-2xl font-bold capitalize">{title}</h3>
+        <div className="bg-orangeCustom700 h-1 w-full" />
       </div>
       {route && (
-        <Link href={route} className="underline-offset-2 hover:underline">
+        <Link
+          href={route}
+          className="pointer max-w-[10rem] underline-offset-2 hover:underline"
+        >
           See all
         </Link>
       )}

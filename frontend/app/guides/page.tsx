@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { PageTitle } from "@/components/page-title/PageTitle";
+import { PageTitle } from "@/components/pageTitle/PageTitle";
 import { PaginationGrid } from "@/components/sections/pagination-grid/PaginationGrid";
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 

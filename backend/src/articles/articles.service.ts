@@ -99,6 +99,34 @@ export class ArticlesService {
     });
   }
 
+  async getAllNewsArticles() {
+    return await this.articleRepo.find({
+      where: { category: { name: "news" } },
+      relations: ["category", "image", "author"],
+    });
+  }
+
+  async getAllVideoArticles() {
+    return await this.articleRepo.find({
+      where: { category: { name: "video" } },
+      relations: ["category", "image", "author"],
+    });
+  }
+
+  async getAllReviewArticles() {
+    return await this.articleRepo.find({
+      where: { category: { name: "review" } },
+      relations: ["category", "image", "author"],
+    });
+  }
+
+  async getAllTechArticles() {
+    return await this.articleRepo.find({
+      where: { category: { name: "tech" } },
+      relations: ["category", "image", "author"],
+    });
+  }
+
   async createArticle(user: User, createArticleDto: CreateArticleDto) {
     const author = await this.usersService.findUserById(user.id);
     const category = await this.categoriesService.getById(

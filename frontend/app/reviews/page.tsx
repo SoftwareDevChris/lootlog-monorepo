@@ -1,22 +1,22 @@
-import { Suspense } from "react";
+import { getAllReviewArticles } from "@/lib/article/actions";
 
-import { PageTitle } from "@/components/page-title/PageTitle";
+import { PageTitle } from "@/components/pageTitle/PageTitle";
 import { PaginationGrid } from "@/components/sections/pagination-grid/PaginationGrid";
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
-export default async function ReviewsPage() {
-  return <div>Reviews</div>;
+export default async function ReviewPage() {
+  const articles = await getAllReviewArticles();
 
-  // return (
-  //   <main>
-  //     <PageTitle
-  //       title="Reviews"
-  //       subtitle="Read our honest, detailed, and informative reviews of the best games in the market. This section is your guide to gaming."
-  //     />
+  if (!articles) return <LoadingScreen />;
 
-  //     <Suspense fallback={<LoadingScreen />}>
-  //       <PaginationGrid articles={articles.articles} />
-  //     </Suspense>
-  //   </main>
-  // );
+  return (
+    <main className="mx-auto flex max-w-[1200px] flex-col gap-4 p-4">
+      <PageTitle
+        title="Reviews"
+        subtitle="If you're looking for a second opinion before buying a new game, you've come to the right place."
+      />
+
+      <PaginationGrid articles={articles} />
+    </main>
+  );
 }

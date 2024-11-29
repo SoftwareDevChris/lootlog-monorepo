@@ -1,22 +1,21 @@
-import { Suspense } from "react";
-
-import { PageTitle } from "@/components/page-title/PageTitle";
+import { PageTitle } from "@/components/pageTitle/PageTitle";
 import { PaginationGrid } from "@/components/sections/pagination-grid/PaginationGrid";
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
+import { getAllVideoArticles } from "@/lib/article/actions";
 
-export default async function VideosPage() {
-  return <div>Videos</div>;
+export default async function VideoPage() {
+  const articles = await getAllVideoArticles();
 
-  // return (
-  //   <main>
-  //     <PageTitle
-  //       title="Videos"
-  //       subtitle="Do you enjoy getting your news in a video format? Look nu further. In this section we deliver everything from news, reviews and guides."
-  //     />
+  if (!articles) return <LoadingScreen />;
 
-  //     <Suspense fallback={<LoadingScreen />}>
-  //       <PaginationGrid articles={articles.articles} />
-  //     </Suspense>
-  //   </main>
-  // );
+  return (
+    <main className="mx-auto flex max-w-[1200px] flex-col gap-4 p-4">
+      <PageTitle
+        title="Videos"
+        subtitle="Kick back and relax with the latest videos from the gaming and tech world."
+      />
+
+      <PaginationGrid articles={articles} />
+    </main>
+  );
 }

@@ -90,6 +90,26 @@ export class ArticlesController {
     throw new ForbiddenException();
   }
 
+  @Get("/news")
+  async getAllNewsArticles() {
+    return this.articlesService.getAllNewsArticles();
+  }
+
+  @Get("/video")
+  async getAllVideoArticles() {
+    return this.articlesService.getAllVideoArticles();
+  }
+
+  @Get("/review")
+  async getAllReviewArticles() {
+    return this.articlesService.getAllReviewArticles();
+  }
+
+  @Get("/tech")
+  async getAllTechArticles() {
+    return this.articlesService.getAllTechArticles();
+  }
+
   @Get("/frontpage/featured")
   async getFrontpageArticles() {
     return this.articlesService.getFrontpageFeaturedArticle();
