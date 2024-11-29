@@ -1,8 +1,10 @@
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
+import { json } from "express";
 
 import { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.interface";
-import { json } from "express";
+
+import { AppModule } from "./app.module";
 
 const session = require("cookie-session");
 
@@ -18,6 +20,12 @@ async function bootstrap() {
 
   app.enableCors(corsOptions);
   app.use(json({ limit: "10mb" }));
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
 
   app.use(
     session({
