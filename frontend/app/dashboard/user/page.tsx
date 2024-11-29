@@ -23,7 +23,7 @@ export default function AccountPage() {
 
   return (
     <Container className="flex flex-col gap-4">
-      <Typography component="h1" variant="h6">
+      <Typography component="h2" fontSize={24}>
         My account
       </Typography>
       <Container className="flex flex-col justify-between gap-4 rounded-lg border border-neutral-700 bg-neutral-800 p-4 md:flex-row md:items-center">
