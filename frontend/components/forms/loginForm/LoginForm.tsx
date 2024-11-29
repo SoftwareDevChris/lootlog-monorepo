@@ -20,13 +20,14 @@ import {
 } from "@mui/material";
 
 export const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const {
     control,
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<TLoginForm>({
     defaultValues: {
       email: "",
@@ -35,17 +36,18 @@ export const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<TLoginForm> = async (data) => {
+    setIsLoading(true);
     setErrorMessage("");
     const signInResponse = await login(data);
 
     if (signInResponse.ok) {
-      toast.success("You are now logged in");
       window.location.href = "/dashboard/user";
       return;
     }
 
     const jsonError = await signInResponse.json();
     setErrorMessage(jsonError.message);
+    setIsLoading(false);
     return;
   };
 
@@ -139,7 +141,7 @@ export const LoginForm = () => {
             </FormControl>
 
             <div className="mt-4">
-              <SubmitFormButton title="Login" disabled={isSubmitting} />
+              <SubmitFormButton title="Login" disabled={isLoading} />
             </div>
           </form>
 

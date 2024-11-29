@@ -19,12 +19,13 @@ import {
 } from "@mui/material";
 
 export const SignUpForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<TCreateUserForm>({
     defaultValues: {
       firstName: "",
@@ -36,6 +37,7 @@ export const SignUpForm = () => {
   });
 
   const onSubmit: SubmitHandler<TCreateUserForm> = async (data) => {
+    setIsLoading(true);
     setErrorMessage([]);
 
     const signUpResponse = await signUp(data);
@@ -44,17 +46,18 @@ export const SignUpForm = () => {
       toast.success("Your account has been created", {
         position: "bottom-right",
       });
-      window.location.href = "/";
+      window.location.href = "/login";
     }
 
     const signUpError = await signUpResponse.json().then((err) => err.message);
     setErrorMessage(signUpError);
+    setIsLoading(false);
     return;
   };
 
   return (
     <>
-      <div className="bg-constellation flex h-full w-full flex-1 flex-col items-center justify-center bg-repeat p-4">
+      <div className="flex h-full w-full flex-1 flex-col items-center justify-center bg-constellation bg-repeat p-4">
         <div className="min-w-[25rem] rounded-md bg-neutral-900 p-8">
           <h2 className="mb-8 text-3xl font-bold">Sign up</h2>
 
@@ -199,7 +202,7 @@ export const SignUpForm = () => {
                     helperText={errors.repeatedPassword?.message}
                     name="repeatedPassword"
                     placeholder="••••••"
-                    type="repeatedPassword"
+                    type="password"
                     id="repeatedPassword"
                     autoComplete="repeatedPassword"
                     autoFocus
@@ -213,7 +216,7 @@ export const SignUpForm = () => {
             </FormControl>
 
             <div className="mt-4">
-              <SubmitFormButton title="Sign up" disabled={isSubmitting} />
+              <SubmitFormButton title="Sign up" disabled={isLoading} />
             </div>
           </form>
 
