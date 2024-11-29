@@ -9,12 +9,10 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 import { hash } from "src/hashing";
-
 import { User } from "src/entities/user.entity";
+
 import { CreateUserDto } from "./dto/createUser.dto";
 import { UpdateUserDto } from "./dto/updateUser.dto";
-import { ArticlesService } from "src/articles/articles.service";
-import { capitalize } from "src/capitalize";
 
 @Injectable()
 export class UsersService {
