@@ -1,11 +1,18 @@
-import { getAllTechArticles } from "@/lib/article/actions";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { getAllTechArticles } from "@/lib/article";
 
 import { PageTitle } from "@/components/pageTitle/PageTitle";
 import { PaginationGrid } from "@/components/sections/pagination-grid/PaginationGrid";
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
-export default async function TechPage() {
-  const articles = await getAllTechArticles();
+export default function TechPage() {
+  const { data: articles } = useQuery({
+    queryKey: ["all", "tech"],
+    queryFn: getAllTechArticles,
+  });
 
   if (!articles) return <LoadingScreen />;
 

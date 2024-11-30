@@ -1,10 +1,17 @@
+"use client";
+import { useQuery } from "@tanstack/react-query";
+
+import { getAllVideoArticles } from "@/lib/article";
+
 import { PageTitle } from "@/components/pageTitle/PageTitle";
 import { PaginationGrid } from "@/components/sections/pagination-grid/PaginationGrid";
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
-import { getAllVideoArticles } from "@/lib/article/actions";
 
-export default async function VideoPage() {
-  const articles = await getAllVideoArticles();
+export default function VideoPage() {
+  const { data: articles } = useQuery({
+    queryKey: ["all", "videos"],
+    queryFn: getAllVideoArticles,
+  });
 
   if (!articles) return <LoadingScreen />;
 

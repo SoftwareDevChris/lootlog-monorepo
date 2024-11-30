@@ -1,11 +1,18 @@
-import { getAllNewsArticles } from "@/lib/article/actions";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { getAllNewsArticles } from "@/lib/article";
 
 import { PageTitle } from "@/components/pageTitle/PageTitle";
 import { PaginationGrid } from "@/components/sections/pagination-grid/PaginationGrid";
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
-export default async function NewsPage() {
-  const articles = await getAllNewsArticles();
+export default function NewsPage() {
+  const { data: articles } = useQuery({
+    queryKey: ["all", "news"],
+    queryFn: getAllNewsArticles,
+  });
 
   if (!articles) return <LoadingScreen />;
 

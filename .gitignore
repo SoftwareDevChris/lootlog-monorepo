@@ -1,2 +1,3 @@
-backend-build.tar
-frontend-build.tar
+backend-prod.tar
+frontend-prod.tar
+lootlog-backup.dump

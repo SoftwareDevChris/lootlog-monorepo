@@ -1,11 +1,18 @@
-import { getAllReviewArticles } from "@/lib/article/actions";
+"use client";
+
+import { getAllReviewArticles } from "@/lib/article";
+
+import { useQuery } from "@tanstack/react-query";
 
 import { PageTitle } from "@/components/pageTitle/PageTitle";
 import { PaginationGrid } from "@/components/sections/pagination-grid/PaginationGrid";
 import { LoadingScreen } from "@/components/ui/loading/screen/LoadingScreen";
 
-export default async function ReviewPage() {
-  const articles = await getAllReviewArticles();
+export default function ReviewPage() {
+  const { data: articles } = useQuery({
+    queryKey: ["all", "reviews"],
+    queryFn: getAllReviewArticles,
+  });
 
   if (!articles) return <LoadingScreen />;
 
